@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QuicLens — Case Study · Steph Simmons</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .cs-wrap { max-width: 880px; margin: 0 auto; padding: 7rem var(--pad) 6rem; }
+    .cs-back {
+      font-family: var(--mono); font-size: .7rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--sub); text-decoration: none;
+      display: inline-flex; gap: .5rem; align-items: center; margin-bottom: 3rem;
+      transition: color .2s;
+    }
+    .cs-back:hover { color: var(--acid); }
+    .cs-eyebrow {
+      font-family: var(--mono); font-size: .7rem; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--acid); margin-bottom: 1rem;
+    }
+    .cs-title {
+      font-family: var(--display); font-weight: 800;
+      font-size: clamp(2.4rem, 6vw, 4rem); letter-spacing: -.03em;
+      line-height: 1; color: var(--text); margin-bottom: 1.2rem;
+    }
+    .cs-lede { font-size: 1.05rem; font-weight: 300; color: var(--sub); line-height: 1.7; max-width: 60ch; }
+    .cs-callout {
+      border-left: 2px solid var(--line); padding: 1rem 0 1rem 1.4rem;
+      margin: 2.4rem 0; color: var(--sub); font-size: .9rem; line-height: 1.7;
+    }
+    .cs-callout strong { color: var(--text); font-weight: 600; }
+    .cs-ruo { border-left-color: var(--acid); }
+    .cs-ruo strong { color: var(--acid); }
+    .cs h2 {
+      font-family: var(--display); font-weight: 800;
+      font-size: clamp(1.5rem, 3.5vw, 2.1rem); letter-spacing: -.02em;
+      color: var(--text); margin: 3.5rem 0 1.2rem;
+      padding-top: 2.2rem; border-top: 1px solid var(--line);
+    }
+    .cs h3 { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--text); margin: 1.8rem 0 .4rem; }
+    .cs p { font-size: .98rem; font-weight: 300; color: var(--sub); line-height: 1.85; margin-bottom: 1.1rem; }
+    .cs strong { color: var(--text); font-weight: 600; }
+    .cs ul { list-style: none; margin: 0 0 1.4rem; padding: 0; }
+    .cs li { font-size: .96rem; font-weight: 300; color: var(--sub); line-height: 1.7; padding-left: 1.4rem; position: relative; margin-bottom: .6rem; }
+    .cs li::before { content: ''; position: absolute; left: 0; top: .65em; width: 6px; height: 6px; border-radius: 50%; background: var(--acid); }
+    .cs li strong { color: var(--text); }
+    .cs pre {
+      background: var(--bg2); border: 1px solid var(--line); border-radius: 8px;
+      padding: 1.4rem; overflow-x: auto; margin: 1.6rem 0;
+      font-family: var(--mono); font-size: .72rem; line-height: 1.5; color: var(--sub);
+    }
+    .cs table { width: 100%; border-collapse: collapse; margin: 1.4rem 0; font-size: .9rem; }
+    .cs th, .cs td { text-align: left; padding: .7rem 1rem; border-bottom: 1px solid var(--line); }
+    .cs th { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
+    .cs td { color: var(--sub); font-weight: 300; }
+    .cs td:first-child { color: var(--text); font-weight: 500; }
+    .cs-foot { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); font-size: .9rem; color: var(--sub); line-height: 1.7; }
+    .cs-foot a { color: var(--acid); text-decoration: none; }
+
+    /* architecture diagram */
+    .arch { margin: 2rem 0 1rem; display: flex; flex-direction: column; align-items: center; gap: 0; }
+    .arch-tier { display: flex; gap: .8rem; flex-wrap: wrap; justify-content: center; width: 100%; }
+    .arch-node {
+      flex: 1 1 0; min-width: 150px; background: var(--bg2); border: 1px solid var(--line);
+      border-radius: 8px; padding: .9rem 1rem; text-align: center;
+    }
+    .arch-node.accent { border-color: rgba(255,90,60,.4); }
+    .arch-node b { display: block; font-family: var(--display); font-weight: 700; font-size: .92rem; color: var(--text); letter-spacing: -.01em; }
+    .arch-node span { font-family: var(--mono); font-size: .6rem; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); }
+    .arch-arrow { display: flex; align-items: center; gap: .5rem; padding: .55rem 0; color: var(--dim); }
+    .arch-arrow::before { content: '↓'; font-size: 1rem; color: var(--acid); }
+    .arch-arrow span { font-family: var(--mono); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; }
+    .arch-side {
+      margin-top: .9rem; font-family: var(--mono); font-size: .62rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--sub); border: 1px dashed var(--line);
+      border-radius: 6px; padding: .55rem .9rem;
+    }
+    .arch-side b { color: var(--acid); font-weight: 500; }
+  </style>
+</head>
+<body style="background:var(--bg)">
+  <div class="cs-wrap cs">
+    <a href="index.html#work" class="cs-back">← Back to portfolio</a>
+
+    <div class="cs-eyebrow">Case Study</div>
+    <h1 class="cs-title">QuicLens</h1>
+    <p class="cs-lede">A multi-tenant, cloud-native analytics platform for research labs — designed, built, and deployed solo, from database schema to React interface to AWS infrastructure.</p>
+
+    <div class="cs-callout">
+      The source is private (commercial product). This case study covers the
+      architecture and engineering decisions. A live walkthrough is available on request.
+    </div>
+    <div class="cs-callout cs-ruo">
+      <strong>Research use only — not for diagnostic use.</strong> QuicLens is a
+      laboratory analysis tool and does not provide medical diagnosis or clinical decisions.
+    </div>
+
+    <h2>The problem</h2>
+    <p>Research labs running RT-QuIC and similar fluorescence assays were stuck analyzing plate data in spreadsheets and one-off scripts — slow, error-prone, and impossible to audit. Regulated science needs reproducible analysis, clear provenance, and multiple labs/teams working in isolation without stepping on each other's data.</p>
+    <p>QuicLens turns that workflow into a real platform: upload plate data, get real-time kinetic analysis and classification, and keep a full audit trail — with strict separation between organizations and labs.</p>
+
+    <h2>What it does</h2>
+    <ul>
+      <li><strong>Real-time assay analysis</strong> — ThT fluorescence kinetics, curve fitting, SD50/dose-response math, and per-sample classification (pandas / NumPy / SciPy).</li>
+      <li><strong>Plate-map workflow</strong> — design-first plate creation, lifecycle states (Planned → Analyzing → Analyzed → Archived), and plate-level access control.</li>
+      <li><strong>Multi-tenancy</strong> — organizations contain labs; data is isolated per tenant, with role-based sharing and invites across teams.</li>
+      <li><strong>Result reporting</strong> — generated PDF reports summarizing assay results.</li>
+      <li><strong>Audit &amp; governance</strong> — action logging across plates and projects, plus a platform-admin console for operators.</li>
+    </ul>
+
+    <h2>Architecture</h2>
+    <p>A serverless, single-region AWS stack defined entirely in infrastructure-as-code.</p>
+    <div class="arch">
+      <div class="arch-tier">
+        <div class="arch-node"><b>Browser</b><span>React client</span></div>
+      </div>
+      <div class="arch-arrow"></div>
+      <div class="arch-tier">
+        <div class="arch-node"><b>CloudFront</b><span>HTTPS · OAC</span></div>
+        <div class="arch-node"><b>S3</b><span>React build</span></div>
+      </div>
+      <div class="arch-arrow"><span>/api/*</span></div>
+      <div class="arch-tier">
+        <div class="arch-node accent"><b>API Gateway</b><span>HTTP API</span></div>
+        <div class="arch-node accent"><b>Lambda</b><span>FastAPI · container</span></div>
+      </div>
+      <div class="arch-arrow"></div>
+      <div class="arch-tier">
+        <div class="arch-node"><b>DynamoDB</b><span>tenants · plates</span></div>
+        <div class="arch-node"><b>S3 archive</b><span>encrypted</span></div>
+      </div>
+      <div class="arch-side"><b>WorkOS</b> &nbsp;enterprise SSO / multi-tenant auth</div>
+    </div>
+    <p><strong>Frontend</strong> — React + TypeScript (Vite), Plotly for data-viz, served as a static build from S3 behind CloudFront with Origin Access Control and HTTPS redirect.</p>
+    <p><strong>Backend</strong> — FastAPI (Python) packaged as a container image and run on AWS Lambda via Mangum, fronted by API Gateway. Clean layered structure: api/routes → services → models, with a dedicated analysis layer.</p>
+    <p><strong>Data</strong> — DynamoDB with per-tenant partitioning and GSIs; an encrypted S3 bucket (retain-on-delete) for archived plate data.</p>
+    <p><strong>Auth</strong> — WorkOS AuthKit for enterprise SSO and multi-tenant identity.</p>
+    <p><strong>Infrastructure</strong> — AWS CDK (TypeScript). The entire stack — buckets, distribution, Lambda, API Gateway, IAM policies, and frontend deployment — is reproducible from code.</p>
+
+    <h2>Engineering decisions &amp; trade-offs</h2>
+    <h3>Why serverless (Lambda + API Gateway) over a long-running server?</h3>
+    <p>Lab usage is bursty — heavy during analysis runs, idle otherwise. Serverless means no idle cost and no servers to patch, and the FastAPI app stays portable (it runs identically locally and in Lambda via Mangum).</p>
+    <h3>Why DynamoDB over a relational database?</h3>
+    <p>Access patterns are tenant-scoped and key-based (org → lab → project → plate → results). DynamoDB gives predictable performance and clean per-tenant isolation via key design, with IAM policies scoped to specific table ARNs as a second layer of tenant safety.</p>
+    <h3>Why a container image for the Lambda?</h3>
+    <p>The analysis stack (pandas/NumPy/SciPy) exceeds the zipped-Lambda size limits and is far simpler to manage as a container.</p>
+    <h3>Tenant isolation as a first-class concern</h3>
+    <p>Isolation is enforced at multiple layers: key design in DynamoDB, service-layer authorization checks, and scoped IAM. The development history reflects deliberate security hardening passes — fixing auth-bypass and cross-tenant data paths found in self-audits.</p>
+
+    <h2>Testing &amp; reliability</h2>
+    <ul>
+      <li>Backend test suite (~1,800 LOC) covering the analysis math (curve fitting, SD50, classification, thresholds), upload validation, and API integration.</li>
+      <li>Iterative security hardening: dedicated work addressing auth, role enforcement, and cross-tenant data-integrity issues surfaced by principle-based self-audits.</li>
+    </ul>
+
+    <h2>Stack at a glance</h2>
+    <table>
+      <tr><th>Layer</th><th>Tech</th></tr>
+      <tr><td>Frontend</td><td>React, TypeScript, Vite, Plotly, Tailwind</td></tr>
+      <tr><td>Backend</td><td>Python, FastAPI, Mangum</td></tr>
+      <tr><td>Data</td><td>DynamoDB, S3 (encrypted)</td></tr>
+      <tr><td>Analysis</td><td>pandas, NumPy, SciPy</td></tr>
+      <tr><td>Auth</td><td>WorkOS (enterprise SSO)</td></tr>
+      <tr><td>Cloud</td><td>AWS Lambda, API Gateway, CloudFront, IAM</td></tr>
+      <tr><td>IaC</td><td>AWS CDK (TypeScript)</td></tr>
+    </table>
+
+    <div class="cs-foot">
+      <strong style="color:var(--text)">My role</strong> — Sole engineer and architect: product design, data modeling, backend, frontend, infrastructure-as-code, and deployment. Built on my own time and hardware.<br><br>
+      Code is private (commercial product). Architecture walkthrough available on request — <a href="index.html#contact">get in touch ↗</a>.
+    </div>
+  </div>
+</body>
+</html>
