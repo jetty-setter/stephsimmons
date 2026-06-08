@@ -1,358 +1,673 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Steph Simmons — Full-Stack & Cloud Architect</title>
+
+  <title>Steph Simmons — Enterprise IT Leader & AWS Cloud Builder</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
+
 <body class="loading">
 
-<!-- Entry loading screen -->
-<div id="preloader">
-  <div class="pl-top">
-    <span class="pl-name">Steph Simmons</span>
-    <span class="pl-role">Full-Stack & Cloud Architect</span>
-  </div>
-  <div class="pl-status" id="plStatus">Initializing</div>
-  <div class="pl-count"><span id="plNum">0</span><span class="pl-pct">%</span></div>
-  <div class="pl-bar"><i id="plBar"></i></div>
-</div>
-
-<div class="scroll-rail" aria-hidden="true">
-  <div class="rail-fill" id="railFill"></div>
-  <div class="rail-pct" id="railPct">00%</div>
-  <div class="rail-dot" id="railDot"></div>
-</div>
-
-<div class="mobile-nav" id="mnav">
-  <button class="mobile-close" onclick="closeMnav()">×</button>
-  <a href="#work"       onclick="closeMnav()">Work</a>
-  <a href="#about"      onclick="closeMnav()">About</a>
-  <a href="#skills"     onclick="closeMnav()">Skills</a>
-  <a href="#experience" onclick="closeMnav()">Experience</a>
-  <a href="#contact"    onclick="closeMnav()">Contact</a>
-</div>
-
-<nav>
-  <div class="nav-inner">
-    <div class="nav-logo">Steph Simmons</div>
-    <div class="nav-links">
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#experience">Experience</a>
-      <a href="#contact" class="pill"><span class="pill-dot"></span>Available for work<span class="pill-arr">↗</span></a>
+  <!-- Entry loading screen -->
+  <div id="preloader">
+    <div class="pl-top">
+      <span class="pl-name">Steph Simmons</span>
+      <span class="pl-role">Enterprise IT Leadership | Cloud Architecture | Full-Stack Delivery</span>
     </div>
-    <button class="nav-burger" onclick="openMnav()"><span></span><span></span><span></span></button>
+    <div class="pl-status" id="plStatus">Initializing</div>
+    <div class="pl-count"><span id="plNum">0</span><span class="pl-pct">%</span></div>
+    <div class="pl-bar"><i id="plBar"></i></div>
   </div>
-</nav>
 
-<!-- ── HERO ─────────────────────────────────────────────────── -->
-<section id="hero">
-  <canvas id="neb" class="hero-neb" aria-hidden="true"></canvas>
-  <div class="hero-body">
-    <div class="hero-left">
-      <div class="enter e1">
-        <div class="hero-eyebrow">Full-Stack Engineer & Cloud Solution Architect</div>
+  <div class="scroll-rail" aria-hidden="true">
+    <div class="rail-fill" id="railFill"></div>
+    <div class="rail-pct" id="railPct">00%</div>
+    <div class="rail-dot" id="railDot"></div>
+  </div>
+
+  <div class="mobile-nav" id="mnav">
+    <button class="mobile-close" onclick="closeMnav()">×</button>
+    <a href="#work" onclick="closeMnav()">Work</a>
+    <a href="#about" onclick="closeMnav()">About</a>
+    <a href="#skills" onclick="closeMnav()">Skills</a>
+    <a href="#experience" onclick="closeMnav()">Experience</a>
+    <a href="#contact" onclick="closeMnav()">Contact</a>
+  </div>
+
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo">Steph Simmons</div>
+
+      <div class="nav-links">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#contact" class="pill">
+          <span class="pill-dot"></span>
+          Open to cloud roles
+          <span class="pill-arr">↗</span>
+        </a>
       </div>
-      <h1 class="hero-name">
-        <span class="enter e2"><span class="hero-word" data-w="1">Steph</span></span>
-        <span class="enter e3"><span class="italic hero-word" data-w="2">Simmons</span><span class="dot" aria-hidden="true"></span></span>
-      </h1>
-      <div class="hero-rule"></div>
-      <div class="hero-grid">
-        <p class="hero-desc enter e4">
-          <span>A decade leading IT in the enterprise — now <strong>building cloud-native, full-stack products</strong> end to end. Bringing operational discipline to the systems people actually rely on.</span>
-        </p>
-        <div class="hero-stats enter e5">
-          <span>
-            <div class="hero-stats-inner" style="display:flex;gap:2.5rem">
-              <div class="hstat"><div class="hstat-n">10</div><div class="hstat-l">Years in IT</div></div>
-              <div class="hstat"><div class="hstat-n">3</div><div class="hstat-l">Years building</div></div>
-              <div class="hstat"><div class="hstat-n">2</div><div class="hstat-l">Platforms shipped</div></div>
-            </div>
+
+      <button class="nav-burger" onclick="openMnav()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── HERO ─────────────────────────────────────────────────── -->
+  <section id="hero">
+    <canvas id="neb" class="hero-neb" aria-hidden="true"></canvas>
+
+    <div class="hero-body">
+      <div class="hero-left">
+
+        <div class="enter e1">
+          <div class="hero-eyebrow">Enterprise IT Leader | Cloud Platform Engineering | Solution Architecture</div>
+        </div>
+
+        <h1 class="hero-name">
+          <span class="enter e2">
+            <span class="hero-word" data-w="1">Steph</span>
           </span>
+          <span class="enter e3">
+            <span class="italic hero-word" data-w="2">Simmons</span>
+            <span class="dot" aria-hidden="true"></span>
+          </span>
+        </h1>
+
+        <div class="hero-rule"></div>
+
+        <div class="hero-grid">
+          <p class="hero-desc enter e4">
+            <span>
+              I bring a decade of enterprise IT experience into cloud-native product development,
+              <strong>AWS architecture, platform engineering, and full-stack delivery.</strong>
+              I design with the after-launch reality in mind: clarity, reliability, ownership, and supportability.
+            </span>
+          </p>
+
+          <div class="hero-stats enter e5">
+            <span>
+              <div class="hero-stats-inner" style="display:flex;gap:2.5rem">
+                <div class="hstat">
+                  <div class="hstat-n">10</div>
+                  <div class="hstat-l">Years in IT</div>
+                </div>
+                <div class="hstat">
+                  <div class="hstat-n">3</div>
+                  <div class="hstat-l">Years hands-on cloud delivery</div>
+                </div>
+                <div class="hstat">
+                  <div class="hstat-n">3</div>
+                  <div class="hstat-l">Cloud-native products delivered</div>
+                </div>
+              </div>
+            </span>
+          </div>
         </div>
-      </div>
-      <div class="hero-status enter e5"><span class="bc-dot"></span>Open to work — remote, worldwide</div>
-    </div>
-  </div>
-  <div class="hero-footer">
-    <div class="hero-scroll-inner">
-      <span class="hero-scroll-text">Scroll to explore</span>
-      <div class="hero-scroll-arrow">↓</div>
-    </div>
-  </div>
-</section>
 
-<!-- ── WORK ─────────────────────────────────────────────────── -->
-<section id="work">
-  <div class="section-header up" style="max-width:var(--max);margin:0 auto;padding:0 var(--pad)">
-    <div class="sh-left">
-      <span class="sh-num">01</span>
-      <h2 class="sh-title">Selected <em>work</em></h2>
-    </div>
-  </div>
-
-  <div class="projects">
-
-    <!-- QuicLens -->
-    <article class="project" id="p-quiclens">
-      <div class="project-media">
-        <div class="browser">
-          <div class="browser-bar"><span></span><span></span><span></span><em>app.quiclens.io</em></div>
-          <div class="browser-shot"><img src="assets/quiclens.png" alt="QuicLens lab analytics dashboard" loading="lazy"></div>
-          <div class="browser-glare"></div>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-index">01</div>
-        <h3 class="project-title">QuicLens</h3>
-        <div class="project-kicker">Lab analytics SaaS</div>
-        <p class="project-desc">A multi-tenant analytics platform for research labs — real-time ThT fluorescence kinetics, plate-map classification, and dose-response analysis, with full audit trails for regulated science.</p>
-        <div class="project-tags">
-          <span>React</span><span>TypeScript</span><span>FastAPI</span><span>DynamoDB</span><span>AWS CDK / Lambda</span><span>WorkOS SSO</span><span>Plotly</span>
-        </div>
-        <div class="project-links">
-          <a href="quiclens.html" class="project-link">Case study ↗</a>
-          <span class="project-link project-link-soon">Code private — on request</span>
-        </div>
-      </div>
-    </article>
-
-    <!-- PureZen -->
-    <article class="project reverse" id="p-purezen">
-      <div class="project-media">
-        <div class="browser">
-          <div class="browser-bar"><span></span><span></span><span></span><em>purezen-flax.vercel.app</em></div>
-          <div class="browser-shot"><img src="assets/purezen.png" alt="PureZen spa concierge interface" loading="lazy"></div>
-          <div class="browser-glare"></div>
-        </div>
-      </div>
-      <div class="project-info">
-        <div class="project-index">02</div>
-        <h3 class="project-title">PureZen</h3>
-        <div class="project-kicker">Spa &amp; wellness concierge</div>
-        <p class="project-desc">A booking platform fronted by a conversational AI concierge that guides guests from first question to confirmed appointment — natural-language scheduling, service discovery, and reschedule &amp; cancel flows.</p>
-        <div class="project-tags">
-          <span>FastAPI</span><span>DynamoDB</span><span>Anthropic LLM</span><span>Bookings</span><span>AWS / Vercel</span>
-        </div>
-        <div class="project-links">
-          <a href="purezen.html" class="project-link">Case study ↗</a>
-          <a href="https://purezen-flax.vercel.app" class="project-link" target="_blank" rel="noopener">Live ↗</a>
-          <a href="https://github.com/jetty-setter/purezen" class="project-link" target="_blank" rel="noopener">Code ↗</a>
-        </div>
-      </div>
-    </article>
-
-    <!-- Placeholder for next project — duplicate an <article class="project"> above to add a real one -->
-    <a class="project-next up" href="#contact">
-      <span class="project-next-index" id="projectNextIndex">03</span>
-      <span class="project-next-title">More on the way</span>
-      <span class="project-next-sub">New cloud &amp; full-stack builds in progress — check back soon, or reach out to hear what I'm working on.</span>
-      <span class="project-next-arr">↗</span>
-    </a>
-
-  </div>
-</section>
-
-
-<!-- ── ABOUT ─────────────────────────────────────────────────── -->
-<section id="about">
-  <div class="section-header up" style="max-width:var(--max);margin:0 auto;padding:0 var(--pad) 3rem">
-    <div class="sh-left">
-      <span class="sh-num">02</span>
-      <h2 class="sh-title">About <em>me</em></h2>
-    </div>
-  </div>
-  <div class="about-inner">
-    <div class="about-left up">
-      <div class="about-copy">
-        <p class="about-statement">A decade of IT leadership — now <strong>building the cloud.</strong></p>
-        <div class="about-body">
-          <p>I've spent <strong>ten years in enterprise IT</strong> at Mutual of Omaha, growing from front-line support to <strong>Technical Lead and Scrum Manager</strong> for command-center operations — the escalation point, the mentor, the person who turns messy processes into systems that hold up under pressure.</p>
-          <p>Over the last few years I've channeled that operational instinct into <strong>building software end to end</strong> — designing and shipping cloud-native, full-stack products on my own: a multi-tenant lab-analytics platform and an AI-powered booking concierge, from database schema to React interface to deployment.</p>
-          <p>Now I'm formalizing the cloud side of that work and moving deliberately into <strong>cloud solution architecture and full-stack engineering</strong> — pairing real enterprise IT discipline with hands-on building. I care about the unglamorous parts: the runbooks, the reliability, the things that don't surprise you six months later.</p>
+        <div class="hero-status enter e5">
+          <span class="bc-dot"></span>
+          Open to remote cloud platform, solution architecture, full-stack, and technical delivery roles
         </div>
       </div>
     </div>
-    <div class="about-right up d1">
-      <div class="about-right-label">Certifications</div>
-      <div class="cert-list">
-        <div class="cert-row"><span class="cert-name">AWS Solutions Architect</span><span class="cert-badge">Associate</span></div>
-        <div class="cert-row"><span class="cert-name">SAFe 5 Scrum Master</span><span class="cert-badge">Certified</span></div>
-        <div class="cert-row"><span class="cert-name">Systems Development</span><span class="cert-badge">UNO</span></div>
-        <div class="cert-row"><span class="cert-name">IS Leadership Academy</span><span class="cert-badge">Mutual of Omaha</span></div>
-      </div>
-      <div class="capabilities">
-        <div class="cap"><div class="cap-title">Cloud</div><div class="cap-desc">AWS solution design, well-architected principles, deployment</div></div>
-        <div class="cap"><div class="cap-title">Full-Stack</div><div class="cap-desc">End-to-end ownership from database schema to interface</div></div>
-        <div class="cap"><div class="cap-title">IT Leadership</div><div class="cap-desc">Service management, escalation, team mentorship</div></div>
-        <div class="cap"><div class="cap-title">Agile Delivery</div><div class="cap-desc">Scrum ceremonies, backlog management, process improvement</div></div>
+
+    <div class="hero-footer">
+      <div class="hero-scroll-inner">
+        <span class="hero-scroll-text">Scroll to explore</span>
+        <div class="hero-scroll-arrow">↓</div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── SKILLS ────────────────────────────────────────────────── -->
-<section id="skills">
-  <div class="skills-inner">
-    <div class="section-header up" style="padding:0 0 3rem">
+  <!-- ── WORK ─────────────────────────────────────────────────── -->
+  <section id="work">
+    <div class="section-header up" style="max-width:var(--max);margin:0 auto;padding:0 var(--pad)">
       <div class="sh-left">
-        <span class="sh-num">03</span>
-        <h2 class="sh-title">Technical <em>stack</em></h2>
+        <span class="sh-num">01</span>
+        <h2 class="sh-title">Selected <em>work</em></h2>
       </div>
     </div>
-    <div class="skills-grid up d1">
-      <div class="skill-col">
-        <div class="skill-col-name">Cloud (AWS)</div>
-        <div class="skill-col-items">Lambda<br>API Gateway<br>DynamoDB<br>S3<br>CloudFront<br>IAM<br>CDK (IaC)</div>
-      </div>
-      <div class="skill-col">
-        <div class="skill-col-name">Frontend</div>
-        <div class="skill-col-items">React<br>TypeScript<br>Vite<br>Tailwind CSS<br>Plotly</div>
-      </div>
-      <div class="skill-col">
-        <div class="skill-col-name">Backend</div>
-        <div class="skill-col-items">Python<br>FastAPI<br>REST APIs<br>WorkOS auth<br>Anthropic LLM</div>
-      </div>
-      <div class="skill-col">
-        <div class="skill-col-name">Data</div>
-        <div class="skill-col-items">DynamoDB<br>NoSQL modeling<br>pandas / NumPy<br>SciPy</div>
-      </div>
-      <div class="skill-col">
-        <div class="skill-col-name">Practices</div>
-        <div class="skill-col-items">Agile / Scrum<br>ITSM<br>Git<br>Process improvement</div>
-      </div>
-      <div class="skill-col">
-        <div class="skill-col-name">Leadership</div>
-        <div class="skill-col-items">Technical lead<br>Mentorship<br>Escalation mgmt<br>Stakeholder comms</div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ── EXPERIENCE ────────────────────────────────────────────── -->
-<section id="experience">
-  <div class="exp-inner">
-    <div class="section-header up" style="padding:0 0 0">
+    <div class="projects">
+
+      <!-- QuicLens -->
+      <article class="project" id="p-quiclens">
+        <div class="project-media">
+          <div class="browser">
+            <div class="browser-bar">
+              <span></span><span></span><span></span>
+              <em>app.quiclens.io</em>
+            </div>
+            <div class="browser-shot">
+              <img src="assets/quiclens.png" alt="QuicLens lab analytics dashboard" loading="lazy">
+            </div>
+            <div class="browser-glare"></div>
+          </div>
+        </div>
+
+        <div class="project-info">
+          <div class="project-index">01</div>
+          <h3 class="project-title">QuicLens</h3>
+          <div class="project-kicker">Cloud-native lab analytics platform</div>
+
+          <p class="project-desc">
+            A multi-tenant research analytics platform designed for neurodegenerative disease and prion research labs.
+            QuicLens helps researchers analyze experimental data, review fluorescence kinetics, classify plate maps,
+            evaluate dose-response results, and maintain audit-ready records in a cleaner, more structured workflow.
+          </p>
+
+          <p class="project-desc">
+            This project is intentionally not an ELN or research notebook. It is focused on analysis, interpretation,
+            and decision-ready outputs for labs working with complex experimental data.
+          </p>
+
+          <div class="project-tags">
+            <span>React</span>
+            <span>TypeScript</span>
+            <span>FastAPI</span>
+            <span>DynamoDB</span>
+            <span>AWS CDK / Lambda</span>
+            <span>WorkOS SSO</span>
+            <span>Plotly</span>
+          </div>
+
+          <div class="project-links">
+            <a href="quiclens.html" class="project-link">Case study ↗</a>
+            <span class="project-link project-link-soon">Code private — Available on request</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- PureZen -->
+      <article class="project reverse" id="p-purezen">
+        <div class="project-media">
+          <div class="browser">
+            <div class="browser-bar">
+              <span></span><span></span><span></span>
+              <em>purezen-flax.vercel.app</em>
+            </div>
+            <div class="browser-shot">
+              <img src="assets/purezen.png" alt="PureZen spa concierge interface" loading="lazy">
+            </div>
+            <div class="browser-glare"></div>
+          </div>
+        </div>
+
+        <div class="project-info">
+          <div class="project-index">02</div>
+          <h3 class="project-title">PureZen</h3>
+          <div class="project-kicker">AI-powered booking concierge</div>
+
+          <p class="project-desc">
+            A booking platform concept with a conversational AI concierge that helps guests move from service questions
+            to confirmed appointments. Instead of forcing users through a traditional booking flow immediately, the
+            concierge supports service discovery, scheduling, rescheduling, and cancellation through a more natural
+            experience.
+          </p>
+
+          <p class="project-desc">
+            This project explores conversational UX, API design, appointment workflows, and how AI can support a real
+            business process without making the experience feel overbuilt.
+          </p>
+
+          <div class="project-tags">
+            <span>FastAPI</span>
+            <span>DynamoDB</span>
+            <span>Anthropic LLM</span>
+            <span>Bookings</span>
+            <span>AWS / Vercel</span>
+          </div>
+
+          <div class="project-links">
+            <a href="purezen.html" class="project-link">Case study ↗</a>
+            <a href="https://purezen-flax.vercel.app" class="project-link" target="_blank" rel="noopener">Live ↗</a>
+            <a href="https://github.com/jetty-setter/purezen" class="project-link" target="_blank" rel="noopener">Code
+              ↗</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Placeholder for next project -->
+      <a class="project-next up" href="#contact">
+        <span class="project-next-index" id="projectNextIndex">03</span>
+        <span class="project-next-title">AWS cloud architecture practice</span>
+        <span class="project-next-sub">
+          New cloud-native builds, infrastructure-as-code patterns, and AWS architecture work in progress.
+          Reach out to hear what I’m building next.
+        </span>
+        <span class="project-next-arr">↗</span>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ── ABOUT ─────────────────────────────────────────────────── -->
+  <section id="about">
+    <div class="section-header up" style="max-width:var(--max);margin:0 auto;padding:0 var(--pad) 3rem">
       <div class="sh-left">
-        <span class="sh-num">04</span>
-        <h2 class="sh-title">Work <em>history</em></h2>
+        <span class="sh-num">02</span>
+        <h2 class="sh-title">About <em>me</em></h2>
       </div>
     </div>
-    <div class="exp-list">
-      <div class="exp-row up">
-        <div><div class="exp-when">2021 – Present</div><div class="exp-type">Self-directed</div></div>
-        <div>
-          <div class="exp-title">Full-Stack & Cloud Builder</div>
-          <div class="exp-co">Independent</div>
-          <p class="exp-desc">Designing and shipping cloud-native products end to end, alongside a full-time IT leadership role.</p>
-          <ul class="exp-pts">
-            <li>Built two full-stack platforms solo — QuicLens (multi-tenant lab analytics) and PureZen (AI booking concierge).</li>
-            <li>Owned the full lifecycle: database schema, APIs, React front-ends, and AWS deployment.</li>
-            <li>Earning AWS Solutions Architect — Associate to formalize cloud architecture practice.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="exp-row up d1">
-        <div><div class="exp-when">2022 – Present</div><div class="exp-type">Leadership</div></div>
-        <div>
-          <div class="exp-title">Command Center Technical Lead & Scrum Manager</div>
-          <div class="exp-co">Mutual of Omaha</div>
-          <p class="exp-desc">Technical leadership and strategic direction for service-desk / command-center operations.</p>
-          <ul class="exp-pts">
-            <li>Primary escalation point for complex issues, accelerating resolution and reducing business impact.</li>
-            <li>Applied data analytics to surface performance trends and skill gaps, driving targeted improvements.</li>
-            <li>Facilitated Agile ceremonies and backlog management, aligning priorities with business needs.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="exp-row up d2">
-        <div><div class="exp-when">2019 – 2022</div><div class="exp-type">Enterprise</div></div>
-        <div>
-          <div class="exp-title">Business Systems Consultant</div>
-          <div class="exp-co">Mutual of Omaha</div>
-          <ul class="exp-pts">
-            <li>Implemented QA processes that raised service-desk standards and performance.</li>
-            <li>Analyzed interaction data to design targeted training and procedural enhancements.</li>
-            <li>Coached analysts with feedback that improved quality, consistency, and efficiency.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="exp-row up">
-        <div><div class="exp-when">2015 – 2019</div><div class="exp-type">Enterprise</div></div>
-        <div>
-          <div class="exp-title">Service Desk Analyst → Senior Analyst</div>
-          <div class="exp-co">Mutual of Omaha</div>
-          <ul class="exp-pts">
-            <li>Mentored analysts and served as technical expert, strengthening team capability.</li>
-            <li>Designed a training program that cut onboarding time and boosted productivity.</li>
-            <li>Built and maintained a knowledge base, reducing repeat incidents and improving self-service.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="exp-row up d1">
-        <div><div class="exp-when">2020 – 2026</div><div class="exp-type">Education</div></div>
-        <div>
-          <div class="exp-title">MBA + MS, Management Information Systems</div>
-          <div class="exp-co">University of Nebraska–Omaha</div>
-          <ul class="exp-pts">
-            <li>Dual MBA / MS in MIS (in progress, 2024–2026); BS in MIS (2020–2023).</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- ── CONTACT ───────────────────────────────────────────────── -->
-<section id="contact">
-  <div class="contact-inner">
-    <div class="section-header up" style="padding:0 0 0">
-      <div class="sh-left">
-        <span class="sh-num">05</span>
-        <h2 class="sh-title">Get in <em>touch</em></h2>
+    <div class="about-inner">
+      <div class="about-left up">
+        <div class="about-copy">
+
+          <p class="about-statement">
+            I like the space between strategy and execution — where the good ideas actually have to work. </p>
+
+          <div class="about-body">
+            <p>
+              I’m an enterprise IT leader focused on cloud architecture, platform engineering, and full-stack delivery —
+              bringing 10 years of operational experience into the way
+              modern systems are designed, built, and supported.
+            </p>
+
+            <p>
+              My career started in enterprise support, where I learned how technology behaves when real users depend on
+              it.
+              Today, I lead an IT support team as an IT Manager, and I bring that operational perspective into cloud
+              architecture
+              and full-stack development.
+            </p>
+
+            <p>
+              I think beyond the build itself — designing for ownership, supportability, documentation, technical
+              readiness,
+              and the teams responsible for making systems work after launch.
+            </p>
+
+            <p>
+              I’m focused on roles where I can connect enterprise IT leadership with hands-on cloud and full-stack
+              delivery —
+              designing systems that are not only functional, but clear, supportable, and built for real-world use.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-right up d1">
+        <div class="about-right-label">Certifications & Focus</div>
+
+        <div class="cert-list">
+          <div class="cert-row">
+            <span class="cert-name">AWS Solutions Architect</span>
+            <span class="cert-badge">Certified</span>
+          </div>
+
+          <div class="cert-row">
+            <span class="cert-name">SAFe 6 Scrum Master</span>
+            <span class="cert-badge">Certified</span>
+          </div>
+
+          <div class="cert-row">
+            <span class="cert-name">MBA + MS, MIS</span>
+            <span class="cert-badge">UNO</span>
+          </div>
+
+
+          <div class="capabilities">
+            <div class="cap">
+              <div class="cap-title">Cloud Architecture</div>
+              <div class="cap-desc">AWS solution design, serverless patterns, infrastructure-as-code, and deployment
+                decisions shaped by reliability, supportability, and real operational use.</div>
+            </div>
+
+            <div class="cap">
+              <div class="cap-title">Full-Stack Delivery</div>
+              <div class="cap-desc">End-to-end product ownership across data models, APIs, React interfaces,
+                authentication, workflows, and deployment.</div>
+            </div>
+
+            <div class="cap">
+              <div class="cap-title">Enterprise IT Leadership</div>
+              <div class="cap-desc">Leadership experience that helps me design with ownership, documentation, technical
+                readiness, handoffs, and long-term maintainability in mind.</div>
+            </div>
+
+            <div class="cap">
+              <div class="cap-title">Operational Delivery</div>
+              <div class="cap-desc">Turning ambiguity into clear priorities, stronger processes, cross-team alignment,
+                and systems that work beyond the initial release.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- ── SKILLS ────────────────────────────────────────────────── -->
+  <section id="skills">
+    <div class="skills-inner">
+      <div class="section-header up" style="padding:0 0 3rem">
+        <div class="sh-left">
+          <span class="sh-num">03</span>
+          <h2 class="sh-title">Technical <em>stack</em></h2>
+        </div>
+      </div>
+
+      <div class="skills-grid up d1">
+
+        <div class="skill-col">
+          <div class="skill-col-name">Cloud & AWS</div>
+          <div class="skill-col-items">
+            Lambda<br>
+            API Gateway<br>
+            DynamoDB<br>
+            S3<br>
+            CloudFront<br>
+            IAM<br>
+            AWS CDK
+          </div>
+        </div>
+
+        <div class="skill-col">
+          <div class="skill-col-name">Frontend</div>
+          <div class="skill-col-items">
+            React<br>
+            TypeScript<br>
+            Vite<br>
+            Tailwind CSS<br>
+            Plotly
+          </div>
+        </div>
+
+        <div class="skill-col">
+          <div class="skill-col-name">Backend</div>
+          <div class="skill-col-items">
+            Python<br>
+            FastAPI<br>
+            REST APIs<br>
+            WorkOS Auth<br>
+            Anthropic LLM
+          </div>
+        </div>
+
+        <div class="skill-col">
+          <div class="skill-col-name">Data</div>
+          <div class="skill-col-items">
+            DynamoDB<br>
+            NoSQL Modeling<br>
+            pandas / NumPy<br>
+            SciPy<br>
+            Data Visualization
+          </div>
+        </div>
+
+        <div class="skill-col">
+          <div class="skill-col-name">Delivery & Operations</div>
+          <div class="skill-col-items">
+            Agile / Scrum<br>
+            ITSM<br>
+            Operational Readiness<br>
+            Documentation<br>
+            Process Improvement<br>
+          </div>
+        </div>
+
+        <div class="skill-col">
+          <div class="skill-col-name">Technical Leadership</div>
+          <div class="skill-col-items">
+            Team Leadership<br>
+            Cross-Team Alignment<br>
+            Technical Readiness<br>
+            Stakeholder Communication<br>
+            Support Strategy<br>
+          </div>
+        </div>
+
       </div>
     </div>
-    <div class="contact-top">
-      <div class="up d1">
-        <h3 class="contact-headline">Open<br>to the<br><em>right work.</em></h3>
+  </section>
+
+  <!-- ── EXPERIENCE ────────────────────────────────────────────── -->
+  <section id="experience">
+    <div class="exp-inner">
+      <div class="section-header up" style="padding:0 0 0">
+        <div class="sh-left">
+          <span class="sh-num">04</span>
+          <h2 class="sh-title">Work <em>history</em></h2>
+        </div>
       </div>
-      <div class="contact-right up d2">
-        <p class="contact-sub">Open to cloud solution architect and full-stack engineering roles. I bring a decade of enterprise IT discipline plus hands-on experience building and shipping cloud-native products end to end. If you're working on something challenging, let's talk.</p>
-        <div class="contact-links">
-          <a href="mailto:ssimmons86@icloud.com" class="c-link">
-            <div><div class="c-label">Email</div><div class="c-val">ssimmons86@icloud.com</div></div>
-            <span class="c-arr">↗</span>
-          </a>
-          <a href="https://www.linkedin.com/in/ssimmonsne" class="c-link" target="_blank" rel="noopener">
-            <div><div class="c-label">LinkedIn</div><div class="c-val">linkedin.com/in/ssimmonsne</div></div>
-            <span class="c-arr">↗</span>
-          </a>
-          <a href="https://github.com/jetty-setter" class="c-link" target="_blank" rel="noopener">
-            <div><div class="c-label">GitHub</div><div class="c-val">github.com/jetty-setter</div></div>
-            <span class="c-arr">↗</span>
-          </a>
+
+      <div class="exp-list">
+
+        <div class="exp-row up">
+          <div>
+            <div class="exp-when">2021 – Present</div>
+            <div class="exp-type">Cloud + Product</div>
+          </div>
+
+          <div>
+            <div class="exp-title">Cloud & Full-Stack Product Development</div>
+            <div class="exp-co">Independent</div>
+
+            <p class="exp-desc">
+              Designing and shipping cloud-native products end to end, alongside a full-time enterprise IT leadership
+              role.
+              My independent work focuses on AWS, full-stack delivery, authentication, data workflows, and product
+              architecture.
+            </p>
+
+            <ul class="exp-pts">
+              <li>Built QuicLens, a multi-tenant research analytics platform for experimental lab data.</li>
+              <li>Built PureZen, an AI-powered booking concierge for service discovery and appointment workflows.</li>
+              <li>Owned product direction, data modeling, API design, React interfaces, authentication, and deployment.
+              </li>
+              <li>Applied enterprise IT experience to design for supportability, documentation, ownership, and long-term
+                use.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-row up d1">
+          <div>
+            <div class="exp-when">2024 – Present</div>
+            <div class="exp-type">Enterprise Leadership</div>
+          </div>
+
+          <div>
+            <div class="exp-title">IT Manager</div>
+            <div class="exp-co">Mutual of Omaha</div>
+
+            <p class="exp-desc">
+              Lead an enterprise IT service desk with responsibility for direct reports, team performance,
+              operational excellence, technical readiness, process improvement, and cross-functional alignment
+              across enterprise support functions.
+            </p>
+
+            <ul class="exp-pts">
+              <li>Lead direct reports across enterprise support operations, coaching performance, consistency, service
+                quality, and team development.</li>
+              <li>Collaborate with technical teams to understand enterprise changes, assess support impact, and prepare
+                analysts for what is coming.</li>
+              <li>Strengthen operational readiness by improving support processes, documentation, communication, and
+                team alignment.</li>
+              <li>Help prioritize time and attention toward multiple-affected issues that impact users, teams, systems,
+                or business capabilities.</li>
+              <li>Use operational data and team feedback to identify readiness gaps, recurring friction, documentation
+                needs, and improvement opportunities.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-row up d1">
+          <div>
+            <div class="exp-when">2019 – 2025</div>
+            <div class="exp-type">Technical Delivery</div>
+          </div>
+
+          <div>
+            <div class="exp-title">Technical Lead & Scrum Manager</div>
+            <div class="exp-co">Mutual of Omaha</div>
+
+            <p class="exp-desc">
+              Served as a technical lead and Scrum Manager for enterprise service desk and support operations,
+              helping connect technical change, operational process, analyst readiness, and delivery execution.
+            </p>
+
+            <ul class="exp-pts">
+              <li>Facilitated Scrum ceremonies, backlog conversations, planning discussions, and priority alignment for
+                support and operational work.</li>
+              <li>Acted as a bridge between service desk operations, technical teams, and business priorities during
+                enterprise technology changes.</li>
+              <li>Improved knowledge workflows, documentation standards, and support readiness for technical changes.
+              </li>
+              <li>Used operational data to identify process gaps, coaching opportunities, and recurring support
+                friction.</li>
+              <li>Helped analysts understand system changes, support expectations, and evolving workflows.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="exp-title">Business Systems Consultant</div>
+        <div class="exp-co">Mutual of Omaha</div>
+
+        <p class="exp-desc">
+          Focused on quality, process improvement, documentation, training, and support maturity across enterprise IT
+          operations.
+        </p>
+
+        <ul class="exp-pts">
+          <li>Developed quality practices that improved consistency across service interactions.</li>
+          <li>Analyzed support data to identify performance trends, procedural gaps, and coaching opportunities.</li>
+          <li>Improved documentation and support procedures to create clearer, more consistent workflows.</li>
+          <li>Translated operational needs into stronger training, guidance, and support practices.</li>
+          <li>Supported process improvement efforts that strengthened team performance and customer experience.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-row up">
+      <div>
+        <div class="exp-when">2015 – 2019</div>
+        <div class="exp-type">Enterprise IT</div>
+      </div>
+
+      <div>
+        <div class="exp-title">Service Desk Analyst → Senior Service Desk Analyst</div>
+        <div class="exp-co">Mutual of Omaha</div>
+
+        <p class="exp-desc">
+          Built a foundation in enterprise IT support, technical troubleshooting, customer experience, documentation,
+          knowledge management, and analyst development.
+        </p>
+
+        <ul class="exp-pts">
+          <li>Supported enterprise users across incidents, access issues, service requests, and technical
+            troubleshooting.</li>
+          <li>Developed strong communication skills in a high-volume enterprise support environment.</li>
+          <li>Mentored analysts and contributed to stronger team knowledge sharing.</li>
+          <li>Helped build and maintain knowledge documentation to reduce repeat issues and improve consistency.</li>
+          <li>Created training materials and supported onboarding efforts for new analysts.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-row up d1">
+      <div>
+        <div class="exp-when">2020 – 2026</div>
+        <div class="exp-type">Education</div>
+      </div>
+
+      <div>
+        <div class="exp-title">MBA + MS, Management Information Systems</div>
+        <div class="exp-co">University of Nebraska at Omaha</div>
+
+        <ul class="exp-pts">
+          <li>Dual MBA / MS in Management Information Systems.</li>
+          <li>BS in Management Information Systems.</li>
+          <li>Coursework focused on systems development, data analysis, decision support, business technology, and IT
+            leadership.</li>
+        </ul>
+      </div>
+    </div>
+
+    </div>
+    </div>
+  </section>
+
+  <!-- ── CONTACT ───────────────────────────────────────────────── -->
+  <section id="contact">
+    <div class="contact-inner">
+      <div class="section-header up" style="padding:0 0 0">
+        <div class="sh-left">
+          <span class="sh-num">05</span>
+          <h2 class="sh-title">Get in <em>touch</em></h2>
+        </div>
+      </div>
+
+      <div class="contact-top">
+        <div class="up d1">
+          <h3 class="contact-headline">
+            Open<br>
+            to the<br>
+            <em>right work.</em>
+          </h3>
+        </div>
+
+        <div class="contact-right up d2">
+          <p class="contact-sub">
+            I’m interested in remote roles where I can combine enterprise IT leadership, AWS cloud architecture,
+            product delivery, and hands-on technical execution. I’m especially interested in cloud platform,
+            solution architecture, infrastructure, full-stack engineering, and technical delivery opportunities.
+          </p>
+
+          <div class="contact-links">
+
+            <a href="mailto:ssimmons86@icloud.com" class="c-link">
+              <div>
+                <div class="c-label">Email</div>
+                <div class="c-val">ssimmons86@icloud.com</div>
+              </div>
+              <span class="c-arr">↗</span>
+            </a>
+
+            <a href="https://www.linkedin.com/in/ssimmonsne" class="c-link" target="_blank" rel="noopener">
+              <div>
+                <div class="c-label">LinkedIn</div>
+                <div class="c-val">linkedin.com/in/ssimmonsne</div>
+              </div>
+              <span class="c-arr">↗</span>
+            </a>
+
+            <a href="https://github.com/jetty-setter" class="c-link" target="_blank" rel="noopener">
+              <div>
+                <div class="c-label">GitHub</div>
+                <div class="c-val">github.com/jetty-setter</div>
+              </div>
+              <span class="c-arr">↗</span>
+            </a>
+
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<footer>
-  <div class="footer-inner">
-    <span>Steph Simmons — 2026</span>
-    <span>Designed &amp; built by hand</span>
-  </div>
-</footer>
+  <footer>
+    <div class="footer-inner">
+      <span>Steph Simmons — 2026</span>
+      <span>Designed &amp; built by hand</span>
+    </div>
+  </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="script.js"></script>
+
 </body>
+
 </html>
