@@ -498,7 +498,10 @@ h1.hero-name .dot {
   font-size: .82rem; color: var(--sub); line-height: 1.7;
   padding-left: 1.1rem; position: relative; list-style: none;
 }
-.exp-pts li::before { content: '—'; position: absolute; left: 0; color: var(--faint); }
+.exp-pts li::before {
+  content: ''; position: absolute; left: 0; top: .62em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--acid);
+}
 
 /* ── CONTACT ───────────────────────────────────────────────── */
 .contact-inner { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
