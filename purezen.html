@@ -80,12 +80,13 @@
 
     <div class="cs-eyebrow">Case Study</div>
     <h1 class="cs-title">PureZen</h1>
-    <p class="cs-lede">A full-stack, AI-powered spa booking platform on AWS — natural-language concierge for guests, an operations portal for staff, and a well-architected, multi-AZ backend underneath.</p>
+    <p class="cs-lede">A full-stack, AI-powered spa booking platform on AWS — natural-language concierge for guests, an operations portal for staff, and a fully serverless backend underneath.</p>
 
     <div class="cs-callout">
-      A concept build for a fictional spa brand. Architected and built solo on AWS
-      following the Well-Architected Framework. Live demo:
-      <a href="https://purezen-flax.vercel.app" target="_blank" rel="noopener">purezen-flax.vercel.app ↗</a> ·
+      A concept build for a fictional spa brand, architected and built solo on AWS and
+      deployed serverless on Lambda, S3, and CloudFront, with Anthropic's Claude powering the
+      conversational layer. Live demo:
+      <a href="https://dpeddqzh7d2ur.cloudfront.net" target="_blank" rel="noopener">dpeddqzh7d2ur.cloudfront.net ↗</a> ·
       Code: <a href="https://github.com/jetty-setter/purezen" target="_blank" rel="noopener">GitHub ↗</a>
     </div>
 
@@ -94,66 +95,66 @@
     <p>PureZen handles the full lifecycle — browse services, check availability, book, reschedule, cancel — through conversation, backed by an admin portal for staff scheduling and operational insight.</p>
 
     <h2>Architecture</h2>
-    <p>A three-tier design in a custom VPC across two availability zones, built to AWS Well-Architected principles.</p>
+    <p>A fully serverless, event-driven design on AWS — no servers to patch, automatic scaling, and pay-per-request economics that scale to zero when idle.</p>
     <div class="arch">
       <div class="arch-tier">
-        <div class="arch-node"><b>Browser</b><span>S3 static site</span></div>
+        <div class="arch-node"><b>Browser</b><span>guest &amp; admin UI</span></div>
       </div>
       <div class="arch-arrow"></div>
       <div class="arch-tier">
-        <div class="arch-node accent"><b>Application Load Balancer</b><span>public subnets · 2 AZ</span></div>
+        <div class="arch-node accent"><b>CloudFront</b><span>global CDN · TLS</span></div>
+        <div class="arch-node"><b>S3</b><span>static frontend</span></div>
       </div>
       <div class="arch-arrow"></div>
       <div class="arch-tier">
-        <div class="arch-node accent"><b>EC2 — FastAPI</b><span>private subnets · ASG</span></div>
-        <div class="arch-node"><b>Ollama</b><span>localhost inference</span></div>
+        <div class="arch-node accent"><b>AWS Lambda</b><span>Python / FastAPI API</span></div>
+        <div class="arch-node"><b>Anthropic — Claude</b><span>conversational layer</span></div>
       </div>
       <div class="arch-arrow"></div>
       <div class="arch-tier">
         <div class="arch-node"><b>DynamoDB</b><span>PITR · GSIs · TTL</span></div>
-        <div class="arch-node"><b>CloudWatch + SNS</b><span>logs · alarms</span></div>
+        <div class="arch-node"><b>CloudWatch</b><span>logs · metrics</span></div>
       </div>
-      <div class="arch-side"><b>VPC</b> &nbsp;4 subnets / 2 AZ · bastion host · IAM instance profiles · security groups</div>
+      <div class="arch-side"><b>Serverless</b> &nbsp;no VPC to manage · least-privilege IAM roles · scales to zero</div>
     </div>
 
     <h2>Highlights</h2>
     <ul>
-      <li><strong>Network architecture</strong> — custom VPC, public/private subnet tiers across 2 AZs, bastion host for SSH, security groups enforcing port-level least access (backend reachable only from the ALB).</li>
-      <li><strong>Self-healing compute</strong> — Auto Scaling Group behind an ALB; failed health checks trigger automatic instance replacement with no manual intervention.</li>
+      <li><strong>Serverless compute</strong> — AWS Lambda runs the API per request; nothing to patch or keep warm, automatic scaling under load, and zero cost when idle.</li>
+      <li><strong>Global delivery</strong> — the static frontend ships from S3 behind CloudFront, with TLS and edge caching for low-latency access anywhere.</li>
       <li><strong>Resilient data</strong> — DynamoDB with point-in-time recovery (35-day window), GSIs, TTL-based session expiry, and conditional writes that make double-booking impossible.</li>
-      <li><strong>Security by design</strong> — IAM instance profiles (no credentials in code), bcrypt-hashed passwords, UUID session tokens rotated on login with server-side invalidation.</li>
-      <li><strong>Observability</strong> — CloudWatch logs and alarms wired to SNS notifications.</li>
+      <li><strong>Security by design</strong> — least-privilege IAM execution roles (no credentials in code), bcrypt-hashed passwords, UUID session tokens rotated on login with server-side invalidation.</li>
+      <li><strong>Observability</strong> — structured CloudWatch logs and metrics across the Lambda and data layers.</li>
     </ul>
 
     <h2>AI design — grounded, not guessing</h2>
     <h3>The MCP pattern</h3>
     <p>PureZen separates the <strong>model</strong> (text generation), <strong>tools</strong> (structured functions like <em>get_available_slots()</em>, <em>book_slot()</em>), and <strong>data</strong> (live DynamoDB). The model never answers from training knowledge — it only formats data returned by tool calls. It <em>cannot</em> invent availability because it only sees what the database returns. The LLM's role shifts from "answer provider" to "response formatter" — the correct role in a transactional system, and one that makes every response auditable back to a specific query.</p>
     <h3>Regex-first intent routing</h3>
-    <p>The platform self-hosted a Qwen 2.5 (3B) model via Ollama on a CPU-only instance, which meant 10–40s inference. Rather than fight that, the design routes <strong>~80% of messages through a deterministic regex classifier in under 200ms</strong>, invoking the LLM only for genuinely ambiguous input. The model became a fallback, not the front door.</p>
+    <p>Even with fast managed inference from Anthropic's Claude, the design routes <strong>~80% of messages through a deterministic regex classifier in under 200ms</strong>, invoking the model only for genuinely ambiguous input. Keeping the model a fallback rather than the front door means lower latency, predictable cost, and a clear audit trail for every booking action.</p>
 
     <h2>Engineering decisions &amp; trade-offs</h2>
     <h3>Why deterministic logic over the LLM wherever possible?</h3>
     <p>The most reliable features used the <em>least</em> AI. Personalized recommendations (category-frequency scoring) and admin trend queries are deterministic formatters reading live data — faster, cheaper, and more reliable than a model for questions with exact answers. The principle: <strong>decide when <em>not</em> to use AI before writing code that uses it.</strong></p>
-    <h3>Why self-hosted inference?</h3>
-    <p>Under the original constraints (cost predictability, data staying in-VPC, no managed-LLM access), self-hosting Ollama was the right call — at the cost of CPU-bound latency. Load testing with Locust confirmed the trade-off: regex paths scaled cleanly under concurrency while LLM paths serialized on CPU, clearly signaling where a GPU instance or async queue would be needed in production.</p>
+    <h3>From self-hosted to managed inference</h3>
+    <p>An earlier iteration self-hosted a small open model on a CPU instance — workable, but CPU-bound and slow under concurrency. Moving the conversational layer to <strong>Anthropic's Claude</strong> removed that bottleneck: fast, reliable inference with no GPU or instance management, which also unlocked the move to a fully serverless backend. Pairing managed inference with the regex-first router keeps the common paths instant and the model's cost scoped to the cases that actually need it.</p>
     <h3>Treating infrastructure as code</h3>
     <p>An environment reset mid-development was costly because the system existed only in its running state. Adding a <em>requirements.txt</em>, a one-command <em>deploy.sh</em> with health check, and seed scripts cut full rebuild time to ~15 minutes — a hard lesson in reproducibility.</p>
 
     <h2>Stack at a glance</h2>
     <table>
       <tr><th>Layer</th><th>Tech</th></tr>
-      <tr><td>Frontend</td><td>HTML / JS / CSS, served from S3</td></tr>
-      <tr><td>Backend</td><td>Python, FastAPI</td></tr>
+      <tr><td>Frontend</td><td>HTML / JS / CSS on S3, served via CloudFront</td></tr>
+      <tr><td>Backend</td><td>Python, FastAPI on AWS Lambda</td></tr>
       <tr><td>Data</td><td>DynamoDB (PITR, GSIs, TTL)</td></tr>
-      <tr><td>AI</td><td>Ollama (Qwen 2.5 3B), MCP pattern, regex-first routing</td></tr>
-      <tr><td>Compute</td><td>EC2 (private), Auto Scaling Group, Application Load Balancer</td></tr>
-      <tr><td>Network</td><td>Custom VPC, 4 subnets / 2 AZ, bastion, security groups, IAM</td></tr>
-      <tr><td>Ops</td><td>CloudWatch, SNS, Locust load testing, deploy automation</td></tr>
+      <tr><td>AI</td><td>Anthropic Claude, MCP pattern, regex-first routing</td></tr>
+      <tr><td>Delivery</td><td>CloudFront CDN with TLS and edge caching</td></tr>
+      <tr><td>Ops</td><td>CloudWatch logs &amp; metrics, IAM least-privilege roles, deploy automation</td></tr>
     </table>
 
     <div class="cs-foot">
-      <strong style="color:var(--text)">My role</strong> — Sole architect and engineer: VPC and network design, compute and auto-scaling, DynamoDB data modeling, FastAPI backend, the AI/MCP layer, frontend, and deployment automation. (Built for a team course; I led and implemented all architecture and code.)<br><br>
-      <a href="https://purezen-flax.vercel.app" target="_blank" rel="noopener">View live demo ↗</a> &nbsp;·&nbsp;
+      <strong style="color:var(--text)">My role</strong> — Sole architect and engineer: serverless architecture (Lambda, S3, CloudFront), DynamoDB data modeling, FastAPI backend, the AI/MCP layer on Anthropic's Claude, frontend, and deployment automation. (Built for a team course; I led and implemented all architecture and code.)<br><br>
+      <a href="https://dpeddqzh7d2ur.cloudfront.net" target="_blank" rel="noopener">View live demo ↗</a> &nbsp;·&nbsp;
       <a href="https://github.com/jetty-setter/purezen" target="_blank" rel="noopener">View code ↗</a> &nbsp;·&nbsp;
       <a href="index.html#contact">Get in touch ↗</a>
     </div>
