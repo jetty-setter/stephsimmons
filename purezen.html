@@ -54,6 +54,7 @@
     .cs-foot a { color: var(--acid); text-decoration: none; }
 
     /* architecture diagram */
+    .cs-cap { font-family: var(--mono); font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin: 1.8rem 0 .2rem; }
     .arch { margin: 2rem 0 1rem; display: flex; flex-direction: column; align-items: center; gap: 0; }
     .arch-tier { display: flex; gap: .8rem; flex-wrap: wrap; justify-content: center; width: 100%; }
     .arch-node {
@@ -102,6 +103,7 @@
 
     <h2>Architecture</h2>
     <p>A fully serverless design on AWS — no servers to patch, automatic scaling, and pay-per-request economics that scale to zero when idle. The static frontend is delivered from S3 via CloudFront; API traffic flows through API Gateway to a containerized Lambda.</p>
+    <p class="cs-cap">Now — serverless on AWS</p>
     <div class="arch">
       <div class="arch-tier">
         <div class="arch-node"><b>Browser</b><span>guest &amp; admin UI</span></div>
@@ -149,7 +151,26 @@
     <h3>Decide when <em>not</em> to use the LLM</h3>
     <p>The most reliable features used the least AI. Anything with an exact answer — availability, trend counts, a guest’s history — is a deterministic function reading live data, which is faster, cheaper, and more predictable than asking a model. The LLM is reserved for language understanding and phrasing, where it’s genuinely the right tool.</p>
     <h3>Working within — then beyond — AWS Academy</h3>
-    <p>PureZen began as a course project inside an <strong>AWS Academy sandbox</strong> — a deliberately constrained learning environment with no GPU instances, a capped budget, short-lived session credentials, and a limited service catalog. Within those limits, the conversational layer ran on a <strong>self-hosted Ollama model on CPU</strong>: functional, but CPU-bound, slow under concurrency, and with no real path to scale. Rebuilding outside the Academy constraints, the conversational layer was moved to <strong>Anthropic's Claude</strong>, which removed the inference bottleneck and unlocked the <strong>fully serverless backend</strong> the project runs on today — API Gateway and a containerized Lambda, with nothing to keep warm.</p>
+    <p>PureZen began as a course project inside an <strong>AWS Academy sandbox</strong> — a deliberately constrained learning environment with no GPU instances, a capped budget, short-lived session credentials, and a limited service catalog. Within those limits, the whole backend ran on a <strong>single EC2 instance</strong>: FastAPI under <strong>uvicorn</strong>, alongside a <strong>self-hosted Ollama model (llama3.2:3b)</strong> on CPU — functional, but CPU-bound, slow under concurrency, and with no real path to scale.</p>
+
+    <p class="cs-cap">Before — the AWS Academy architecture</p>
+    <div class="arch">
+      <div class="arch-tier">
+        <div class="arch-node"><b>Browser</b><span>guest &amp; admin UI</span></div>
+      </div>
+      <div class="arch-arrow"><span>HTTPS</span></div>
+      <div class="arch-tier">
+        <div class="arch-node accent"><b>EC2 instance</b><span>FastAPI · uvicorn</span></div>
+        <div class="arch-node"><b>Ollama — self-hosted</b><span>llama3.2:3b · CPU</span></div>
+      </div>
+      <div class="arch-arrow"></div>
+      <div class="arch-tier">
+        <div class="arch-node"><b>DynamoDB</b><span>bookings · services · staff</span></div>
+      </div>
+      <div class="arch-side"><b>AWS Academy limits</b> &nbsp;no GPU · capped budget · session credentials · one always-on box</div>
+    </div>
+
+    <p>Rebuilding outside the Academy constraints replaced that box entirely: the conversational layer moved to <strong>Anthropic's Claude</strong>, which removed the inference bottleneck and unlocked the <strong>fully serverless backend</strong> the project runs on today — API Gateway and a containerized Lambda, with nothing to keep warm. (See the current architecture above.)</p>
     <h3>Infrastructure as code with CDK</h3>
     <p>An early environment loss — when the system existed only in its running state — made reproducibility a first-class concern. The stack is now declared in <strong>AWS CDK</strong>, so the entire environment (compute, gateway, CDN, data, IAM, and frontend deploy with cache invalidation) rebuilds from code rather than memory.</p>
 
