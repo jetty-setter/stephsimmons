@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RabbitHole — Case Study · Steph Simmons</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .cs-wrap { max-width: 880px; margin: 0 auto; padding: 7rem var(--pad) 6rem; }
+    .cs-back {
+      font-family: var(--mono); font-size: .7rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--sub); text-decoration: none;
+      display: inline-flex; gap: .5rem; align-items: center; margin-bottom: 3rem;
+      transition: color .2s;
+    }
+    .cs-back:hover { color: var(--acid); }
+    .cs-eyebrow {
+      font-family: var(--mono); font-size: .7rem; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--acid); margin-bottom: 1rem;
+    }
+    .cs-title {
+      font-family: var(--display); font-weight: 800;
+      font-size: clamp(2.4rem, 6vw, 4rem); letter-spacing: -.03em;
+      line-height: 1; color: var(--text); margin-bottom: 1.2rem;
+    }
+    .cs-lede { font-size: 1.05rem; font-weight: 300; color: var(--sub); line-height: 1.7; max-width: 62ch; }
+    .cs-callout {
+      border-left: 2px solid var(--line); padding: 1rem 0 1rem 1.4rem;
+      margin: 2.4rem 0; color: var(--sub); font-size: .9rem; line-height: 1.7;
+    }
+    .cs-callout strong { color: var(--text); font-weight: 600; }
+    .cs-callout a { color: var(--acid); text-decoration: none; }
+    .cs h2 {
+      font-family: var(--display); font-weight: 800;
+      font-size: clamp(1.5rem, 3.5vw, 2.1rem); letter-spacing: -.02em;
+      color: var(--text); margin: 3.5rem 0 1.2rem;
+      padding-top: 2.2rem; border-top: 1px solid var(--line);
+    }
+    .cs h3 { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--text); margin: 1.8rem 0 .4rem; }
+    .cs p { font-size: .98rem; font-weight: 300; color: var(--sub); line-height: 1.85; margin-bottom: 1.1rem; }
+    .cs strong { color: var(--text); font-weight: 600; }
+    .cs ul { list-style: none; margin: 0 0 1.4rem; padding: 0; }
+    .cs li { font-size: .96rem; font-weight: 300; color: var(--sub); line-height: 1.7; padding-left: 1.4rem; position: relative; margin-bottom: .6rem; }
+    .cs li::before { content: ''; position: absolute; left: 0; top: .65em; width: 6px; height: 6px; border-radius: 50%; background: var(--acid); }
+    .cs li strong { color: var(--text); }
+    .cs table { width: 100%; border-collapse: collapse; margin: 1.4rem 0; font-size: .9rem; }
+    .cs th, .cs td { text-align: left; padding: .7rem 1rem; border-bottom: 1px solid var(--line); }
+    .cs th { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
+    .cs td { color: var(--sub); font-weight: 300; }
+    .cs td:first-child { color: var(--text); font-weight: 500; }
+    .cs-foot { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); font-size: .9rem; color: var(--sub); line-height: 1.7; }
+    .cs-foot a { color: var(--acid); text-decoration: none; }
+
+    /* architecture diagram */
+    .cs-cap { font-family: var(--mono); font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin: 1.8rem 0 .2rem; }
+    .arch { margin: 2rem 0 1rem; display: flex; flex-direction: column; align-items: center; gap: 0; }
+    .arch-tier { display: flex; gap: .8rem; flex-wrap: wrap; justify-content: center; width: 100%; }
+    .arch-node {
+      flex: 1 1 0; min-width: 150px; background: var(--bg2); border: 1px solid var(--line);
+      border-radius: 8px; padding: .9rem 1rem; text-align: center;
+    }
+    .arch-node.accent { border-color: rgba(255,90,60,.4); }
+    .arch-node b { display: block; font-family: var(--display); font-weight: 700; font-size: .92rem; color: var(--text); letter-spacing: -.01em; }
+    .arch-node span { font-family: var(--mono); font-size: .6rem; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); }
+    .arch-arrow { display: flex; align-items: center; gap: .5rem; padding: .55rem 0; color: var(--dim); }
+    .arch-arrow::before { content: '↓'; font-size: 1rem; color: var(--acid); }
+    .arch-arrow span { font-family: var(--mono); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; }
+    .arch-side {
+      margin-top: .9rem; font-family: var(--mono); font-size: .62rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--sub); border: 1px dashed var(--line);
+      border-radius: 6px; padding: .55rem .9rem;
+    }
+    .arch-side b { color: var(--acid); font-weight: 500; }
+  </style>
+</head>
+<body style="background:var(--bg)">
+  <div class="cs-wrap cs">
+    <a href="index.html#work" class="cs-back">← Back to portfolio</a>
+
+    <div class="cs-eyebrow">Case Study</div>
+    <h1 class="cs-title">RabbitHole</h1>
+    <p class="cs-lede">An event-driven video-streaming platform on AWS — upload a video, an autoscaling fleet of workers transcodes it into adaptive-bitrate HLS, and you stream it back through a CDN, with live status pushed the whole way.</p>
+
+    <div class="cs-callout">
+      Built as a portfolio piece to demonstrate <strong>cloud architecture</strong> — event-driven design,
+      a serverless + container hybrid, autoscaling-to-zero, real-time, and cost-awareness — all defined in
+      <strong>Terraform</strong>. Live demo:
+      <a href="https://rabbithole.stephsimmons.dev" target="_blank" rel="noopener">rabbithole.stephsimmons.dev ↗</a> ·
+      Code: <a href="https://github.com/jetty-setter/rabbithole" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+
+    <h2>The problem</h2>
+    <p>A streaming service is a textbook <strong>asynchronous workload</strong>: uploads are fast, but transcoding is slow and bursty. That mismatch is exactly what event-driven, autoscaling infrastructure exists to solve — so RabbitHole is built to <em>demonstrate</em> that architecture rather than fake it with a CRUD app. The goal: take a raw upload to adaptive playback through a fully decoupled pipeline that costs nothing when no one is using it.</p>
+
+    <h2>What it does</h2>
+    <ul>
+      <li><strong>Direct-to-S3 upload</strong> — the browser requests a presigned URL and PUTs the file straight to S3; the API never proxies the bytes.</li>
+      <li><strong>Async transcode</strong> — the S3 upload emits an event that fans out through EventBridge and SQS to a fleet of Fargate workers running ffmpeg, producing multi-rendition HLS.</li>
+      <li><strong>Adaptive playback</strong> — hls.js streams the renditions from CloudFront, switching quality to match the viewer's bandwidth.</li>
+      <li><strong>Real-time status</strong> — a DynamoDB Stream drives a broadcaster Lambda that pushes <em>Transcoding → Ready</em> updates to the UI over a WebSocket, with no polling.</li>
+      <li><strong>Cost dashboard</strong> — each transcode's Fargate cost (vCPU·s + GB·s at current rates) is measured and surfaced in the UI.</li>
+    </ul>
+
+    <h2>Architecture</h2>
+    <p>An event-driven pipeline that decouples the fast path (upload) from the slow path (transcode), with a serverless API and a container worker fleet — the right tool for each job.</p>
+
+    <p class="cs-cap">Upload → transcode → stream</p>
+    <div class="arch">
+      <div class="arch-tier">
+        <div class="arch-node"><b>Browser</b><span>React · hls.js</span></div>
+      </div>
+      <div class="arch-arrow"><span>1 · presigned URL</span></div>
+      <div class="arch-tier">
+        <div class="arch-node accent"><b>API Gateway → Lambda</b><span>FastAPI · Mangum</span></div>
+      </div>
+      <div class="arch-arrow"><span>2 · PUT file</span></div>
+      <div class="arch-tier">
+        <div class="arch-node"><b>S3 — uploads</b><span>raw video</span></div>
+      </div>
+      <div class="arch-arrow"><span>3 · ObjectCreated event</span></div>
+      <div class="arch-tier">
+        <div class="arch-node accent"><b>EventBridge → SQS</b><span>+ DLQ · retries</span></div>
+      </div>
+      <div class="arch-arrow"><span>4 · poll · autoscale 0→N</span></div>
+      <div class="arch-tier">
+        <div class="arch-node accent"><b>ECS Fargate workers</b><span>ffmpeg · HLS renditions</span></div>
+      </div>
+      <div class="arch-arrow"><span>HLS renditions</span></div>
+      <div class="arch-tier">
+        <div class="arch-node"><b>S3 — streaming</b><span>private · OAC</span></div>
+        <div class="arch-node accent"><b>CloudFront</b><span>adaptive playback → UI</span></div>
+      </div>
+      <div class="arch-side"><b>Real-time path</b> &nbsp;DynamoDB (videos) → Stream → Broadcaster Lambda → API Gateway WebSocket → live status in the UI</div>
+    </div>
+
+    <h2>Highlights</h2>
+    <ul>
+      <li><strong>Autoscale to zero</strong> — workers step-scale on SQS queue depth, up from zero on demand and back to zero when the queue drains. No running tasks and no NAT gateway means <strong>~$0 when idle</strong>.</li>
+      <li><strong>Event-driven decoupling</strong> — EventBridge → SQS (with a DLQ and retries) fully separates upload from transcode: resilient to worker failure, and fan-out-ready.</li>
+      <li><strong>Serverless + container hybrid</strong> — Lambda runs the lightweight API; Fargate runs the long-running, CPU-heavy ffmpeg. Each layer uses the right compute model.</li>
+      <li><strong>Real-time without coupling</strong> — a DynamoDB Stream → Lambda → WebSocket pushes status to the client; the worker never needs to know about the transport.</li>
+      <li><strong>Private by default</strong> — CloudFront with Origin Access Control keeps the streaming bucket fully private; the browser only ever talks to the CDN.</li>
+      <li><strong>Cost-aware by design</strong> — per-transcode Fargate cost is computed and shown, making the economics of the architecture visible.</li>
+    </ul>
+
+    <h2>Engineering decisions &amp; trade-offs</h2>
+    <h3>Lambda API + Fargate workers</h3>
+    <p>Right tool per job: serverless for the lightweight, bursty API; containers for the long-running, CPU-heavy ffmpeg transcode that would never fit Lambda's runtime and size limits.</p>
+    <h3>Direct-to-S3 upload (presigned)</h3>
+    <p>The API issues a presigned URL and the browser uploads straight to S3, so the API never proxies file bytes — cheaper, faster, and far friendlier to a Lambda execution model.</p>
+    <h3>EventBridge → SQS → workers</h3>
+    <p>Decoupling the pipeline through a queue makes it resilient and fan-out-ready: a DLQ and retries absorb worker failures, and the upload path doesn't block on transcode capacity.</p>
+    <h3>Autoscale on queue depth, down to zero</h3>
+    <p>Step scaling on SQS depth can scale workers <em>up from zero</em>, so there's no compute cost when idle — the single biggest lever for a bursty workload's bill.</p>
+    <h3>No NAT gateway (a documented cost trade-off)</h3>
+    <p>Workers run in public subnets with a zero-ingress security group instead of private subnets behind a NAT gateway. That keeps idle cost near zero for a demo; the production trade-off is noted below.</p>
+
+    <h2>What I'd change at scale</h2>
+    <p>The demo deliberately optimizes for cost and clarity. Honest production trade-offs:</p>
+    <ul>
+      <li><strong>AWS Elemental MediaConvert</strong> instead of self-managed ffmpeg — less operational surface, per-job billing.</li>
+      <li><strong>Private subnets + VPC endpoints</strong> for the workers — defense-in-depth over the public-subnet demo.</li>
+      <li><strong>A GSI on <em>created_at</em></strong> instead of a Scan for the library listing.</li>
+      <li><strong>CloudFront + auth</strong> in front of the API, and signed URLs / cookies on the streaming bucket.</li>
+      <li><strong>Multi-region</strong> streaming origins with latency-based routing.</li>
+    </ul>
+
+    <h2>Stack at a glance</h2>
+    <table>
+      <tr><th>Layer</th><th>Tech</th></tr>
+      <tr><td>Frontend</td><td>React + TypeScript (Vite), hls.js → S3 + CloudFront</td></tr>
+      <tr><td>API</td><td>FastAPI on Lambda (Mangum) + API Gateway</td></tr>
+      <tr><td>Workers</td><td>ECS Fargate + ffmpeg, step-autoscaling on SQS depth (min 0)</td></tr>
+      <tr><td>Real-time</td><td>DynamoDB Streams → Lambda → API Gateway WebSocket</td></tr>
+      <tr><td>Messaging</td><td>SQS + DLQ, EventBridge, S3 notifications</td></tr>
+      <tr><td>Data</td><td>S3 (uploads + streaming), DynamoDB</td></tr>
+      <tr><td>CDN</td><td>CloudFront (Origin Access Control)</td></tr>
+      <tr><td>IaC</td><td>Terraform</td></tr>
+      <tr><td>CI/CD</td><td>GitHub Actions</td></tr>
+      <tr><td>Observability</td><td>CloudWatch metrics / alarms, structured logs</td></tr>
+    </table>
+
+    <div class="cs-foot">
+      <strong style="color:var(--text)">My role</strong> — Sole architect and engineer: the event-driven AWS architecture, the FastAPI/Lambda API, the Fargate ffmpeg worker, the real-time WebSocket layer, the React + hls.js frontend, and the Terraform that provisions all of it.<br><br>
+      <a href="https://rabbithole.stephsimmons.dev" target="_blank" rel="noopener">View live demo ↗</a> &nbsp;·&nbsp;
+      <a href="https://github.com/jetty-setter/rabbithole" target="_blank" rel="noopener">View code ↗</a> &nbsp;·&nbsp;
+      <a href="index.html#contact">Get in touch ↗</a>
+    </div>
+  </div>
+</body>
+</html>
