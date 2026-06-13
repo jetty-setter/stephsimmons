@@ -236,16 +236,55 @@
         </div>
       </article>
 
-      <!-- Placeholder for next project -->
-      <a class="project-next up" href="#contact">
-        <span class="project-next-index" id="projectNextIndex">03</span>
-        <span class="project-next-title">AWS cloud architecture practice</span>
-        <span class="project-next-sub">
-          New cloud-native builds, infrastructure-as-code patterns, and AWS architecture work in progress.
-          Reach out to hear what I’m building next.
-        </span>
-        <span class="project-next-arr">↗</span>
-      </a>
+      <!-- RabbitHole -->
+      <article class="project" id="p-rabbithole">
+        <div class="project-media">
+          <div class="browser">
+            <div class="browser-bar">
+              <span></span><span></span><span></span>
+              <em>rabbithole.stephsimmons.dev</em>
+            </div>
+            <div class="browser-shot">
+              <img src="assets/rabbithole.png" alt="RabbitHole event-driven video streaming platform" loading="lazy">
+            </div>
+            <div class="browser-glare"></div>
+          </div>
+        </div>
+
+        <div class="project-info">
+          <div class="project-index">03</div>
+          <h3 class="project-title">RabbitHole</h3>
+          <div class="project-kicker">Event-driven video-streaming platform</div>
+
+          <p class="project-desc">
+            Upload a video and an autoscaling fleet of Fargate workers transcodes it into adaptive-bitrate HLS,
+            streamed back through a CDN — with live status pushed over a WebSocket the whole way. A genuine
+            event-driven, serverless-plus-container architecture built to scale to zero when idle.
+          </p>
+
+          <p class="project-desc">
+            The async-workload story end to end: presigned direct-to-S3 upload → EventBridge → SQS → Fargate
+            ffmpeg → multi-rendition HLS → CloudFront, with real-time updates from DynamoDB Streams and
+            per-transcode cost surfaced in the UI.
+          </p>
+
+          <div class="project-tags">
+            <span>React · hls.js</span>
+            <span>FastAPI · Lambda</span>
+            <span>ECS Fargate · ffmpeg</span>
+            <span>EventBridge · SQS</span>
+            <span>DynamoDB Streams · WebSocket</span>
+            <span>CloudFront</span>
+            <span>Terraform</span>
+          </div>
+
+          <div class="project-links">
+            <a href="rabbithole.html" class="project-link">Case study ↗</a>
+            <a href="https://rabbithole.stephsimmons.dev" class="project-link" target="_blank" rel="noopener">Live ↗</a>
+            <a href="https://github.com/jetty-setter/rabbithole" class="project-link" target="_blank" rel="noopener">Code ↗</a>
+          </div>
+        </div>
+      </article>
 
     </div>
   </section>
