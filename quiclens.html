@@ -59,6 +59,10 @@
     .cs-foot { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); font-size: .9rem; color: var(--sub); line-height: 1.7; }
     .cs-foot a { color: var(--acid); text-decoration: none; }
 
+    /* demo video (drop-in) */
+    .cs-video { width: 100%; aspect-ratio: 16/9; display: block; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; background: var(--bg2); margin: 1.6rem 0 .4rem; }
+    .cs-video-cap { font-family: var(--mono); font-size: .6rem; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin-bottom: 1.6rem; }
+
     /* architecture diagram */
     .arch { margin: 2rem 0 1rem; display: flex; flex-direction: column; align-items: center; gap: 0; }
     .arch-tier { display: flex; gap: .8rem; flex-wrap: wrap; justify-content: center; width: 100%; }
@@ -96,6 +100,15 @@
       <strong>Research use only — not for diagnostic use.</strong> QuicLens is a
       laboratory analysis tool and does not provide medical diagnosis or clinical decisions.
     </div>
+
+    <!-- DEMO VIDEO — DROP-IN:
+         1. Record the ~75s walkthrough; export assets/quiclens-demo.mp4 (+ optional poster frame quiclens-demo-poster.jpg).
+         2. Delete this comment wrapper to enable the player below.
+    <video class="cs-video" controls playsinline preload="none" poster="assets/quiclens-demo-poster.jpg">
+      <source src="assets/quiclens-demo.mp4" type="video/mp4">
+    </video>
+    <div class="cs-video-cap">~75s walkthrough — multi-tenant lab analytics, upload → analysis → report</div>
+    -->
 
     <h2>The problem</h2>
     <p>Research labs running RT-QuIC and similar fluorescence assays were stuck analyzing plate data in spreadsheets and one-off scripts — slow, error-prone, and impossible to audit. Regulated science needs reproducible analysis, clear provenance, and multiple labs/teams working in isolation without stepping on each other's data.</p>
