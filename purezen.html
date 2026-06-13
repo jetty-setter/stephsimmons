@@ -73,6 +73,12 @@
       border-radius: 6px; padding: .55rem .9rem;
     }
     .arch-side b { color: var(--acid); font-weight: 500; }
+    /* VPC boundary + subnet zones for the network diagram */
+    .arch-vpc { width: 100%; border: 1px dashed rgba(255,90,60,.35); border-radius: 12px; padding: .9rem; margin: .2rem 0; }
+    .arch-vpc-label { font-family: var(--mono); font-size: .56rem; letter-spacing: .12em; text-transform: uppercase; color: var(--acid); opacity: .85; margin-bottom: .7rem; text-align: center; }
+    .arch-zone { border: 1px dashed var(--line); border-radius: 9px; padding: .7rem; margin: .35rem 0; }
+    .arch-zone-label { font-family: var(--mono); font-size: .54rem; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin-bottom: .55rem; text-align: center; }
+    .arch-vpc .arch-arrow { padding: .35rem 0; }
   </style>
 </head>
 <body style="background:var(--bg)">
@@ -151,7 +157,7 @@
     <h3>Decide when <em>not</em> to use the LLM</h3>
     <p>The most reliable features used the least AI. Anything with an exact answer — availability, trend counts, a guest’s history — is a deterministic function reading live data, which is faster, cheaper, and more predictable than asking a model. The LLM is reserved for language understanding and phrasing, where it’s genuinely the right tool.</p>
     <h3>Working within — then beyond — AWS Academy</h3>
-    <p>PureZen began as a course project inside an <strong>AWS Academy sandbox</strong> — a deliberately constrained learning environment with no GPU instances, a capped budget, short-lived session credentials, and a limited service catalog. Within those limits, the whole backend ran on a <strong>single EC2 instance</strong>: FastAPI under <strong>uvicorn</strong>, alongside a <strong>self-hosted Ollama model (llama3.2:3b)</strong> on CPU — functional, but CPU-bound, slow under concurrency, and with no real path to scale.</p>
+    <p>PureZen began as a course project inside an <strong>AWS Academy sandbox</strong> — a deliberately constrained learning environment with no GPU instances, a capped budget, short-lived session credentials, and a limited service catalog. Within those limits it ran as a hand-built, network-isolated stack: a <strong>VPC across two Availability Zones</strong>, an <strong>Application Load Balancer</strong> in the public subnets, and an <strong>EC2 Auto Scaling Group</strong> in the private subnets — each instance running FastAPI under <strong>uvicorn</strong> alongside a <strong>self-hosted Ollama model (llama3.2:3b)</strong> on CPU, with <strong>security groups</strong> between every tier and a NAT path out to <strong>DynamoDB</strong>. It worked and it taught the networking, but CPU-bound inference was slow under concurrency and there was no GPU path to scale.</p>
 
     <p class="cs-cap">Before — the AWS Academy architecture</p>
     <div class="arch">
@@ -159,15 +165,33 @@
         <div class="arch-node"><b>Browser</b><span>guest &amp; admin UI</span></div>
       </div>
       <div class="arch-arrow"><span>HTTPS</span></div>
-      <div class="arch-tier">
-        <div class="arch-node accent"><b>EC2 instance</b><span>FastAPI · uvicorn</span></div>
-        <div class="arch-node"><b>Ollama — self-hosted</b><span>llama3.2:3b · CPU</span></div>
+
+      <div class="arch-vpc">
+        <div class="arch-vpc-label">VPC · 2 Availability Zones</div>
+
+        <div class="arch-zone">
+          <div class="arch-zone-label">Public subnets (AZ-a / AZ-b)</div>
+          <div class="arch-tier">
+            <div class="arch-node accent"><b>Application Load Balancer</b><span>HTTPS · health checks</span></div>
+          </div>
+        </div>
+
+        <div class="arch-arrow"><span>SG: 443 → app port</span></div>
+
+        <div class="arch-zone">
+          <div class="arch-zone-label">Private subnets (AZ-a / AZ-b)</div>
+          <div class="arch-tier">
+            <div class="arch-node accent"><b>EC2 Auto Scaling Group</b><span>FastAPI · uvicorn</span></div>
+            <div class="arch-node"><b>Ollama — self-hosted</b><span>llama3.2:3b · CPU</span></div>
+          </div>
+        </div>
       </div>
-      <div class="arch-arrow"></div>
+
+      <div class="arch-arrow"><span>NAT gateway</span></div>
       <div class="arch-tier">
         <div class="arch-node"><b>DynamoDB</b><span>bookings · services · staff</span></div>
       </div>
-      <div class="arch-side"><b>AWS Academy limits</b> &nbsp;no GPU · capped budget · session credentials · one always-on box</div>
+      <div class="arch-side"><b>AWS Academy limits</b> &nbsp;no GPU · capped budget · session credentials</div>
     </div>
 
     <p>Rebuilding outside the Academy constraints replaced that box entirely: the conversational layer moved to <strong>Anthropic's Claude</strong>, which removed the inference bottleneck and unlocked the <strong>fully serverless backend</strong> the project runs on today — API Gateway and a containerized Lambda, with nothing to keep warm. (See the current architecture above.)</p>
