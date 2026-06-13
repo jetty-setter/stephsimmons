@@ -141,7 +141,7 @@
       <li><strong>Serverless compute</strong> — a containerized Lambda (Python 3.11) runs FastAPI through Mangum behind API Gateway; nothing to patch or keep warm, and zero cost when idle.</li>
       <li><strong>Global delivery</strong> — the static frontend ships from S3 behind CloudFront, with TLS and edge caching for low-latency access anywhere.</li>
       <li><strong>Booking integrity</strong> — slots are claimed with a DynamoDB <em>conditional write</em> that only succeeds while the slot is still marked available, so two guests can never confirm the same time.</li>
-      <li><strong>Security by design</strong> — least-privilege IAM execution roles (no credentials in code), bcrypt-hashed passwords, and session-scoped guest and admin access.</li>
+      <li><strong>Security by design</strong> — least-privilege IAM (no credentials in code), bcrypt-hashed passwords, and UUID session tokens rotated on login with server-side invalidation on logout and a 24-hour DynamoDB TTL.</li>
       <li><strong>Reproducible infra</strong> — the entire stack (Lambda image, API Gateway, S3, CloudFront, DynamoDB, IAM) is declared in AWS CDK and deployed from one source of truth.</li>
     </ul>
 
@@ -157,41 +157,43 @@
     <h3>Decide when <em>not</em> to use the LLM</h3>
     <p>The most reliable features used the least AI. Anything with an exact answer — availability, trend counts, a guest’s history — is a deterministic function reading live data, which is faster, cheaper, and more predictable than asking a model. The LLM is reserved for language understanding and phrasing, where it’s genuinely the right tool.</p>
     <h3>Working within — then beyond — AWS Academy</h3>
-    <p>PureZen began as a course project inside an <strong>AWS Academy sandbox</strong> — a deliberately constrained learning environment with no GPU instances, a capped budget, short-lived session credentials, and a limited service catalog. Within those limits it ran as a hand-built, network-isolated stack: a <strong>VPC across two Availability Zones</strong>, an <strong>Application Load Balancer</strong> in the public subnets, and an <strong>EC2 Auto Scaling Group</strong> in the private subnets — each instance running FastAPI under <strong>uvicorn</strong> alongside a <strong>self-hosted Ollama model (llama3.2:3b)</strong> on CPU, with <strong>security groups</strong> between every tier and a NAT path out to <strong>DynamoDB</strong>. It worked and it taught the networking, but CPU-bound inference was slow under concurrency and there was no GPU path to scale.</p>
+    <p>PureZen began as a course project inside an <strong>AWS Academy sandbox</strong> — no GPU instances, a capped budget, and short-lived session credentials. Within those limits it was built as a textbook <strong>three-tier AWS architecture</strong>: a custom <strong>VPC in us-east-1 across two Availability Zones</strong> (four subnets), an <strong>Application Load Balancer</strong> and a <strong>bastion host</strong> in the public subnets, and an <strong>EC2 Auto Scaling Group</strong> in the private subnets (no public IPs). Each backend instance ran FastAPI under <strong>uvicorn</strong> on port 8000 alongside a <strong>self-hosted Ollama model (llama3.2:3b)</strong> on an <strong>r7a.large (2 vCPU, no GPU)</strong> — CPU-only, so generation took <strong>10–40 seconds</strong>, which is exactly what motivated the regex-first routing. <strong>DynamoDB</strong> (point-in-time recovery, GSIs, conditional writes) held the data, reached over <strong>IAM instance profiles</strong> with no credentials in code, while <strong>CloudWatch + SNS</strong> handled observability and alerts.</p>
 
-    <p class="cs-cap">Before — the AWS Academy architecture</p>
+    <p class="cs-cap">Before — the AWS Academy architecture (three-tier on EC2)</p>
     <div class="arch">
       <div class="arch-tier">
         <div class="arch-node"><b>Browser</b><span>guest &amp; admin UI</span></div>
       </div>
-      <div class="arch-arrow"><span>HTTPS</span></div>
+      <div class="arch-arrow"><span>HTTP :80</span></div>
 
       <div class="arch-vpc">
-        <div class="arch-vpc-label">VPC · 2 Availability Zones</div>
+        <div class="arch-vpc-label">VPC · us-east-1 · 2 Availability Zones</div>
 
         <div class="arch-zone">
           <div class="arch-zone-label">Public subnets (AZ-a / AZ-b)</div>
           <div class="arch-tier">
-            <div class="arch-node accent"><b>Application Load Balancer</b><span>HTTPS · health checks</span></div>
+            <div class="arch-node accent"><b>Application Load Balancer</b><span>HTTP :80 · health checks</span></div>
+            <div class="arch-node"><b>Bastion host</b><span>EC2 · SSH :22</span></div>
           </div>
         </div>
 
-        <div class="arch-arrow"><span>SG: 443 → app port</span></div>
+        <div class="arch-arrow"><span>SG: ALB :80 → app :8000 · SSH :22 from bastion</span></div>
 
         <div class="arch-zone">
-          <div class="arch-zone-label">Private subnets (AZ-a / AZ-b)</div>
+          <div class="arch-zone-label">Private subnets (AZ-a / AZ-b) · no public IPs</div>
           <div class="arch-tier">
-            <div class="arch-node accent"><b>EC2 Auto Scaling Group</b><span>FastAPI · uvicorn</span></div>
-            <div class="arch-node"><b>Ollama — self-hosted</b><span>llama3.2:3b · CPU</span></div>
+            <div class="arch-node accent"><b>EC2 Auto Scaling Group</b><span>FastAPI · uvicorn :8000</span></div>
+            <div class="arch-node"><b>Ollama — self-hosted</b><span>llama3.2:3b · r7a.large CPU</span></div>
           </div>
         </div>
       </div>
 
-      <div class="arch-arrow"><span>NAT gateway</span></div>
+      <div class="arch-arrow"><span>IAM instance profile · SDK</span></div>
       <div class="arch-tier">
-        <div class="arch-node"><b>DynamoDB</b><span>bookings · services · staff</span></div>
+        <div class="arch-node"><b>DynamoDB</b><span>PITR 35d · GSIs · conditional writes</span></div>
+        <div class="arch-node"><b>S3 + CloudWatch + SNS</b><span>static assets · logs · alerts</span></div>
       </div>
-      <div class="arch-side"><b>AWS Academy limits</b> &nbsp;no GPU · capped budget · session credentials</div>
+      <div class="arch-side"><b>AWS Academy limits</b> &nbsp;no GPU · capped budget · session credentials · CPU inference 10–40s</div>
     </div>
 
     <p>Rebuilding outside the Academy constraints replaced that box entirely: the conversational layer moved to <strong>Anthropic's Claude</strong>, which removed the inference bottleneck and unlocked the <strong>fully serverless backend</strong> the project runs on today — API Gateway and a containerized Lambda, with nothing to keep warm. (See the current architecture above.)</p>
