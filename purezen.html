@@ -148,8 +148,8 @@
     <h2>Engineering decisions &amp; trade-offs</h2>
     <h3>Decide when <em>not</em> to use the LLM</h3>
     <p>The most reliable features used the least AI. Anything with an exact answer — availability, trend counts, a guest’s history — is a deterministic function reading live data, which is faster, cheaper, and more predictable than asking a model. The LLM is reserved for language understanding and phrasing, where it’s genuinely the right tool.</p>
-    <h3>From self-hosted to managed inference</h3>
-    <p>An earlier prototype ran a small self-hosted model — workable, but CPU-bound and slow under concurrency. The conversational layer now runs entirely on <strong>Anthropic's Claude</strong>, which removed that bottleneck and, just as importantly, unlocked the move to a <strong>fully serverless backend</strong> — with no instance to manage, the whole API collapses into a Lambda behind API Gateway.</p>
+    <h3>Working within — then beyond — AWS Academy</h3>
+    <p>PureZen began as a course project inside an <strong>AWS Academy sandbox</strong> — a deliberately constrained learning environment with no GPU instances, a capped budget, short-lived session credentials, and a limited service catalog. Within those limits, the conversational layer ran on a <strong>self-hosted Ollama model on CPU</strong>: functional, but CPU-bound, slow under concurrency, and with no real path to scale. Rebuilding outside the Academy constraints, the conversational layer was moved to <strong>Anthropic's Claude</strong>, which removed the inference bottleneck and unlocked the <strong>fully serverless backend</strong> the project runs on today — API Gateway and a containerized Lambda, with nothing to keep warm.</p>
     <h3>Infrastructure as code with CDK</h3>
     <p>An early environment loss — when the system existed only in its running state — made reproducibility a first-class concern. The stack is now declared in <strong>AWS CDK</strong>, so the entire environment (compute, gateway, CDN, data, IAM, and frontend deploy with cache invalidation) rebuilds from code rather than memory.</p>
 
