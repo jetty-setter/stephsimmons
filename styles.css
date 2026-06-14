@@ -1,8 +1,5 @@
 /* ============================================================
-   Steph Simmons — portfolio
-   Modern-tech / minimal system over the nebula background.
-   (Nebula canvas, preloader, scroll-rail and all JS animation
-    hooks are preserved; only the visual language changed.)
+   Steph Simmons — Portfolio
    ============================================================ */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -19,7 +16,7 @@
   --sub:       #9a9c9f;
   --dim:       #66686c;
   --faint:     #46484c;
-  /* accent (matches the nebula's warm points) */
+  /* accent */
   --acid:      #ff5a3c;
   --acid-soft: rgba(255, 90, 60, .14);
   --violet:    #a44dff;
@@ -89,7 +86,7 @@ a { color: inherit; text-decoration: none; }
 .pl-bar { margin-top: 1.6rem; height: 1px; width: 100%; background: var(--line-2); overflow: hidden; }
 .pl-bar i { display: block; height: 100%; width: 0; background: var(--acid); }
 
-/* ── Nebula canvas (UNCHANGED behaviour) ───────────────────── */
+/* ── Nebula canvas ───────────────────── */
 .hero-neb {
   position: fixed; inset: 0; z-index: -1;
   width: 100%; height: 100%; pointer-events: none;
@@ -315,12 +312,10 @@ h1.hero-name .dot {
 /* ── Section base ──────────────────────────────────────────── */
 #work, #about, #skills, #contact { padding: var(--section) 0; position: relative; }
 #about, #skills, #contact { border-top: 1px solid var(--line); }
-/* the merged About/Experience already closes with the timeline's bottom rule,
-   so it needs less tail before Skills */
 #about { padding-bottom: clamp(2.5rem, 4vw, 3.5rem); }
 #contact { background: rgba(13,14,16,.5); }
 
-/* ── WORK / projects ───────────────────────────────────────── */
+/* ── Projects ───────────────────────────────────────── */
 .projects {
   max-width: var(--max); margin: 0 auto; padding: 0 var(--pad);
   display: flex; flex-direction: column; gap: clamp(5rem, 11vw, 9rem);
@@ -410,7 +405,7 @@ h1.hero-name .dot {
 .project-next-arr { font-size: 1.4rem; color: var(--sub); transition: transform .3s, color .3s; }
 .project-next:hover .project-next-arr { transform: translate(4px,-4px); color: var(--acid); }
 
-/* ── SKILLS ────────────────────────────────────────────────── */
+/* ── Tech Stack ────────────────────────────────────────────────── */
 .skills-inner { max-width: var(--max); margin: 0 auto; padding: 0 var(--pad); }
 .skills-grid {
   display: grid; grid-template-columns: repeat(6, 1fr);
@@ -425,7 +420,7 @@ h1.hero-name .dot {
 }
 .skill-col-items { font-size: .82rem; color: var(--sub); line-height: 2.1; }
 
-/* ── ABOUT + EXPERIENCE (merged) ───────────────────────────── */
+/* ── ABOUT ME ───────────────────────────── */
 .about-inner {
   max-width: var(--max); margin: 0 auto; padding: 0 var(--pad);
   display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 6vw, 6rem);
@@ -462,7 +457,7 @@ h1.hero-name .dot {
 .cap-title { font-size: .82rem; font-weight: 600; color: var(--text); margin-bottom: .5rem; }
 .cap-desc { font-size: .78rem; color: var(--sub); line-height: 1.65; }
 
-/* experience timeline (now lives inside the about section) */
+
 .exp-inner {
   max-width: var(--max); margin: clamp(4rem, 8vw, 6rem) auto 0;
   padding: 0 var(--pad);
