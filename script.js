@@ -1,18 +1,11 @@
 
-  /* ── Entry loading screen ──────────────────────────────────
-     A real reason to exist:
-       1. progress is driven by actual web-font loading (prevents the
-          font-flash you'd otherwise see as Archivo/Inter swap in),
-       2. it boots like one of Steph's systems coming online,
-       3. it only runs once per session — returning visitors skip it. */
+  /* ── Entry loading screen ────────────────────────────────── */
   (function () {
     const pre = document.getElementById('preloader');
     if (!pre) { document.body.classList.remove('loading'); return; }
     const num = document.getElementById('plNum');
     const bar = document.getElementById('plBar');
     const stat = document.getElementById('plStatus');
-
-    // (Once-per-session skip is disabled for now so the boot always plays.)
 
     const STEPS = [
       [0,  'Provisioning infrastructure'],
@@ -22,15 +15,12 @@
       [100,'Systems online'],
     ];
 
-    // Real signal: are the heavy display/body fonts ready?
     let fontsReady = false;
     const fr = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
     fr.then(() => { fontsReady = true; });
 
     let p = 0;
     const tick = setInterval(() => {
-      // climb toward 90% on a timer, but hold there until the fonts
-      // have actually loaded — then complete.
       const cap = fontsReady ? 100 : 90;
       p += (cap - p) * 0.09 + 0.8;
       if (p > cap) p = cap;
@@ -57,7 +47,7 @@
     }
   })();
 
-  /* ── Hero intro (plays once the loader lifts) ──────────── */
+  /* ── Hero intro ──────────── */
   (function () {
     const showAll = () => {
       ['.hero-eyebrow', '.hero-desc', '.hero-stats', '.hero-status', '.dot', '.hero-name'].forEach(s => {
@@ -68,8 +58,6 @@
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!window.gsap || reduce) { showAll(); return; }
 
-    // gsap.from() → elements default VISIBLE; the intro animates them in,
-    // and if it's ever interrupted they always settle on their real state.
     function play() {
       const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
       tl.from('.hero-eyebrow', { autoAlpha: 0, y: 24, duration: .8 }, 0)
@@ -80,7 +68,7 @@
         .from('.hero-stats', { autoAlpha: 0, y: 34, duration: .9 }, 1.05)
         .from('.hero-status', { autoAlpha: 0, y: 34, duration: .9 }, 1.15);
     }
-    // timer-based safety: force the final visible state even if rAF is throttled
+
     function forceShow() {
       gsap.set('.hero-word', { yPercent: 0, clearProps: 'transform' });
       gsap.set(['.hero-eyebrow', '.hero-desc', '.hero-stats', '.hero-status'], { autoAlpha: 1, y: 0 });
@@ -93,7 +81,7 @@
     setTimeout(go, 3500); // safety
   })();
 
-  /* ── Flowing nebula showpiece (Three.js) ────────────────── */
+  /* ── Flowing nebula (Three.js) ────────────────── */
   (function () {
     const canvas = document.getElementById('neb');
     if (!canvas || !window.THREE) return;
@@ -108,7 +96,6 @@
     const BX = 2.7, BY = 2.1, BZ = 1.5;
     function cw(s){ return ((Math.random()+Math.random()+Math.random()+Math.random())/4*2-1)*s; }
 
-    // soft round star sprite — radial glow falloff
     const starTex = (function(){
       const c = document.createElement('canvas'); c.width = c.height = 64;
       const ctx = c.getContext('2d');
@@ -179,7 +166,6 @@
           a[ix]=x; a[ix+1]=y; a[ix+2]=z;
         }
         L.geo.attributes.position.needsUpdate=true;
-        // celestial twinkle — gentle breathing of each layer's brightness
         L.mat.opacity = L.baseOp * (0.78 + 0.22*Math.sin(t*1.6 + L.tw));
       }
       grp.rotation.z = lastY*0.0002 + t*0.05;
@@ -233,7 +219,6 @@
     gsap.registerPlugin(ScrollTrigger);
     const EO = 'expo.out';
 
-    /* Section headers — title slides up, number + count fade */
     gsap.utils.toArray('.section-header').forEach(h => {
       const title = h.querySelector('.sh-title'),
             num   = h.querySelector('.sh-num'),
@@ -257,7 +242,6 @@
     }
     reveal('#about', '.about-statement, .about-body p, .cert-row, .cap');
 
-    /* portrait — duotone ignites to full colour when it enters view */
     const portrait = document.getElementById('portrait');
     if (portrait) ScrollTrigger.create({
       trigger: portrait, start: 'top 78%',
@@ -267,13 +251,11 @@
     reveal('#experience', '.exp-row', { x: -30, y: 0, stagger: .12 });
     reveal('#contact', '.contact-headline, .contact-body, .c-link', { stagger: .1 });
 
-    /* parallax: section numbers drift slightly for depth */
     gsap.utils.toArray('.sh-num').forEach(n => {
       gsap.to(n, { y: -40, ease: 'none',
         scrollTrigger: { trigger: n.closest('section'), start: 'top bottom', end: 'bottom top', scrub: true } });
     });
 
-    /* count-up numbers (hero stats + about figures) */
     function countUp(el) {
       const raw = el.textContent.trim();
       const m = raw.match(/^(\d+)(\D*)$/);
@@ -288,7 +270,6 @@
     }
     document.querySelectorAll('.hstat-n, .num-val').forEach(countUp);
 
-    /* Auto-number projects + the "next" placeholder */
     (function () {
       const projects = document.querySelectorAll('.project');
       projects.forEach((p, i) => {
@@ -307,7 +288,7 @@
       const img = p.querySelector('.browser-shot img');
       const info = p.querySelectorAll('.project-index, .project-title, .project-kicker, .project-desc, .project-tags, .project-links');
 
-      // 3D door-swing entrance — frame swings in from its own side and locks to face you
+      // 3D door-swing entrance 
       const fromRight = p.classList.contains('reverse');
       const dir = fromRight ? 1 : -1;
       gsap.set(browser, { transformOrigin: fromRight ? 'right center' : 'left center' });
@@ -321,7 +302,7 @@
         scrollTrigger: { trigger: p, start: 'top 72%' }
       });
 
-      // longer parallax pan — reveals top→bottom of the tall screenshot
+      // longer parallax pan 
       if (img) gsap.fromTo(img, { yPercent: 0 }, {
         yPercent: -15, ease: 'none',
         scrollTrigger: { trigger: p, start: 'top bottom', end: 'bottom top', scrub: true }

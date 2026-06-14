@@ -142,7 +142,7 @@
       <li><strong>Serverless + container hybrid</strong> — Lambda runs the lightweight API; Fargate runs the long-running, CPU-heavy ffmpeg. Each layer uses the right compute model.</li>
       <li><strong>Real-time without coupling</strong> — a DynamoDB Stream → Lambda → WebSocket pushes status to the client; the worker never needs to know about the transport.</li>
       <li><strong>Private by default</strong> — CloudFront with Origin Access Control keeps the streaming bucket fully private; the browser only ever talks to the CDN.</li>
-      <li><strong>Cost-aware by design</strong> — per-transcode Fargate cost is computed and shown, making the economics of the architecture visible.</li>
+      <li><strong>Cost-aware by design</strong> — <Picture></Picture>er-transcode Fargate cost is computed and shown, making the economics of the architecture visible.</li>
     </ul>
 
     <h2>Engineering decisions &amp; trade-offs</h2>
@@ -160,8 +160,8 @@
     <h2>What I'd change at scale</h2>
     <p>The demo deliberately optimizes for cost and clarity. Honest production trade-offs:</p>
     <ul>
-      <li><strong>AWS Elemental MediaConvert</strong> instead of self-managed ffmpeg — less operational surface, per-job billing.</li>
-      <li><strong>Private subnets + VPC endpoints</strong> for the workers — defense-in-depth over the public-subnet demo.</li>
+      <li><strong>AWS Elemental MediaConvert</strong> instead of self-managed ffmpeg with less operational surface, per-job billing.</li>
+      <li><strong>Private subnets + VPC endpoints</strong> for the workers; defense-in-depth over the public-subnet demo.</li>
       <li><strong>A GSI on <em>created_at</em></strong> instead of a Scan for the library listing.</li>
       <li><strong>CloudFront + auth</strong> in front of the API, and signed URLs / cookies on the streaming bucket.</li>
       <li><strong>Multi-region</strong> streaming origins with latency-based routing.</li>
