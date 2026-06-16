@@ -249,7 +249,7 @@
         </div>
 
         <div class="project-info">          <h3 class="project-title">RabbitHole</h3>
-          <div class="project-kicker">Event-driven video-streaming platform</div>
+          <div class="project-kicker">AI-augmented, event-driven video platform</div>
 
           <p class="project-desc">
             Upload a video and an autoscaling fleet of Fargate workers transcodes it into adaptive-bitrate HLS,
@@ -258,9 +258,10 @@
           </p>
 
           <p class="project-desc">
-            The async-workload story end to end: presigned direct-to-S3 upload → EventBridge → SQS → Fargate
-            ffmpeg → multi-rendition HLS → CloudFront, with real-time updates from DynamoDB Streams and
-            per-transcode cost surfaced in the UI.
+            On that backbone, real AI: Claude <em>vision</em> auto-titles clips, AWS Transcribe makes speech
+            searchable, and a local embedding model powers <strong>cross-video semantic search</strong> — find
+            the exact moment a phrase is spoken and jump to it. Shipped through OIDC-based CI/CD with remote-state
+            Terraform, a coverage-gated test suite, and a dashboard that tracks cost per transcode.
           </p>
 
           <div class="project-tags">
@@ -268,9 +269,9 @@
             <span>FastAPI · Lambda</span>
             <span>ECS Fargate · ffmpeg</span>
             <span>EventBridge · SQS</span>
-            <span>DynamoDB Streams · WebSocket</span>
-            <span>CloudFront</span>
-            <span>Terraform</span>
+            <span>Claude vision · Transcribe</span>
+            <span>Semantic search · embeddings</span>
+            <span>Terraform · OIDC CI/CD</span>
           </div>
 
           <div class="project-links">
@@ -406,7 +407,7 @@
             <ul class="exp-pts">
               <li>Built QuicLens, a multi-tenant research analytics platform for experimental lab data.</li>
               <li>Built PureZen, an AI-powered booking concierge for service discovery and appointment workflows.</li>
-              <li> Built RabbitHole, </li>
+              <li>Built RabbitHole, an event-driven, AI-augmented video platform on AWS — autoscaling transcode, speech-to-text, and cross-video semantic search, shipped through OIDC-based CI/CD.</li>
               <li>Owned product direction, data modeling, API design, React interfaces, authentication, and deployment.</li>
               <li>Applied enterprise IT experience to design for supportability, documentation, ownership, and long-term use.</li>
             </ul>
