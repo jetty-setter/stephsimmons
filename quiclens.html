@@ -147,7 +147,7 @@
       </div>
       <div class="arch-side"><b>WorkOS</b> &nbsp;enterprise SSO / multi-tenant auth</div>
     </div>
-    <p><strong>Frontend</strong> — React + TypeScript (Vite), Plotly for data-viz, served as a static build from S3 behind CloudFront with Origin Access Control and HTTPS redirect.</p>
+    <p><strong>Frontend</strong> — React + TypeScript (Vite) with hand-built SVG charts for the fluorescence-kinetics and dose-response visualizations, served as a static build from S3 behind CloudFront with Origin Access Control and HTTPS redirect.</p>
     <p><strong>Backend</strong> — FastAPI (Python) packaged as a container image and run on AWS Lambda via Mangum, fronted by API Gateway. Clean layered structure: api/routes → services → models, with a dedicated analysis layer.</p>
     <p><strong>Data</strong> — DynamoDB with per-tenant partitioning and GSIs; an encrypted S3 bucket (retain-on-delete) for archived plate data.</p>
     <p><strong>Auth</strong> — WorkOS AuthKit for enterprise SSO and multi-tenant identity.</p>
@@ -172,7 +172,7 @@
     <h2>Stack at a glance</h2>
     <table>
       <tr><th>Layer</th><th>Tech</th></tr>
-      <tr><td>Frontend</td><td>React, TypeScript, Vite, Plotly, Tailwind</td></tr>
+      <tr><td>Frontend</td><td>React, TypeScript, Vite, Tailwind, custom SVG charts</td></tr>
       <tr><td>Backend</td><td>Python, FastAPI, Mangum</td></tr>
       <tr><td>Data</td><td>DynamoDB, S3 (encrypted)</td></tr>
       <tr><td>Analysis</td><td>pandas, NumPy, SciPy</td></tr>
