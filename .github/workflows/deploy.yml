@@ -1,0 +1,49 @@
+name: Deploy
+
+# Publish the static site on every push to main: sync to its S3 origin and
+# invalidate CloudFront. Auth is a least-privilege role assumed via GitHub OIDC
+# (no static AWS keys), trusted only by this repo's main branch.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-site
+  cancel-in-progress: true
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: us-east-1
+  ROLE_ARN: arn:aws:iam::936922781601:role/stephsimmons-site-deploy
+  BUCKET: stephsimmons-site-prod
+  DISTRIBUTION_ID: E38YI0DD9S3RRK
+
+jobs:
+  deploy:
+    name: Sync + invalidate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Sync site to S3
+        run: |
+          aws s3 sync . "s3://$BUCKET/" --delete \
+            --exclude ".git/*" \
+            --exclude ".github/*" \
+            --exclude ".gitignore" \
+            --exclude "README*" \
+            --exclude "**/.DS_Store"
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "$DISTRIBUTION_ID" --paths "/*" >/dev/null
