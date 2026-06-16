@@ -92,8 +92,9 @@
     <div class="cs-callout">
       A concept build for a fictional spa brand, architected and built solo. Fully serverless on AWS
       <strong>API Gateway, Lambda, S3, CloudFront, and DynamoDB</strong> using <strong>Anthropic's Claude</strong>
-      powering the conversational and agentic layers, all defined in <strong>AWS CDK</strong>. Live demo:
-      <a href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener">purezen.stephsimmons.dev ↗</a> ·
+      powering the conversational and agentic layers, all defined in <strong>AWS CDK</strong>. Live demos:
+      <a href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener">guest concierge ↗</a> ·
+      <a href="https://purezen.stephsimmons.dev/admin.html" target="_blank" rel="noopener">admin console (read-only) ↗</a> ·
       Code: <a href="https://github.com/jetty-setter/purezen" target="_blank" rel="noopener">GitHub ↗</a>
     </div>
 
@@ -106,6 +107,7 @@
     <p>A chat-first booking experience. Guests describe what they want in plain language (“A deep-tissue massage next Tuesday afternoon”); the system resolves the service against the real catalog, checks live availability, and walks them through booking, rescheduling, cancelling, or reviewing past appointments. The conversation state persists per session.</p>
     <h3>Administrative console</h3>
     <p>A staff portal with dashboards for daily overview, schedule, guests, users, and analytics. plus an <strong>AI assistant that answers operational questions by querying live data</strong> (“How many bookings tomorrow?”, “What are this week’s trends?”, “Show me this guest’s history”). Each answer is produced from a real database query, not the model’s memory.</p>
+    <p>You can explore it yourself — the <a href="https://purezen.stephsimmons.dev/admin.html" target="_blank" rel="noopener" style="color:var(--acid);text-decoration:none">admin console ↗</a> opens in a read-only demo: every dashboard and the AI assistant are live, while changes are disabled so the shared data stays intact.</p>
 
     <h2>Architecture</h2>
     <p>A fully serverless design on AWS with no servers to patch, automatic scaling, and pay-per-request economics that scale to zero when idle. The static frontend is delivered from S3 via CloudFront; API traffic flows through API Gateway to a containerized Lambda.</p>
@@ -215,7 +217,8 @@
 
     <div class="cs-foot">
       <strong style="color:var(--text)">My role</strong> — Architect and engineer: serverless architecture (API Gateway, Lambda, S3, CloudFront), DynamoDB data modeling, the FastAPI backend, the grounded concierge and the agentic admin assistant on Anthropic's Claude, the frontend, and the AWS CDK deployment.<br><br>
-      <a href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener">View live demo ↗</a> &nbsp;·&nbsp;
+      <a href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener">Guest concierge ↗</a> &nbsp;·&nbsp;
+      <a href="https://purezen.stephsimmons.dev/admin.html" target="_blank" rel="noopener">Admin console (read-only) ↗</a> &nbsp;·&nbsp;
       <a href="https://github.com/jetty-setter/purezen" target="_blank" rel="noopener">View code ↗</a> &nbsp;·&nbsp;
       <a href="index.html#contact">Get in touch ↗</a>
     </div>
