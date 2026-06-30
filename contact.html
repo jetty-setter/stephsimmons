@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contact — Steph Simmons</title>
+<meta name="description" content="Get in touch with Steph Simmons — open to remote Cloud Engineer and Platform Engineer roles. Email, LinkedIn, and GitHub.">
+<meta property="og:title" content="Contact — Steph Simmons">
+<meta property="og:description" content="Open to remote Cloud Engineer and Platform Engineer roles. Reach out via email, LinkedIn, or GitHub.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stephsimmons.dev/contact.html">
+<meta property="og:image" content="https://stephsimmons.dev/assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact — Steph Simmons">
+<meta name="twitter:description" content="Open to remote Cloud Engineer and Platform Engineer roles. Reach out via email, LinkedIn, or GitHub.">
+<meta name="twitter:image" content="https://stephsimmons.dev/assets/og-card.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
@@ -186,13 +196,69 @@ html, body {
   background: var(--border);
 }
 
+.resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 48px;
+  padding: 12px 28px;
+  border: 1.5px solid var(--coral);
+  color: var(--coral);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.resume-btn:hover {
+  background: var(--coral);
+  color: var(--bg);
+}
+
 @media (max-width: 700px) {
   .nav { padding: 24px; }
-  .nav-links { display: none; }
   .statement { font-size: 32px; }
   .links { gap: 28px; flex-direction: column; }
   .divider { display: none; }
+  .hamburger { display: flex; }
+  .nav-links {
+    position: fixed;
+    inset: 0;
+    background: rgba(8,10,15,0.97);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    display: none;
+    z-index: 15;
+  }
+  .nav-links.open { display: flex; }
+  .nav-link { font-size: 16px; letter-spacing: 3px; }
 }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 20;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--white);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 </style>
 </head>
 <body>
@@ -210,6 +276,9 @@ html, body {
     <a class="nav-link active" href="contact.html">Contact</a>
     <a class="nav-link" href="https://github.com/jetty-setter" target="_blank">GitHub</a>
   </div>
+  <button class="hamburger" aria-label="Toggle navigation" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <div class="page">
@@ -245,6 +314,10 @@ html, body {
         <span class="link-value">jetty-setter</span>
       </a>
     </div>
+
+    <a class="resume-btn fade d3" href="assets/steph-simmons-resume.pdf" download>
+      ↓ Download Resume
+    </a>
 
   </div>
 </div>

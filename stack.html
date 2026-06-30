@@ -4,6 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Stack — Steph Simmons</title>
+<meta name="description" content="Steph Simmons's tech stack — AWS (Lambda, ECS Fargate, CDK), Python, FastAPI, React, TypeScript, Anthropic Claude API, and more.">
+<meta property="og:title" content="Stack — Steph Simmons">
+<meta property="og:description" content="Steph Simmons's tech stack — AWS, Python, FastAPI, React, TypeScript, and AI/ML tools.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://stephsimmons.dev/stack.html">
+<meta property="og:image" content="https://stephsimmons.dev/assets/og-card.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Stack — Steph Simmons">
+<meta name="twitter:description" content="Steph Simmons's tech stack — AWS, Python, FastAPI, React, TypeScript, and AI/ML tools.">
+<meta name="twitter:image" content="https://stephsimmons.dev/assets/og-card.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
@@ -209,10 +219,45 @@ body { overflow-x: hidden; }
 
 @media (max-width: 600px) {
   .page { padding: 120px 24px 80px; }
-  .nav-links { display: none; }
   .stack-statement { font-size: 36px; }
   .cat-title { font-size: 24px; }
+  .hamburger { display: flex; }
+  .nav-links {
+    position: fixed;
+    inset: 0;
+    background: rgba(8,10,15,0.97);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    display: none;
+    z-index: 15;
+  }
+  .nav-links.open { display: flex; }
+  .nav-link { font-size: 16px; letter-spacing: 3px; }
 }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  z-index: 20;
+}
+.hamburger span {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--white);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 </style>
 </head>
 <body>
@@ -230,6 +275,9 @@ body { overflow-x: hidden; }
     <a class="nav-link" href="contact.html">Contact</a>
     <a class="nav-link" href="https://github.com/jetty-setter" target="_blank">GitHub</a>
   </div>
+  <button class="hamburger" aria-label="Toggle navigation" onclick="this.classList.toggle('open');document.querySelector('.nav-links').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <div class="page">
