@@ -293,6 +293,19 @@ h1.hero-name .dot {
 }
 @keyframes blip { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
 
+.hero-cta { margin-top: 2rem; }
+.hero-resume-btn {
+  display: inline-flex; align-items: center; gap: .5rem;
+  font-family: var(--mono); font-size: .68rem;
+  letter-spacing: .12em; text-transform: uppercase;
+  color: var(--acid); border: 1px solid rgba(255,90,60,.4);
+  border-radius: 6px; padding: .65rem 1.25rem;
+  transition: background .2s, color .2s, border-color .2s;
+}
+.hero-resume-btn:hover {
+  background: var(--acid); color: var(--bg); border-color: var(--acid);
+}
+
 .hero-footer { border-top: 1px solid var(--line); padding: 1.1rem var(--pad); }
 .hero-scroll-inner {
   max-width: var(--max); margin: 0 auto;
