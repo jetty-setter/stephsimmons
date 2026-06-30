@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Steph Simmons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --coral:  #e8522a;
+  --purple: #a44dff;
+  --bg:     #080a0f;
+  --white:  #ffffff;
+  --gray-1: #cccccc;
+  --gray-2: #888888;
+  --border: rgba(255,255,255,0.08);
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--bg);
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--white);
+  overflow: hidden;
+}
+
+#neb {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 0; pointer-events: none; opacity: 0;
+}
+
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 36px 48px;
+  background: linear-gradient(to bottom, rgba(8,10,15,0.95) 0%, transparent 100%);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(22px, 2.5vw, 32px);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.nav-logo .solid { color: var(--white); }
+.nav-logo .ghost {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.88);
+}
+
+.nav-links { display: flex; gap: 32px; }
+
+.nav-link {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--white);
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--coral);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after { width: 100%; }
+.nav-link.active { color: var(--coral); }
+
+.page {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  max-width: 720px;
+  padding: 0 48px;
+  text-align: center;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+.fade.d1 { animation-delay: 0.1s; }
+.fade.d2 { animation-delay: 0.3s; }
+.fade.d3 { animation-delay: 0.5s; }
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 22px;
+}
+
+.statement {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 5.5vw, 72px);
+  line-height: 1.05;
+  letter-spacing: 1px;
+  margin-bottom: 28px;
+}
+
+.statement .accent { color: var(--coral); }
+
+.body {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--gray-1);
+  max-width: 520px;
+  margin: 0 auto 56px;
+}
+
+.links {
+  display: flex;
+  gap: 56px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.link-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--white);
+}
+
+.link-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gray-2);
+}
+
+.link-value {
+  font-size: 16px;
+  font-weight: 500;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.link-value::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--coral);
+  transition: width 0.3s ease;
+}
+
+.link-item:hover .link-value::after { width: 100%; }
+.link-item:hover .link-value { color: var(--coral); }
+
+.divider {
+  width: 1px;
+  height: 36px;
+  background: var(--border);
+}
+
+@media (max-width: 700px) {
+  .nav { padding: 24px; }
+  .nav-links { display: none; }
+  .statement { font-size: 32px; }
+  .links { gap: 28px; flex-direction: column; }
+  .divider { display: none; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="neb" aria-hidden="true"></canvas>
+
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <span class="solid">Steph&nbsp;</span><span class="ghost">Simmons</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="projects.html">Projects</a>
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="stack.html">Stack</a>
+    <a class="nav-link active" href="contact.html">Contact</a>
+    <a class="nav-link" href="https://github.com/jetty-setter" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<div class="page">
+  <div class="content">
+
+    <div class="eyebrow fade d1">Contact</div>
+
+    <div class="statement fade d1">
+      Let's build something<br>that <span class="accent">holds up.</span>
+    </div>
+
+    <p class="body fade d2">
+      Open to remote Cloud Engineer and Platform Engineer roles. If you're hiring or just want to talk shop about AWS architecture, reach out.
+    </p>
+
+    <div class="links fade d3">
+      <a class="link-item" href="mailto:ssimmons86@icloud.com">
+        <span class="link-label">Email</span>
+        <span class="link-value">ssimmons86@icloud.com</span>
+      </a>
+
+      <div class="divider"></div>
+
+      <a class="link-item" href="https://linkedin.com/in/ssimmonsne" target="_blank">
+        <span class="link-label">LinkedIn</span>
+        <span class="link-value">in/ssimmonsne</span>
+      </a>
+
+      <div class="divider"></div>
+
+      <a class="link-item" href="https://github.com/jetty-setter" target="_blank">
+        <span class="link-label">GitHub</span>
+        <span class="link-value">jetty-setter</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  const canvas=document.getElementById('neb');
+  if(!canvas||!window.THREE)return;
+  const THREE=window.THREE;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.75));
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(50,1,0.1,100);
+  camera.position.z=4;
+  const BX=2.7,BY=2.1,BZ=1.5;
+  function cw(s){return((Math.random()+Math.random()+Math.random()+Math.random())/4*2-1)*s;}
+  const starTex=(function(){
+    const c=document.createElement('canvas');c.width=c.height=64;
+    const ctx=c.getContext('2d');
+    const g=ctx.createRadialGradient(32,32,0,32,32,32);
+    g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(0.25,'rgba(255,255,255,0.85)');
+    g.addColorStop(0.5,'rgba(255,255,255,0.35)');g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,64,64);
+    const tex=new THREE.CanvasTexture(c);tex.needsUpdate=true;return tex;
+  })();
+  function layer(count,color,size,opacity,blending){
+    const pos=new Float32Array(count*3),spd=new Float32Array(count);
+    for(let i=0;i<count;i++){pos[i*3]=cw(BX);pos[i*3+1]=cw(BY);pos[i*3+2]=cw(BZ);spd[i]=0.6+Math.random()*1.0;}
+    const g=new THREE.BufferGeometry();
+    g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    const m=new THREE.PointsMaterial({color,size:size*1.7,sizeAttenuation:true,transparent:true,opacity,depthWrite:false,map:starTex,blending:blending||THREE.NormalBlending});
+    const p=new THREE.Points(g,m);scene.add(p);
+    return{pts:p,geo:g,mat:m,spd,count,baseOp:opacity,tw:Math.random()*6.28};
+  }
+  const layers=[
+    layer(1800,0xeae8e3,0.015,0.9),layer(520,0x9a9a9a,0.021,0.6),
+    layer(340,0xff5a3c,0.030,0.95,THREE.AdditiveBlending),layer(300,0xa44dff,0.028,0.9,THREE.AdditiveBlending),
+    layer(40,0xff5a3c,0.085,0.9,THREE.AdditiveBlending),layer(20,0xb14cff,0.072,0.85,THREE.AdditiveBlending),
+  ];
+  function flow(x,y,z,t,o){const s=0.85;o[0]=Math.sin(y*s+t)+Math.cos(z*s*1.3-t*0.7);o[1]=Math.sin(z*s*1.1+t*0.8)+Math.cos(x*s*0.9+t);o[2]=(Math.sin(x*s*1.2-t)+Math.cos(y*s*1.05+t*0.6))*0.5;}
+  function resize(){const w=window.innerWidth,h=window.innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+  resize();window.addEventListener('resize',resize,{passive:true});
+  let hasMouse=false,mwx=0,mwy=0;
+  window.addEventListener('pointermove',e=>{hasMouse=true;mwx=((e.clientX/window.innerWidth)*2-1)*BX;mwy=-(((e.clientY/window.innerHeight)*2-1)*BY);},{passive:true});
+  const grp=new THREE.Group();layers.forEach(L=>grp.add(L.pts));scene.add(grp);
+  const v=[0,0,0];let t=0;
+  function loop(){
+    t+=0.004;const speed=0.006;
+    for(const L of layers){
+      const a=L.geo.attributes.position.array;
+      for(let i=0;i<L.count;i++){const ix=i*3;let x=a[ix],y=a[ix+1],z=a[ix+2];
+        flow(x,y,z,t,v);const sp=speed*L.spd[i];x+=v[0]*sp;y+=v[1]*sp;z+=v[2]*sp;
+        if(hasMouse){const dx=x-mwx,dy=y-mwy,d2=dx*dx+dy*dy;if(d2<0.8){const f=(0.8-d2)*0.06;x+=dx*f;y+=dy*f;}}
+        if(x>BX)x-=BX*2;else if(x<-BX)x+=BX*2;
+        if(y>BY)y-=BY*2;else if(y<-BY)y+=BY*2;
+        if(z>BZ)z-=BZ*2;else if(z<-BZ)z+=BZ*2;
+        a[ix]=x;a[ix+1]=y;a[ix+2]=z;}
+      L.geo.attributes.position.needsUpdate=true;
+      L.mat.opacity=L.baseOp*(0.78+0.22*Math.sin(t*1.6+L.tw));
+    }
+    grp.rotation.z=t*0.05;grp.rotation.x=Math.sin(t*0.3)*0.04;grp.position.y=Math.sin(t*0.4)*0.05;
+    renderer.render(scene,camera);requestAnimationFrame(loop);
+  }
+  loop();
+  setTimeout(()=>{
+    canvas.style.transition='opacity 1.5s ease';canvas.style.opacity='0.95';
+    layers.forEach((L,i)=>{L.pts.scale.set(0.35,0.35,0.35);const start=performance.now(),dur=2000+i*150;
+      function sc(){const p=Math.min(1,(performance.now()-start)/dur),val=0.35+0.65*p;L.pts.scale.set(val,val,val);if(p<1)requestAnimationFrame(sc);}
+      requestAnimationFrame(sc);});
+  },300);
+})();
+</script>
+</body>
+</html>
