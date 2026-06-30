@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Steph Simmons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --coral:  #e8522a;
+  --purple: #a44dff;
+  --bg:     #080a0f;
+  --white:  #ffffff;
+  --gray-1: #cccccc;
+  --gray-2: #888888;
+  --gray-3: #444444;
+  --border: rgba(255,255,255,0.08);
+}
+
+html, body {
+  width: 100%;
+  background: var(--bg);
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--white);
+}
+
+body { overflow-x: hidden; }
+
+#neb {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 0; pointer-events: none; opacity: 0;
+}
+
+/* NAV */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 36px 48px;
+  background: linear-gradient(to bottom, rgba(8,10,15,0.95) 0%, transparent 100%);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(22px, 2.5vw, 32px);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.nav-logo .solid { color: var(--white); }
+.nav-logo .ghost {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.88);
+}
+
+.nav-links { display: flex; gap: 32px; }
+
+.nav-link {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--white);
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--coral);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after { width: 100%; }
+.nav-link.active { color: var(--coral); }
+
+/* PAGE */
+.page {
+  position: relative;
+  z-index: 1;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 150px 48px 100px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade { opacity: 0; animation: fadeUp 0.7s ease forwards; }
+.fade.d1 { animation-delay: 0.1s; }
+.fade.d2 { animation-delay: 0.25s; }
+.fade.d3 { animation-delay: 0.4s; }
+
+/* HERO STATEMENT */
+.hero-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 64px;
+  margin-bottom: 110px;
+}
+
+.eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 18px;
+}
+
+.hero-statement {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+
+.hero-body {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--gray-1);
+  max-width: 540px;
+}
+
+.hero-body strong { color: var(--white); font-weight: 600; }
+
+/* CREDENTIALS PANEL */
+.cred-panel {
+  border-left: 1px solid var(--border);
+  padding-left: 40px;
+}
+
+.cred-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gray-2);
+  margin-bottom: 20px;
+}
+
+.cred-item {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cred-item:first-of-type { padding-top: 0; }
+
+.cred-name {
+  font-size: 13px;
+  color: var(--white);
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.cred-sub {
+  font-size: 11px;
+  color: var(--gray-2);
+}
+
+.cred-tag {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-top: 6px;
+}
+
+/* SECTION */
+.section {
+  margin-bottom: 90px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.section-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 1px;
+  color: var(--white);
+}
+
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* TIMELINE */
+.timeline-item {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 32px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.timeline-item:first-child { padding-top: 0; }
+.timeline-item:last-child { border-bottom: none; }
+
+.tl-dates {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: var(--coral);
+  text-transform: uppercase;
+  padding-top: 3px;
+}
+
+.tl-role {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--white);
+  margin-bottom: 4px;
+}
+
+.tl-company {
+  font-size: 12px;
+  color: var(--gray-2);
+  margin-bottom: 12px;
+}
+
+.tl-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--gray-1);
+  max-width: 640px;
+}
+
+/* INDEPENDENT WORK CALLOUT */
+.indie-callout {
+  background: rgba(232,82,42,0.04);
+  border: 1px solid rgba(232,82,42,0.18);
+  border-radius: 4px;
+  padding: 24px 28px;
+  margin-bottom: 32px;
+}
+
+.indie-tag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 8px;
+}
+
+.indie-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--gray-1);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero-row { grid-template-columns: 1fr; gap: 40px; }
+  .cred-panel { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 32px; }
+  .timeline-item { grid-template-columns: 1fr; gap: 8px; }
+  .nav { padding: 24px; }
+  .nav-links { gap: 18px; }
+  .nav-link { font-size: 9px; letter-spacing: 1px; }
+}
+
+@media (max-width: 600px) {
+  .page { padding: 120px 24px 80px; }
+  .nav-links { display: none; }
+  .hero-statement { font-size: 38px; }
+  .section-title { font-size: 22px; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="neb" aria-hidden="true"></canvas>
+
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <span class="solid">Steph&nbsp;</span><span class="ghost">Simmons</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link" href="projects.html">Projects</a>
+    <a class="nav-link active" href="about.html">About</a>
+    <a class="nav-link" href="stack.html">Stack</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+    <a class="nav-link" href="https://github.com/jetty-setter" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="hero-row">
+    <div class="fade d1">
+      <div class="eyebrow">About</div>
+      <div class="hero-statement">I build things that hold up after launch.</div>
+      <p class="hero-body">
+        Cloud Engineer and AWS Solutions Architect with a decade of enterprise IT experience and a portfolio of production systems built end-to-end on AWS, across isolated accounts, with CDK infrastructure-as-code, OIDC-based CI/CD, and cross-account observability.
+      </p>
+      <br>
+      <p class="hero-body">
+        I work across the full stack: event-driven serverless backends, ECS Fargate container workloads, React frontends, and AI integrations using Anthropic Claude and Ollama. <strong>RabbitHole</strong>, <strong>QuicLens</strong>, and <strong>PureZen</strong> are all shipped, all in production, all demoable.
+      </p>
+      <br>
+      <p class="hero-body">
+        My enterprise IT background shapes how I design. Systems that are observable, documented, supportable, and built for the people who will own them long after I'm gone.
+      </p>
+    </div>
+
+    <div class="cred-panel fade d2">
+      <div class="cred-label">Credentials</div>
+
+      <div class="cred-item">
+        <div class="cred-name">AWS Solutions Architect &ndash; Associate</div>
+        <div class="cred-sub">Amazon Web Services</div>
+        <div class="cred-tag">Certified 2026</div>
+      </div>
+
+      <div class="cred-item">
+        <div class="cred-name">MS, Management Information Systems + MBA</div>
+        <div class="cred-sub">University of Nebraska &ndash; Omaha</div>
+        <div class="cred-tag">2024 &ndash; 2026</div>
+      </div>
+
+      <div class="cred-item">
+        <div class="cred-name">BS, Management Information Systems</div>
+        <div class="cred-sub">University of Nebraska &ndash; Omaha</div>
+        <div class="cred-tag">2020 &ndash; 2023</div>
+      </div>
+
+      <div class="cred-item" style="border-bottom:none;">
+        <div class="cred-name">Systems Development Certificate</div>
+        <div class="cred-sub">University of Nebraska &ndash; Omaha</div>
+        <div class="cred-tag">2023</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INDEPENDENT WORK -->
+  <div class="section fade d3">
+    <div class="section-head">
+      <div class="section-title">Independent Work</div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="indie-callout">
+      <div class="indie-tag">2021 &ndash; Present &middot; Cloud &amp; Product Engineering</div>
+      <p class="indie-desc">
+        Designing and shipping cloud-native products end-to-end alongside a full-time enterprise IT role. All three projects deployed across isolated AWS accounts with CDK infrastructure-as-code and OIDC-based CI/CD. Built RabbitHole, an AI-augmented video platform; co-founded QuicLens, a multi-tenant research analytics SaaS; and built PureZen, a fully serverless AI booking platform, as an AWS Academy capstone later rebuilt outside those constraints.
+      </p>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div class="section">
+    <div class="section-head">
+      <div class="section-title">Experience</div>
+      <div class="section-line"></div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="tl-dates">2025 &ndash; Present</div>
+      <div>
+        <div class="tl-role">IS Supervisor</div>
+        <div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div>
+        <div class="tl-desc">Lead enterprise IT service desk operations, with responsibility for direct reports, team performance, operational excellence, and cross-functional alignment across enterprise support functions. Coach analyst performance, strengthen process and documentation, and partner with technical teams to prepare the organization for upcoming change.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="tl-dates">2022 &ndash; 2025</div>
+      <div>
+        <div class="tl-role">Technical Lead &middot; Scrum Master</div>
+        <div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div>
+        <div class="tl-desc">Owned technical work intake, dependency management, and delivery execution across engineering, infrastructure, identity, and security in a large enterprise environment. Facilitated sprint planning and release readiness across multiple teams, and built KPI dashboards visualizing delivery trends and risk for leadership.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="tl-dates">2019 &ndash; 2022</div>
+      <div>
+        <div class="tl-role">Business Systems Consultant &middot; Scrum Master</div>
+        <div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div>
+        <div class="tl-desc">Translated business requirements into detailed technical stories for engineering, infrastructure, and application teams. Partnered with security and data teams on compliance and integration requirements across multi-team delivery streams.</div>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="tl-dates">2015 &ndash; 2019</div>
+      <div>
+        <div class="tl-role">Senior Service Desk Analyst</div>
+        <div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div>
+        <div class="tl-desc">Provided advanced troubleshooting across applications, platforms, and infrastructure in a high-volume enterprise environment. Authored knowledge content that improved engineering ticket quality, and led onboarding and training programs for incoming analysts.</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  const canvas=document.getElementById('neb');
+  if(!canvas||!window.THREE)return;
+  const THREE=window.THREE;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.75));
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(50,1,0.1,100);
+  camera.position.z=4;
+  const BX=2.7,BY=2.1,BZ=1.5;
+  function cw(s){return((Math.random()+Math.random()+Math.random()+Math.random())/4*2-1)*s;}
+  const starTex=(function(){
+    const c=document.createElement('canvas');c.width=c.height=64;
+    const ctx=c.getContext('2d');
+    const g=ctx.createRadialGradient(32,32,0,32,32,32);
+    g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(0.25,'rgba(255,255,255,0.85)');
+    g.addColorStop(0.5,'rgba(255,255,255,0.35)');g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,64,64);
+    const tex=new THREE.CanvasTexture(c);tex.needsUpdate=true;return tex;
+  })();
+  function layer(count,color,size,opacity,blending){
+    const pos=new Float32Array(count*3),spd=new Float32Array(count);
+    for(let i=0;i<count;i++){pos[i*3]=cw(BX);pos[i*3+1]=cw(BY);pos[i*3+2]=cw(BZ);spd[i]=0.6+Math.random()*1.0;}
+    const g=new THREE.BufferGeometry();
+    g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    const m=new THREE.PointsMaterial({color,size:size*1.7,sizeAttenuation:true,transparent:true,opacity,depthWrite:false,map:starTex,blending:blending||THREE.NormalBlending});
+    const p=new THREE.Points(g,m);scene.add(p);
+    return{pts:p,geo:g,mat:m,spd,count,baseOp:opacity,tw:Math.random()*6.28};
+  }
+  const layers=[
+    layer(1800,0xeae8e3,0.015,0.9),layer(520,0x9a9a9a,0.021,0.6),
+    layer(340,0xff5a3c,0.030,0.95,THREE.AdditiveBlending),layer(300,0xa44dff,0.028,0.9,THREE.AdditiveBlending),
+    layer(40,0xff5a3c,0.085,0.9,THREE.AdditiveBlending),layer(20,0xb14cff,0.072,0.85,THREE.AdditiveBlending),
+  ];
+  function flow(x,y,z,t,o){const s=0.85;o[0]=Math.sin(y*s+t)+Math.cos(z*s*1.3-t*0.7);o[1]=Math.sin(z*s*1.1+t*0.8)+Math.cos(x*s*0.9+t);o[2]=(Math.sin(x*s*1.2-t)+Math.cos(y*s*1.05+t*0.6))*0.5;}
+  function resize(){const w=window.innerWidth,h=window.innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+  resize();window.addEventListener('resize',resize,{passive:true});
+  let hasMouse=false,mwx=0,mwy=0;
+  window.addEventListener('pointermove',e=>{hasMouse=true;mwx=((e.clientX/window.innerWidth)*2-1)*BX;mwy=-(((e.clientY/window.innerHeight)*2-1)*BY);},{passive:true});
+  const grp=new THREE.Group();layers.forEach(L=>grp.add(L.pts));scene.add(grp);
+  const v=[0,0,0];let t=0;
+  function loop(){
+    t+=0.004;const speed=0.006;
+    for(const L of layers){
+      const a=L.geo.attributes.position.array;
+      for(let i=0;i<L.count;i++){const ix=i*3;let x=a[ix],y=a[ix+1],z=a[ix+2];
+        flow(x,y,z,t,v);const sp=speed*L.spd[i];x+=v[0]*sp;y+=v[1]*sp;z+=v[2]*sp;
+        if(hasMouse){const dx=x-mwx,dy=y-mwy,d2=dx*dx+dy*dy;if(d2<0.8){const f=(0.8-d2)*0.06;x+=dx*f;y+=dy*f;}}
+        if(x>BX)x-=BX*2;else if(x<-BX)x+=BX*2;
+        if(y>BY)y-=BY*2;else if(y<-BY)y+=BY*2;
+        if(z>BZ)z-=BZ*2;else if(z<-BZ)z+=BZ*2;
+        a[ix]=x;a[ix+1]=y;a[ix+2]=z;}
+      L.geo.attributes.position.needsUpdate=true;
+      L.mat.opacity=L.baseOp*(0.78+0.22*Math.sin(t*1.6+L.tw));
+    }
+    grp.rotation.z=t*0.05;grp.rotation.x=Math.sin(t*0.3)*0.04;grp.position.y=Math.sin(t*0.4)*0.05;
+    renderer.render(scene,camera);requestAnimationFrame(loop);
+  }
+  loop();
+  setTimeout(()=>{
+    canvas.style.transition='opacity 1.5s ease';canvas.style.opacity='0.95';
+    layers.forEach((L,i)=>{L.pts.scale.set(0.35,0.35,0.35);const start=performance.now(),dur=2000+i*150;
+      function sc(){const p=Math.min(1,(performance.now()-start)/dur),val=0.35+0.65*p;L.pts.scale.set(val,val,val);if(p<1)requestAnimationFrame(sc);}
+      requestAnimationFrame(sc);});
+  },300);
+})();
+</script>
+</body>
+</html>

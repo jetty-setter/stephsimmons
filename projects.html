@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Steph Simmons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --coral:  #e8522a;
+  --purple: #a44dff;
+  --bg:     #080a0f;
+  --white:  #ffffff;
+  --gray-1: #cccccc;
+  --gray-2: #777777;
+  --gray-3: #333333;
+}
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--bg);
+  overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--white);
+}
+
+#neb {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  z-index: 0; pointer-events: none; opacity: 0;
+}
+
+/* NAV */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 36px 48px;
+  background: linear-gradient(to bottom, rgba(8,10,15,0.95) 0%, transparent 100%);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(22px, 2.5vw, 32px);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.nav-logo .solid { color: var(--white); }
+.nav-logo .ghost {
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255,255,255,0.88);
+}
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+}
+
+.nav-link {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--white);
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 0; height: 1.5px;
+  background: var(--coral);
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after { width: 100%; }
+.nav-link.active { color: var(--coral); }
+
+/* SLIDER */
+.slider {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+.track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.slide {
+  width: 100vw;
+  height: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 110px 80px 50px;
+  gap: 72px;
+}
+
+/* CONTENT */
+.slide-content {
+  flex: 1;
+  max-width: 460px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+}
+
+.slide.active .slide-content {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-num {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: var(--coral);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.slide-type {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 4px;
+}
+
+.slide-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 7vw, 92px);
+  letter-spacing: 2px;
+  line-height: 0.9;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.slide-kicker {
+  font-size: 13px;
+  color: var(--gray-1);
+  line-height: 1.45;
+  margin-bottom: 14px;
+}
+
+.slide-stack {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  color: var(--gray-2);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.slide-bullets {
+  list-style: none;
+  margin-bottom: 18px;
+}
+
+.slide-bullets li {
+  font-size: 12px;
+  color: var(--gray-1);
+  line-height: 1.5;
+  padding-left: 16px;
+  position: relative;
+  margin-bottom: 7px;
+}
+
+.slide-bullets li::before {
+  content: '▪';
+  position: absolute;
+  left: 0;
+  color: var(--coral);
+  font-size: 8px;
+  top: 5px;
+}
+
+.slide-links {
+  display: flex;
+  gap: 24px;
+}
+
+.slide-link {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--white);
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.slide-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%; height: 1px;
+  background: var(--coral);
+}
+
+.slide-link:hover { color: var(--coral); }
+
+.slide-link.private {
+  color: var(--gray-2);
+  cursor: default;
+}
+
+.slide-link.private::after { background: var(--gray-3); }
+
+/* MEDIA */
+.slide-media {
+  flex: 1.1;
+  max-width: 620px;
+  opacity: 0;
+  transform: translateY(20px) scale(0.98);
+  transition: opacity 0.6s ease 0.4s, transform 0.6s ease 0.4s;
+}
+
+.slide.active .slide-media {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.browser-frame {
+  background: #0d1117;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.07);
+  box-shadow: 0 32px 72px rgba(0,0,0,0.65);
+}
+
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: #161b22;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.bd { width: 10px; height: 10px; border-radius: 50%; }
+.bd:nth-child(1) { background: #ff5f57; }
+.bd:nth-child(2) { background: #febc2e; }
+.bd:nth-child(3) { background: #28c840; }
+
+.browser-url {
+  flex: 1; margin-left: 8px;
+  background: #0d1117;
+  border-radius: 4px;
+  height: 22px;
+  display: flex; align-items: center;
+  padding: 0 10px;
+}
+
+.browser-url span {
+  font-size: 10px;
+  color: var(--gray-2);
+  font-family: monospace;
+}
+
+.browser-shot {
+  width: 100%; display: block;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  object-position: top;
+}
+
+/* ARROWS */
+.arrow {
+  position: fixed;
+  top: 50%; transform: translateY(-50%);
+  z-index: 10;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.6);
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.arrow:hover { border-color: var(--coral); color: var(--coral); }
+.arrow.prev { left: 20px; }
+.arrow.next { right: 20px; }
+
+/* DOTS */
+.dots {
+  position: fixed;
+  bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex; gap: 10px; align-items: center;
+}
+
+.dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.dot.active { background: var(--coral); transform: scale(1.4); }
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .slide {
+    flex-direction: column;
+    padding: 90px 32px 80px;
+    gap: 32px;
+    overflow-y: auto;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+  .slide-content { max-width: 100%; }
+  .slide-media { max-width: 100%; width: 100%; }
+  .nav { padding: 20px 24px; }
+  .nav-links { gap: 20px; }
+  .nav-link { font-size: 10px; }
+}
+
+@media (max-width: 600px) {
+  .slide { padding: 80px 20px 80px; }
+  .nav-links { display: none; }
+  .slide-type {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 4px;
+}
+
+.slide-title { font-size: 52px; }
+  .arrow { width: 36px; height: 36px; font-size: 13px; }
+  .arrow.prev { left: 8px; }
+  .arrow.next { right: 8px; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.nav { animation: fadeUp 0.5s ease 0.1s both; }
+.arrow, .dots { animation: fadeUp 0.5s ease 0.4s both; }
+</style>
+</head>
+<body>
+
+<canvas id="neb" aria-hidden="true"></canvas>
+
+<nav class="nav">
+  <a class="nav-logo" href="index.html">
+    <span class="solid">Steph&nbsp;</span><span class="ghost">Simmons</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link active" href="projects.html">Projects</a>
+    <a class="nav-link" href="about.html">About</a>
+    <a class="nav-link" href="stack.html">Stack</a>
+    <a class="nav-link" href="contact.html">Contact</a>
+    <a class="nav-link" href="https://github.com/jetty-setter" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<div class="slider">
+  <div class="track" id="track">
+
+    <!-- RABBITHOLE -->
+    <div class="slide active">
+      <div class="slide-content">
+        <div class="slide-num">01 / 03</div>
+        <div class="slide-type">Personal Project</div>
+        <div class="slide-title">RabbitHole</div>
+        <div class="slide-kicker">An event-driven video platform where uploads trigger an AI-powered processing pipeline — transcoding, speech indexing, and semantic search across your entire library.</div>
+        <div class="slide-stack">ECS Fargate · EventBridge · SQS · Lambda · ffmpeg · Claude Vision · AWS Transcribe · Terraform · OIDC CI/CD · React · FastAPI</div>
+        <ul class="slide-bullets">
+          <li>Chose ECS Fargate over Lambda for transcoding because ffmpeg workloads are CPU-bound and long-running. Lambda's 15-minute limit and cold starts would have killed the experience.</li>
+          <li>Decoupled uploads from processing using EventBridge and SQS so the API layer never blocks. The fleet scales to zero between jobs and the user gets live WebSocket status throughout.</li>
+          <li>Three AI services (Claude Vision, Transcribe, vector embeddings) had to work together without any one failure breaking the pipeline. Built each as an independent async step so partial failures degrade gracefully.</li>
+        </ul>
+        <div class="slide-links">
+          <a class="slide-link" href="https://rabbithole.stephsimmons.dev" target="_blank">Live Demo</a>
+          <a class="slide-link" href="https://github.com/jetty-setter/rabbithole" target="_blank">GitHub</a>
+        </div>
+      </div>
+      <div class="slide-media">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <div class="bd"></div><div class="bd"></div><div class="bd"></div>
+            <div class="browser-url"><span>rabbithole.stephsimmons.dev</span></div>
+          </div>
+          <img class="browser-shot" src="https://stephsimmons.dev/assets/rabbithole.png" alt="RabbitHole">
+        </div>
+      </div>
+    </div>
+
+    <!-- QUICLENS -->
+    <div class="slide">
+      <div class="slide-content">
+        <div class="slide-num">02 / 03</div>
+        <div class="slide-type">Co-Founded · Proprietary</div>
+        <div class="slide-title">QuicLens</div>
+        <div class="slide-kicker">A multi-tenant research analytics SaaS for neurodegenerative disease labs — replacing manual R scripts and Excel with structured, cloud-native plate analysis and audit-ready records.</div>
+        <div class="slide-stack">AWS CDK · Lambda (Docker) · API Gateway · DynamoDB · S3 · CloudFront · WorkOS SSO · Anthropic API · React · TypeScript · FastAPI</div>
+        <ul class="slide-bullets">
+          <li>The hardest constraint wasn't technical, it was that the math had to be right. Built a 92-test scientific validation suite verifying every calculation against Sara's researcher-validated ground truth before a single user touched it.</li>
+          <li>Multi-tenancy meant one misconfigured query could leak one lab's data to another. Enforced isolation at the partition key level in DynamoDB and at the IAM boundary, not just in application logic.</li>
+          <li>Lambda's managed runtime silently failed to load ARM-incompatible scientific libraries with no error at deploy time, only at invocation. Switched to Docker container deployment to control the runtime environment and eliminate the dependency on Lambda's assumptions.</li>
+        </ul>
+        <div class="slide-links">
+          <a class="slide-link" href="https://quiclens.stephsimmons.dev" target="_blank">Live Demo</a>
+          <a class="slide-link private">Code Private</a>
+        </div>
+      </div>
+      <div class="slide-media">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <div class="bd"></div><div class="bd"></div><div class="bd"></div>
+            <div class="browser-url"><span>quiclens.stephsimmons.dev</span></div>
+          </div>
+          <img class="browser-shot" src="https://stephsimmons.dev/assets/quiclens.png" alt="QuicLens">
+        </div>
+      </div>
+    </div>
+
+    <!-- PUREZEN -->
+    <div class="slide">
+      <div class="slide-content">
+        <div class="slide-num">03 / 03</div>
+        <div class="slide-type">AWS Academy Capstone</div>
+        <div class="slide-title">PureZen</div>
+        <div class="slide-kicker">A fully serverless AI spa booking platform with a conversational concierge that takes guests from service discovery to confirmed appointment, grounded in live availability so it physically cannot hallucinate an open slot.</div>
+        <div class="slide-stack">AWS CDK · Lambda · API Gateway · DynamoDB · S3 · CloudFront · Anthropic Claude · Ollama · React · FastAPI</div>
+        <ul class="slide-bullets">
+          <li>PureZen started inside an AWS Academy sandbox with no GPU access and a capped budget, so inference ran on self-hosted Ollama on a CPU-only instance. Generation took 10 to 40 seconds, which is exactly what drove the regex-first routing design. Rebuilding outside those constraints meant replacing Ollama with Anthropic Claude API, which removed the bottleneck and made the fully serverless architecture possible.</li>
+          <li>The admin assistant is built on Anthropic tool use in a structure inspired by the Model Context Protocol: a clean separation between the model, a registry of typed data operations, and the live database behind them. The model decides which data to fetch. The tools guarantee it is always real.</li>
+          <li>The concierge never answers from model memory. Services resolve against the real catalog, availability comes from DynamoDB, and booking actions are deterministic state machines. Claude handles language understanding and phrasing. The regex-first router keeps it off the hot paths entirely for well-formed requests.</li>
+        </ul>
+        <div class="slide-links">
+          <a class="slide-link" href="https://purezen.stephsimmons.dev" target="_blank">Live Demo</a>
+          <a class="slide-link" href="https://github.com/jetty-setter/purezen" target="_blank">GitHub</a>
+        </div>
+      </div>
+      <div class="slide-media">
+        <div class="browser-frame">
+          <div class="browser-bar">
+            <div class="bd"></div><div class="bd"></div><div class="bd"></div>
+            <div class="browser-url"><span>purezen.stephsimmons.dev</span></div>
+          </div>
+          <img class="browser-shot" src="https://stephsimmons.dev/assets/purezen.png" alt="PureZen">
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<button class="arrow prev" id="prev">&#8592;</button>
+<button class="arrow next" id="next">&#8594;</button>
+
+<div class="dots">
+  <button class="dot active" data-idx="0"></button>
+  <button class="dot" data-idx="1"></button>
+  <button class="dot" data-idx="2"></button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* NEBULA */
+(function(){
+  const canvas=document.getElementById('neb');
+  if(!canvas||!window.THREE)return;
+  const THREE=window.THREE;
+  const renderer=new THREE.WebGLRenderer({canvas,alpha:true,antialias:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio,1.75));
+  const scene=new THREE.Scene();
+  const camera=new THREE.PerspectiveCamera(50,1,0.1,100);
+  camera.position.z=4;
+  const BX=2.7,BY=2.1,BZ=1.5;
+  function cw(s){return((Math.random()+Math.random()+Math.random()+Math.random())/4*2-1)*s;}
+  const starTex=(function(){
+    const c=document.createElement('canvas');c.width=c.height=64;
+    const ctx=c.getContext('2d');
+    const g=ctx.createRadialGradient(32,32,0,32,32,32);
+    g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(0.25,'rgba(255,255,255,0.85)');
+    g.addColorStop(0.5,'rgba(255,255,255,0.35)');g.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=g;ctx.fillRect(0,0,64,64);
+    const tex=new THREE.CanvasTexture(c);tex.needsUpdate=true;return tex;
+  })();
+  function layer(count,color,size,opacity,blending){
+    const pos=new Float32Array(count*3),spd=new Float32Array(count);
+    for(let i=0;i<count;i++){pos[i*3]=cw(BX);pos[i*3+1]=cw(BY);pos[i*3+2]=cw(BZ);spd[i]=0.6+Math.random()*1.0;}
+    const g=new THREE.BufferGeometry();
+    g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    const m=new THREE.PointsMaterial({color,size:size*1.7,sizeAttenuation:true,transparent:true,opacity,depthWrite:false,map:starTex,blending:blending||THREE.NormalBlending});
+    const p=new THREE.Points(g,m);scene.add(p);
+    return{pts:p,geo:g,mat:m,spd,count,baseOp:opacity,tw:Math.random()*6.28};
+  }
+  const layers=[
+    layer(1800,0xeae8e3,0.015,0.9),layer(520,0x9a9a9a,0.021,0.6),
+    layer(340,0xff5a3c,0.030,0.95,THREE.AdditiveBlending),layer(300,0xa44dff,0.028,0.9,THREE.AdditiveBlending),
+    layer(40,0xff5a3c,0.085,0.9,THREE.AdditiveBlending),layer(20,0xb14cff,0.072,0.85,THREE.AdditiveBlending),
+  ];
+  function flow(x,y,z,t,o){const s=0.85;o[0]=Math.sin(y*s+t)+Math.cos(z*s*1.3-t*0.7);o[1]=Math.sin(z*s*1.1+t*0.8)+Math.cos(x*s*0.9+t);o[2]=(Math.sin(x*s*1.2-t)+Math.cos(y*s*1.05+t*0.6))*0.5;}
+  function resize(){const w=window.innerWidth,h=window.innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
+  resize();window.addEventListener('resize',resize,{passive:true});
+  let hasMouse=false,mwx=0,mwy=0;
+  window.addEventListener('pointermove',e=>{hasMouse=true;mwx=((e.clientX/window.innerWidth)*2-1)*BX;mwy=-(((e.clientY/window.innerHeight)*2-1)*BY);},{passive:true});
+  const grp=new THREE.Group();layers.forEach(L=>grp.add(L.pts));scene.add(grp);
+  const v=[0,0,0];let t=0;
+  function loop(){
+    t+=0.004;const speed=0.006;
+    for(const L of layers){
+      const a=L.geo.attributes.position.array;
+      for(let i=0;i<L.count;i++){const ix=i*3;let x=a[ix],y=a[ix+1],z=a[ix+2];
+        flow(x,y,z,t,v);const sp=speed*L.spd[i];x+=v[0]*sp;y+=v[1]*sp;z+=v[2]*sp;
+        if(hasMouse){const dx=x-mwx,dy=y-mwy,d2=dx*dx+dy*dy;if(d2<0.8){const f=(0.8-d2)*0.06;x+=dx*f;y+=dy*f;}}
+        if(x>BX)x-=BX*2;else if(x<-BX)x+=BX*2;
+        if(y>BY)y-=BY*2;else if(y<-BY)y+=BY*2;
+        if(z>BZ)z-=BZ*2;else if(z<-BZ)z+=BZ*2;
+        a[ix]=x;a[ix+1]=y;a[ix+2]=z;}
+      L.geo.attributes.position.needsUpdate=true;
+      L.mat.opacity=L.baseOp*(0.78+0.22*Math.sin(t*1.6+L.tw));
+    }
+    grp.rotation.z=t*0.05;grp.rotation.x=Math.sin(t*0.3)*0.04;grp.position.y=Math.sin(t*0.4)*0.05;
+    renderer.render(scene,camera);requestAnimationFrame(loop);
+  }
+  loop();
+  setTimeout(()=>{
+    canvas.style.transition='opacity 1.5s ease';canvas.style.opacity='0.95';
+    layers.forEach((L,i)=>{L.pts.scale.set(0.35,0.35,0.35);const start=performance.now(),dur=2000+i*150;
+      function sc(){const p=Math.min(1,(performance.now()-start)/dur),val=0.35+0.65*p;L.pts.scale.set(val,val,val);if(p<1)requestAnimationFrame(sc);}
+      requestAnimationFrame(sc);});
+  },300);
+})();
+
+/* SLIDER */
+(function(){
+  const track = document.getElementById('track');
+  const slides = [...document.querySelectorAll('.slide')];
+  const dots   = [...document.querySelectorAll('.dot')];
+  const prev   = document.getElementById('prev');
+  const next   = document.getElementById('next');
+  let cur = 0;
+  const total = slides.length;
+
+  track.style.width = `${total * 100}vw`;
+
+  function goTo(idx) {
+    slides[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur = idx;
+    slides[cur].classList.add('active');
+    dots[cur].classList.add('active');
+    track.style.transform = `translateX(-${cur * 100}vw)`;
+
+  }
+
+  prev.addEventListener('click', () => goTo(cur === 0 ? total - 1 : cur - 1));
+  next.addEventListener('click', () => goTo(cur === total - 1 ? 0 : cur + 1));
+  dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx)));
+
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') goTo(cur === total - 1 ? 0 : cur + 1);
+    if (e.key === 'ArrowLeft')  goTo(cur === 0 ? total - 1 : cur - 1);
+  });
+
+  let tx = 0;
+  track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  track.addEventListener('touchend',   e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (dx < -50) goTo(cur === total - 1 ? 0 : cur + 1);
+    if (dx >  50) goTo(cur === 0 ? total - 1 : cur - 1);
+  }, {passive:true});
+})();
+</script>
+</body>
+</html>
