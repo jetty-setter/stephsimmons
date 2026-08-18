@@ -3,270 +3,1023 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Steph Simmons — Cloud Engineer & AWS Solutions Architect</title>
+<title>Steph Simmons — Cloud Engineer &amp; AWS Solutions Architect</title>
 <meta name="description" content="Steph Simmons — Cloud Engineer, AWS Solutions Architect, and Full-Stack Developer based in Omaha. Building scalable systems on AWS with Python, React, and TypeScript.">
-<meta property="og:title" content="Steph Simmons — Cloud Engineer & AWS Solutions Architect">
+<meta property="og:title" content="Steph Simmons — Cloud Engineer &amp; AWS Solutions Architect">
 <meta property="og:description" content="Cloud Engineer and AWS Solutions Architect building scalable systems with Python, React, and TypeScript. MS/MBA candidate, AWS Certified.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://stephsimmons.dev/">
 <meta property="og:image" content="https://stephsimmons.dev/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Steph Simmons — Cloud Engineer & AWS Solutions Architect">
+<meta name="twitter:title" content="Steph Simmons — Cloud Engineer &amp; AWS Solutions Architect">
 <meta name="twitter:description" content="Cloud Engineer and AWS Solutions Architect building scalable systems with Python, React, and TypeScript.">
 <meta name="twitter:image" content="https://stephsimmons.dev/assets/og-card.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
 :root {
+  --bg: #0a0b0f;
+  --surface: #14161d;
+  --surface-2: #1a1d26;
+  --border: rgba(255,255,255,0.09);
+  --border-soft: rgba(255,255,255,0.05);
   --coral: #e8522a;
-  --purple: #a44dff;
-  --bg: #080a0f;
-  --white: #ffffff;
-  --gray-2: #999999;
+  --coral-soft: rgba(232,82,42,0.14);
+  --purple: #9a6bff;
+  --purple-soft: rgba(154,107,255,0.14);
+  --text: #f4f3f0;
+  --text-muted: #93949e;
+  --text-dim: #5c5e68;
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', system-ui, sans-serif;
 }
 
-html, body {
-  width: 100%; height: 100%;
-  background: var(--bg);
-  overflow: hidden;
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
 }
 
 body {
-  font-family: 'Inter', system-ui, sans-serif;
-  color: var(--white);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
 }
 
-#neb {
+a { color: inherit; text-decoration: none; }
+ul { list-style: none; }
+img { max-width: 100%; display: block; }
+
+button, a, input, textarea { font-family: inherit; }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--coral);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+h1, h2, h3 { text-wrap: balance; }
+
+/* ambient starfield canvas */
+#field {
   position: fixed;
   inset: 0;
-  width: 100%; height: 100%;
   z-index: 0;
   pointer-events: none;
   opacity: 0;
 }
 
-.page {
+/* keeps text reliably readable against the nebula regardless of where
+   bright star clusters drift -- flat scrim plus per-heading text-shadow */
+.scrim {
   position: fixed;
   inset: 0;
   z-index: 1;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(10,11,15,0.35) 0%, rgba(10,11,15,0.58) 100%);
+}
+
+.wrap {
+  position: relative;
+  z-index: 2;
+}
+
+.shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+@media (max-width: 720px) {
+  .shell { padding: 0 22px; }
+}
+
+/* NAV */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 48px;
+  background: rgba(10,11,15,0);
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+}
+.nav.scrolled {
+  background: rgba(10,11,15,0.82);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 15px 48px;
+}
+@media (max-width: 720px) {
+  .nav, .nav.scrolled { padding: 18px 22px; }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+.logo:hover { transform: scale(1.06); }
+.logo-icon { width: 44px; height: 44px; object-fit: contain; display: block; }
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+.nav-link {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  position: relative;
+  padding-bottom: 3px;
+  transition: color 0.2s ease;
+}
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 0; height: 1.5px;
+  background: var(--coral);
+  transition: width 0.25s ease;
+}
+.nav-link:hover { color: var(--text); }
+.nav-link.active { color: var(--text); }
+.nav-link.active::after { width: 100%; }
+
+.nav-cta {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--coral);
+  border: 1px solid var(--coral);
+  padding: 9px 18px;
+  border-radius: 3px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.nav-cta:hover { background: var(--coral); color: #0a0b0f; }
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+.nav-toggle span { width: 22px; height: 1.5px; background: var(--text); display: block; }
+
+@media (max-width: 720px) {
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .nav-cta { display: none; }
+}
+
+/* HERO */
+.hero {
+  min-height: 100svh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-top: 4vh;
-}
-
-/* NAME */
-.name {
-  font-size: clamp(36px, 11.5vw, 160px);
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  line-height: 1;
-  text-transform: uppercase;
-  white-space: nowrap;
-  margin-bottom: 36px;
-  opacity: 0;
-  transform: translateY(20px);
-  animation: nameIn 1s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
-  width: 100vw;
   text-align: center;
+  padding: 140px 48px 80px;
 }
 
-@keyframes nameIn {
+.hero-eyebrow {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 26px;
+  opacity: 0;
+  animation: rise 0.7s ease 0.1s forwards;
+}
+
+.hero-name {
+  max-width: 100%;
+  opacity: 0;
+  animation: rise 0.8s cubic-bezier(.16,1,.3,1) 0.22s forwards;
+}
+.hero-logo-img {
+  width: min(820px, 88vw);
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 10px 46px rgba(0,0,0,0.55));
+}
+
+.hero-role {
+  margin-top: 26px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  opacity: 0;
+  animation: rise 0.7s ease 0.4s forwards;
+}
+.hero-role span { color: var(--text-dim); margin: 0 10px; }
+
+.hero-statement {
+  max-width: 620px;
+  margin-top: 34px;
+  font-size: 19px;
+  line-height: 1.6;
+  color: var(--text-muted);
+  opacity: 0;
+  animation: rise 0.7s ease 0.52s forwards;
+}
+.hero-statement strong { color: var(--text); font-weight: 600; }
+
+.hero-actions {
+  margin-top: 44px;
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  opacity: 0;
+  animation: rise 0.7s ease 0.64s forwards;
+}
+
+.btn-primary {
+  background: var(--coral);
+  color: #0a0b0f;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 15px 30px;
+  border-radius: 4px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 24px rgba(232,82,42,0.25);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(232,82,42,0.35); }
+
+.btn-ghost {
+  border: 1px solid var(--purple);
+  color: var(--purple);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 15px 26px;
+  border-radius: 4px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.btn-ghost:hover { background: var(--purple-soft); color: #cbb6ff; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-.name-solid {
-  color: var(--white);
-  font-family: 'Bebas Neue', sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-}
-
-.name-ghost {
-  color: transparent;
-  -webkit-text-stroke: 2px rgba(255,255,255,0.92);
-  font-family: 'Bebas Neue', sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.04em;
-}
-
-/* TEXT NAV */
-.text-nav {
-  opacity: 0;
-  margin-bottom: 28px;
-  display: flex;
-  gap: 56px;
-  align-items: center;
-  justify-content: center;
-  animation: fadeUp 0.7s ease 1.1s forwards;
-}
-
-.nav-item {
-  font-family: 'Inter', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--white);
-  position: relative;
-  padding-bottom: 5px;
-}
-
-.nav-item::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 1.5px;
-  background: var(--coral);
-  transition: width 0.3s ease;
-}
-
-.nav-item:hover::after { width: 100%; }
-.nav-item:hover { color: var(--white); }
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* TAGLINE */
-.tagline {
-  font-size: 9px;
-  font-weight: 400;
-  letter-spacing: 2px;
-  color: var(--gray-2);
-  text-transform: uppercase;
-  opacity: 0;
-  pointer-events: none;
-  animation: fadeUp 0.6s ease 1.6s forwards;
-  max-width: 92vw;
-  text-align: center;
-}
-
-@media (max-width: 768px) {
-  .name { font-size: clamp(28px, 11vw, 80px); }
-  .text-nav { gap: 28px; }
-  .nav-item { font-size: 10px; }
-  .tagline { font-size: 8px; letter-spacing: 1.4px; }
-}
-
-@media (max-width: 480px) {
-  .name { font-size: clamp(22px, 9vw, 50px); }
-  .text-nav { gap: 16px; flex-wrap: wrap; }
-  .nav-item { font-size: 9px; }
-  .tagline { font-size: 7px; letter-spacing: 1px; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .name, .text-nav, .tagline { animation: none; opacity: 1; transform: none; }
+  .hero-eyebrow, .hero-name, .hero-role, .hero-statement, .hero-actions {
+    animation: none; opacity: 1; transform: none;
+  }
 }
+
+.scroll-cue {
+  position: absolute;
+  bottom: 36px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.scroll-cue .line {
+  width: 1px; height: 34px;
+  background: linear-gradient(var(--text-dim), transparent);
+  animation: cue 2s ease-in-out infinite;
+}
+@keyframes cue { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .scroll-cue .line { animation: none; } }
+
+/* SECTION SCAFFOLDING */
+section { position: relative; padding: 130px 0; }
+@media (max-width: 720px) { section { padding: 90px 0; } }
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 18px;
+}
+.eyebrow.is-purple { color: var(--purple); }
+
+.section-head {
+  max-width: 720px;
+  margin-bottom: 76px;
+}
+.section-title,
+.project-title,
+.contact-title,
+.timeline-title,
+.stack-group-title {
+  text-shadow: 0 2px 24px rgba(0,0,0,0.5);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(34px, 4.2vw, 54px);
+  line-height: 1.04;
+  letter-spacing: 0.005em;
+  margin-bottom: 18px;
+}
+.section-lede {
+  font-size: 16.5px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 560px;
+}
+
+/* PROJECTS */
+.project {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  padding: 64px 0;
+  border-top: 1px solid var(--border-soft);
+}
+.project:first-of-type { border-top: none; padding-top: 0; }
+.project.reverse .project-media { order: 1; }
+.project.reverse .project-copy { order: 2; }
+
+@media (max-width: 880px) {
+  .project, .project.reverse { grid-template-columns: 1fr; }
+  .project.reverse .project-media, .project.reverse .project-copy { order: initial; }
+}
+
+.project-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.project-type {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.project-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
+}
+
+.project-title {
+  font-family: var(--font-display);
+  font-size: clamp(38px, 4.4vw, 58px);
+  letter-spacing: 0.01em;
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.project-desc {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text-muted);
+  max-width: 480px;
+  margin-bottom: 22px;
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-bottom: 30px;
+}
+.tag {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  padding: 5px 11px;
+  border-radius: 20px;
+}
+
+.insight {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0 16px 18px;
+  border-left: 2px solid var(--purple);
+  margin-bottom: 14px;
+  max-width: 500px;
+}
+.insight-text {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.insight-text strong { color: var(--text); font-weight: 600; }
+
+.project-links {
+  display: flex;
+  gap: 26px;
+  margin-top: 26px;
+}
+.project-link {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  border-bottom: 1.5px solid var(--coral);
+  padding-bottom: 3px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+.project-link:hover { color: var(--coral); }
+.project-link.disabled {
+  color: var(--text-dim);
+  border-color: var(--text-dim);
+  cursor: default;
+}
+
+.browser-frame {
+  background: #101218;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 40px 90px rgba(0,0,0,0.55);
+  cursor: zoom-in;
+  transition: transform 0.35s cubic-bezier(.16,1,.3,1), box-shadow 0.35s ease;
+}
+.browser-frame:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 50px 110px rgba(0,0,0,0.65);
+}
+.browser-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  background: #171a22;
+  border-bottom: 1px solid var(--border-soft);
+}
+.bd { width: 9px; height: 9px; border-radius: 50%; }
+.bd.r { background: #ff5f57; }
+.bd.y { background: #febc2e; }
+.bd.g { background: #28c840; }
+.browser-url {
+  flex: 1; margin-left: 6px;
+  background: #0d0f14;
+  border-radius: 4px;
+  height: 21px;
+  display: flex; align-items: center;
+  padding: 0 10px;
+}
+.browser-url span { font-size: 10px; color: var(--text-dim); font-family: var(--font-body); }
+.browser-shot { width: 100%; display: block; }
+
+/* ABOUT */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 70px;
+}
+@media (max-width: 880px) { .about-grid { grid-template-columns: 1fr; gap: 50px; } }
+
+.about-lede {
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--text-muted);
+  margin-bottom: 22px;
+}
+.about-lede strong { color: var(--text); font-weight: 600; }
+
+.about-punch {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text);
+  font-weight: 600;
+  padding-left: 18px;
+  border-left: 2px solid var(--coral);
+  margin: 30px 0 40px;
+  max-width: 480px;
+}
+
+.indie-line {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--text-muted);
+  padding: 20px 24px;
+  background: var(--surface);
+  border-radius: 6px;
+  border: 1px solid var(--border-soft);
+}
+
+.cred-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 54px; }
+.cred-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 16px;
+}
+.cred-item {
+  padding: 15px 0;
+  border-top: 1px solid var(--border-soft);
+}
+.cred-item:first-of-type { border-top: none; }
+.cred-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.cred-sub { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+.cred-tag { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; color: var(--coral); margin-top: 5px; font-variant-numeric: tabular-nums; }
+
+.timeline-title { font-family: var(--font-display); font-size: 26px; margin-bottom: 26px; letter-spacing: 0.01em; }
+.tl-item { display: grid; grid-template-columns: 108px 1fr; gap: 22px; padding: 20px 0; border-top: 1px solid var(--border-soft); }
+.tl-item:first-of-type { border-top: none; padding-top: 0; }
+.tl-dates { font-size: 11.5px; font-weight: 700; color: var(--coral); letter-spacing: 0.02em; padding-top: 2px; font-variant-numeric: tabular-nums; }
+.tl-role { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.tl-company { font-size: 12.5px; color: var(--text-dim); margin-bottom: 8px; }
+.tl-desc { font-size: 13.5px; line-height: 1.6; color: var(--text-muted); }
+@media (max-width: 560px) { .tl-item { grid-template-columns: 1fr; gap: 6px; } }
+
+/* STACK */
+.stack-groups { display: flex; flex-direction: column; gap: 40px; }
+.stack-group { display: grid; grid-template-columns: 220px 1fr; gap: 40px; padding: 34px 0; border-top: 1px solid var(--border-soft); }
+.stack-group:first-of-type { border-top: none; }
+@media (max-width: 720px) { .stack-group { grid-template-columns: 1fr; gap: 14px; } }
+.stack-group-title { font-family: var(--font-display); font-size: 24px; margin-bottom: 8px; }
+.stack-group-title.is-ai { color: var(--purple); }
+.stack-group-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; max-width: 200px; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 9px; align-content: flex-start; }
+.chip {
+  font-size: 13px; font-weight: 500; color: var(--text-muted);
+  padding: 9px 16px; border: 1px solid var(--border); border-radius: 4px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.chip:hover { border-color: var(--coral); color: var(--text); }
+.chip.is-ai:hover { border-color: var(--purple); }
+
+/* CONTACT */
+.contact-inner { text-align: center; max-width: 640px; margin: 0 auto; }
+.contact-title { font-family: var(--font-display); font-size: clamp(38px, 5.6vw, 62px); line-height: 1.05; margin-bottom: 22px; }
+.contact-title .accent { color: var(--coral); }
+.contact-body { font-size: 16.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 46px; }
+.contact-links { display: flex; justify-content: center; gap: 50px; margin-bottom: 46px; flex-wrap: wrap; }
+.contact-link-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
+.contact-link-value { font-size: 15.5px; font-weight: 600; color: var(--text); border-bottom: 1.5px solid transparent; transition: border-color 0.2s ease, color 0.2s ease; }
+.contact-link-value:hover { color: var(--coral); border-color: var(--coral); }
+
+/* FOOTER */
+footer {
+  border-top: 1px solid var(--border-soft);
+  padding: 40px 0 50px;
+}
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.footer-mark { font-family: var(--font-display); font-size: 15px; color: var(--text-dim); letter-spacing: 0.02em; }
+.footer-tagline { font-size: 12px; color: var(--text-dim); }
+.footer-links { display: flex; gap: 22px; }
+.footer-links a { font-size: 12px; color: var(--text-dim); transition: color 0.2s ease; }
+.footer-links a:hover { color: var(--coral); }
+
+/* LIGHTBOX */
+.lightbox {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(6,7,10,0.94);
+  display: none; align-items: center; justify-content: center;
+  padding: 50px; cursor: zoom-out;
+}
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 100%; max-height: 100%; border-radius: 8px; box-shadow: 0 40px 100px rgba(0,0,0,0.6); }
+.lightbox-close {
+  position: fixed; top: 24px; right: 28px;
+  width: 42px; height: 42px; border-radius: 50%;
+  background: rgba(255,255,255,0.08); border: 1px solid var(--border);
+  color: var(--text); font-size: 18px; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.lightbox-close:hover { background: var(--coral-soft); border-color: var(--coral); }
+
+/* mobile nav panel */
+.mobile-nav {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(8,9,13,0.98);
+  display: none; flex-direction: column; align-items: center; justify-content: center;
+  gap: 34px;
+}
+.mobile-nav.open { display: flex; }
+.mobile-nav a { font-size: 20px; font-weight: 600; letter-spacing: 0.04em; color: var(--text); }
+.mobile-nav .close { position: absolute; top: 22px; right: 22px; background: none; border: none; color: var(--text); font-size: 22px; cursor: pointer; }
 </style>
 </head>
 <body>
+<canvas id="field" aria-hidden="true"></canvas>
+<div class="scrim"></div>
 
-<canvas id="neb" aria-hidden="true"></canvas>
-
-<div class="page">
-
-  <div class="name">
-    <span class="name-solid">Steph&nbsp;</span><span class="name-ghost">Simmons</span>
+<nav class="nav" id="nav">
+  <a href="#top" class="logo" aria-label="Steph Simmons — Home"><img src="assets/nav-icon.png" alt="Steph Simmons" class="logo-icon"></a>
+  <div class="nav-links">
+    <a href="#projects" class="nav-link">Projects</a>
+    <a href="#about" class="nav-link">About</a>
+    <a href="#stack" class="nav-link">Stack</a>
+    <a href="#contact" class="nav-link">Contact</a>
   </div>
+  <a href="#contact" class="nav-cta">Get in Touch</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Open menu"><span></span><span></span><span></span></button>
+</nav>
 
-<nav class="text-nav">
-    <a class="nav-item" href="projects.html">Projects</a>
-    <a class="nav-item" href="about.html">About</a>
-    <a class="nav-item" href="stack.html">Stack</a>
-    <a class="nav-item" href="contact.html">Contact</a>
-    <a class="nav-item" href="https://github.com/jetty-setter" target="_blank">GitHub</a>
-    <a class="nav-item" href="https://linkedin.com/in/ssimmonsne" target="_blank">LinkedIn</a>
-  </nav>
+<div class="mobile-nav" id="mobileNav">
+  <button class="close" id="mobileClose" aria-label="Close menu">&#10005;</button>
+  <a href="#projects">Projects</a>
+  <a href="#about">About</a>
+  <a href="#stack">Stack</a>
+  <a href="#contact">Contact</a>
+</div>
 
-  <div class="tagline">Cloud Engineer &nbsp;·&nbsp; AWS Solutions Architect &nbsp;·&nbsp; Full-Stack Developer</div>
+<div class="wrap" id="top">
 
+<header class="hero">
+  <div class="hero-eyebrow">Cloud &amp; Product Engineering</div>
+  <h1 class="hero-name"><img src="assets/hero-logo.png" alt="Steph Simmons" class="hero-logo-img"></h1>
+  <div class="hero-role">CLOUD ENGINEER <span>&middot;</span> AWS SOLUTIONS ARCHITECT <span>&middot;</span> FULL-STACK DEVELOPER</div>
+  <p class="hero-statement">I build <strong>systems that hold up after launch</strong> &mdash; from CDK-defined AWS infrastructure to the AI product running on top of it.</p>
+  <div class="hero-actions">
+    <a href="#projects" class="btn-primary">View Projects</a>
+    <a href="#contact" class="btn-ghost">Get in Touch</a>
+  </div>
+  <div class="scroll-cue"><div class="line"></div>SCROLL</div>
+</header>
+
+<section id="projects">
+  <div class="shell">
+    <div class="section-head">
+      <div class="eyebrow">Selected Work</div>
+      <h2 class="section-title">Shipped end-to-end, alongside a full-time job.</h2>
+      <p class="section-lede">Three products, each deployed across its own isolated AWS account with CDK infrastructure-as-code and OIDC-based CI/CD &mdash; live, in production, and demoable right now.</p>
+    </div>
+
+    <div class="project">
+      <div class="project-copy">
+        <div class="project-meta">
+          <span class="project-num">01</span>
+          <span class="project-type">Personal Project</span>
+        </div>
+        <h3 class="project-title">RabbitHole</h3>
+        <p class="project-desc">An event-driven video platform where uploads trigger an AI-powered processing pipeline &mdash; transcoding, speech indexing, and semantic search across your entire library.</p>
+        <div class="tag-row">
+          <span class="tag">ECS Fargate</span><span class="tag">EventBridge</span><span class="tag">SQS</span><span class="tag">ffmpeg</span><span class="tag">Claude Vision</span><span class="tag">AWS Transcribe</span><span class="tag">Terraform</span><span class="tag">React</span>
+        </div>
+        <div class="insight"><div class="insight-text"><strong>ECS Fargate over Lambda</strong> for transcoding &mdash; ffmpeg workloads are CPU-bound and long-running, and Lambda's 15-minute limit and cold starts would have killed the experience.</div></div>
+        <div class="insight"><div class="insight-text"><strong>Three AI services had to fail independently.</strong> Claude Vision, Transcribe, and vector embeddings each run as an independent async step, so one failure never breaks the pipeline.</div></div>
+        <div class="project-links">
+          <a href="https://rabbithole.stephsimmons.dev" target="_blank" class="project-link">Live Demo</a>
+          <a href="https://github.com/jetty-setter/rabbithole" target="_blank" class="project-link">GitHub</a>
+        </div>
+      </div>
+      <div class="project-media">
+        <div class="browser-frame" data-lightbox="img-rabbithole">
+          <div class="browser-bar">
+            <div class="bd r"></div><div class="bd y"></div><div class="bd g"></div>
+            <div class="browser-url"><span>rabbithole.stephsimmons.dev</span></div>
+          </div>
+          <img class="browser-shot" id="img-rabbithole" src="assets/rabbithole.png" alt="RabbitHole">
+        </div>
+      </div>
+    </div>
+
+    <div class="project reverse">
+      <div class="project-copy">
+        <div class="project-meta">
+          <span class="project-num">02</span>
+          <span class="project-type">Co-Founded &middot; Proprietary</span>
+        </div>
+        <h3 class="project-title">QuicLens</h3>
+        <p class="project-desc">A multi-tenant research analytics SaaS for neurodegenerative disease labs &mdash; replacing manual R scripts and Excel with structured, cloud-native plate analysis and audit-ready records.</p>
+        <div class="tag-row">
+          <span class="tag">AWS CDK</span><span class="tag">Lambda (Docker)</span><span class="tag">API Gateway</span><span class="tag">DynamoDB</span><span class="tag">WorkOS SSO</span><span class="tag">Anthropic API</span><span class="tag">TypeScript</span>
+        </div>
+        <div class="insight"><div class="insight-text"><strong>The math had to be right.</strong> Built a 92-test scientific validation suite verifying every calculation against the lab's own researcher-validated ground truth before a single user touched it.</div></div>
+        <div class="insight"><div class="insight-text"><strong>Isolation, not just application logic.</strong> One misconfigured query could leak one lab's data to another &mdash; enforced at the DynamoDB partition key and the IAM boundary.</div></div>
+        <div class="project-links">
+          <a href="https://quiclens.stephsimmons.dev" target="_blank" class="project-link">Live Demo</a>
+          <span class="project-link disabled">Code Private</span>
+        </div>
+      </div>
+      <div class="project-media">
+        <div class="browser-frame" data-lightbox="img-quiclens">
+          <div class="browser-bar">
+            <div class="bd r"></div><div class="bd y"></div><div class="bd g"></div>
+            <div class="browser-url"><span>quiclens.stephsimmons.dev</span></div>
+          </div>
+          <img class="browser-shot" id="img-quiclens" src="assets/quiclens.png" alt="QuicLens">
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-copy">
+        <div class="project-meta">
+          <span class="project-num">03</span>
+          <span class="project-type">AWS Academy Capstone</span>
+        </div>
+        <h3 class="project-title">PureZen</h3>
+        <p class="project-desc">A fully serverless AI spa booking platform with a conversational concierge that takes guests from service discovery to confirmed appointment &mdash; grounded in live availability, so it physically cannot hallucinate an open slot.</p>
+        <div class="tag-row">
+          <span class="tag">AWS CDK</span><span class="tag">Lambda</span><span class="tag">DynamoDB</span><span class="tag">Anthropic Claude</span><span class="tag">Ollama</span><span class="tag">React</span><span class="tag">FastAPI</span>
+        </div>
+        <div class="insight"><div class="insight-text"><strong>Constraints drove the design.</strong> Started in an AWS Academy sandbox with no GPU and CPU-only Ollama inference &mdash; 10&ndash;40s generation times, which is exactly what drove the regex-first routing.</div></div>
+        <div class="insight"><div class="insight-text"><strong>Never answers from memory.</strong> Services resolve against the real catalog, availability comes from DynamoDB, and booking actions are deterministic state machines.</div></div>
+        <div class="project-links">
+          <a href="https://purezen.stephsimmons.dev" target="_blank" class="project-link">Live Demo</a>
+          <a href="https://github.com/jetty-setter/purezen" target="_blank" class="project-link">GitHub</a>
+        </div>
+      </div>
+      <div class="project-media">
+        <div class="browser-frame" data-lightbox="img-purezen">
+          <div class="browser-bar">
+            <div class="bd r"></div><div class="bd y"></div><div class="bd g"></div>
+            <div class="browser-url"><span>purezen.stephsimmons.dev</span></div>
+          </div>
+          <img class="browser-shot" id="img-purezen" src="assets/purezen.png" alt="PureZen">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="shell">
+    <div class="about-grid">
+      <div>
+        <div class="eyebrow">About</div>
+        <h2 class="section-title" style="margin-bottom:26px;">I build things that hold up after launch.</h2>
+        <p class="about-lede"><strong>Cloud Engineer and AWS Solutions Architect</strong> with a decade of enterprise IT experience &mdash; production systems built end-to-end on AWS, in isolated accounts, with CDK infrastructure-as-code, OIDC-based CI/CD, and cross-account observability across event-driven serverless backends, ECS Fargate workloads, and AI integrations with Anthropic Claude.</p>
+        <div class="about-punch">Systems that are observable, documented, supportable &mdash; built for whoever owns them after I'm gone.</div>
+        <div class="indie-line"><strong style="color:var(--text)">2021&ndash;Present &middot; Independent Work.</strong> Designing and shipping the products above end-to-end, alongside a full-time enterprise IT role &mdash; each deployed across its own isolated AWS account with the same CDK and OIDC-based CI/CD discipline used at work.</div>
+
+        <h3 class="timeline-title" style="margin-top:64px;">Experience</h3>
+        <div class="tl-item">
+          <div class="tl-dates">2025&ndash;Present</div>
+          <div><div class="tl-role">IS Supervisor</div><div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div><div class="tl-desc">Leads enterprise IT service desk operations &mdash; direct reports, team performance, and cross-functional alignment for upcoming change.</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dates">2022&ndash;2025</div>
+          <div><div class="tl-role">Technical Lead &middot; Scrum Master</div><div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div><div class="tl-desc">Owned technical intake and delivery execution across engineering, infrastructure, and security. Built the KPI dashboards leadership used to see delivery risk.</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dates">2019&ndash;2022</div>
+          <div><div class="tl-role">Business Systems Consultant &middot; Scrum Master</div><div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div><div class="tl-desc">Translated business requirements into technical stories across multi-team delivery streams; partnered with security and data on compliance.</div></div>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dates">2015&ndash;2019</div>
+          <div><div class="tl-role">Senior Service Desk Analyst</div><div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div><div class="tl-desc">Advanced troubleshooting at high volume; wrote the knowledge content and trained the analysts who came after.</div></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="cred-label">Credentials</div>
+        <div class="cred-list">
+          <div class="cred-item"><div class="cred-name">AWS Solutions Architect &ndash; Associate</div><div class="cred-sub">Amazon Web Services</div><div class="cred-tag">CERTIFIED 2026</div></div>
+          <div class="cred-item"><div class="cred-name">MS, Management Information Systems + MBA</div><div class="cred-sub">University of Nebraska &ndash; Omaha</div><div class="cred-tag">2024&ndash;2026</div></div>
+          <div class="cred-item"><div class="cred-name">BS, Management Information Systems</div><div class="cred-sub">University of Nebraska &ndash; Omaha</div><div class="cred-tag">2020&ndash;2023</div></div>
+          <div class="cred-item"><div class="cred-name">Systems Development Certificate</div><div class="cred-sub">University of Nebraska &ndash; Omaha</div><div class="cred-tag">2023</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="shell">
+    <div class="section-head">
+      <div class="eyebrow">Stack</div>
+      <h2 class="section-title">The tools I reach for when something needs to actually work.</h2>
+      <p class="section-lede">AWS infrastructure defined as code, event-driven backends, and AI integrated where it earns its place &mdash; not bolted on for the sake of it.</p>
+    </div>
+    <div class="stack-groups">
+      <div class="stack-group">
+        <div><div class="stack-group-title">Cloud &amp; AWS</div><div class="stack-group-desc">Serverless-first, defined as code, observable across accounts.</div></div>
+        <div class="chip-row">
+          <span class="chip">AWS Lambda</span><span class="chip">ECS Fargate</span><span class="chip">AWS CDK</span><span class="chip">API Gateway</span><span class="chip">EventBridge</span><span class="chip">Amazon SQS</span><span class="chip">DynamoDB</span><span class="chip">Amazon S3</span><span class="chip">CloudFront</span><span class="chip">IAM</span><span class="chip">OIDC</span><span class="chip">Terraform</span><span class="chip">CloudWatch</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div><div class="stack-group-title">Backend</div><div class="stack-group-desc">Python-first APIs, containerized when the workload demands it.</div></div>
+        <div class="chip-row">
+          <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">REST APIs</span><span class="chip">Docker</span><span class="chip">ffmpeg</span><span class="chip">Mangum</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div><div class="stack-group-title">Frontend</div><div class="stack-group-desc">React and TypeScript, shipped without a heavy framework tax.</div></div>
+        <div class="chip-row">
+          <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Vite</span><span class="chip">Tailwind CSS</span><span class="chip">hls.js</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div><div class="stack-group-title is-ai">AI &amp; ML</div><div class="stack-group-desc">Grounded, cost-aware &mdash; never the front door for routine requests.</div></div>
+        <div class="chip-row">
+          <span class="chip is-ai">Anthropic Claude API</span><span class="chip is-ai">Ollama</span><span class="chip is-ai">AWS Transcribe</span><span class="chip is-ai">Vector Embeddings</span><span class="chip is-ai">Semantic Search</span><span class="chip is-ai">MCP-Inspired Tool Use</span>
+        </div>
+      </div>
+      <div class="stack-group">
+        <div><div class="stack-group-title">Auth &amp; Delivery</div><div class="stack-group-desc">From a commit to production, safely.</div></div>
+        <div class="chip-row">
+          <span class="chip">GitHub Actions</span><span class="chip">WorkOS SSO</span><span class="chip">JWT</span><span class="chip">CI/CD</span><span class="chip">Multi-Tenant Architecture</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="shell">
+    <div class="contact-inner">
+      <div class="eyebrow" style="text-align:center;">Contact</div>
+      <h2 class="contact-title">Let's build something <span class="accent">that holds up.</span></h2>
+      <p class="contact-body">Open to remote Cloud Engineer and Platform Engineer roles. If you're hiring, or just want to talk shop about AWS architecture &mdash; reach out.</p>
+      <div class="contact-links">
+        <a href="mailto:ssimmons86@icloud.com" class="contact-link-item"><div class="contact-link-label">Email</div><div class="contact-link-value">ssimmons86@icloud.com</div></a>
+        <a href="https://linkedin.com/in/ssimmonsne" target="_blank" class="contact-link-item"><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">in/ssimmonsne</div></a>
+        <a href="https://github.com/jetty-setter" target="_blank" class="contact-link-item"><div class="contact-link-label">GitHub</div><div class="contact-link-value">jetty-setter</div></a>
+      </div>
+      <a href="mailto:ssimmons86@icloud.com" class="btn-primary">Say Hello</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="shell footer-inner">
+    <div class="footer-mark">STEPH SIMMONS</div>
+    <div class="footer-tagline">Systems that hold up.</div>
+    <div class="footer-links">
+      <a href="#projects">Projects</a>
+      <a href="#about">About</a>
+      <a href="#stack">Stack</a>
+      <a href="https://github.com/jetty-setter" target="_blank">GitHub</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">&#10005;</button>
+  <img id="lightboxImg" src="" alt="">
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-/* NEBULA */
-(function () {
-  const canvas = document.getElementById('neb');
-  if (!canvas || !window.THREE) return;
-  const THREE = window.THREE;
-  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
-  camera.position.z = 4;
-  const BX=2.7, BY=2.1, BZ=1.5;
-  function cw(s){return((Math.random()+Math.random()+Math.random()+Math.random())/4*2-1)*s;}
-  const starTex=(function(){
-    const c=document.createElement('canvas'); c.width=c.height=64;
-    const ctx=c.getContext('2d');
-    const g=ctx.createRadialGradient(32,32,0,32,32,32);
-    g.addColorStop(0,'rgba(255,255,255,1)');
-    g.addColorStop(0.25,'rgba(255,255,255,0.85)');
-    g.addColorStop(0.5,'rgba(255,255,255,0.35)');
-    g.addColorStop(1,'rgba(255,255,255,0)');
-    ctx.fillStyle=g; ctx.fillRect(0,0,64,64);
-    const tex=new THREE.CanvasTexture(c); tex.needsUpdate=true; return tex;
-  })();
-  function layer(count,color,size,opacity,blending){
-    const pos=new Float32Array(count*3),spd=new Float32Array(count);
-    for(let i=0;i<count;i++){pos[i*3]=cw(BX);pos[i*3+1]=cw(BY);pos[i*3+2]=cw(BZ);spd[i]=0.6+Math.random()*1.0;}
-    const g=new THREE.BufferGeometry();
-    g.setAttribute('position',new THREE.BufferAttribute(pos,3));
-    const m=new THREE.PointsMaterial({color,size:size*1.7,sizeAttenuation:true,transparent:true,opacity,depthWrite:false,map:starTex,blending:blending||THREE.NormalBlending});
-    const p=new THREE.Points(g,m); scene.add(p);
-    return{pts:p,geo:g,mat:m,spd,count,baseOp:opacity,tw:Math.random()*6.28};
-  }
-  const layers=[
-    layer(1800,0xeae8e3,0.015,0.9),
-    layer(520,0x9a9a9a,0.021,0.6),
-    layer(340,0xff5a3c,0.030,0.95,THREE.AdditiveBlending),
-    layer(300,0xa44dff,0.028,0.9,THREE.AdditiveBlending),
-    layer(40,0xff5a3c,0.085,0.9,THREE.AdditiveBlending),
-    layer(20,0xb14cff,0.072,0.85,THREE.AdditiveBlending),
-  ];
-  function flow(x,y,z,t,o){const s=0.85;o[0]=Math.sin(y*s+t)+Math.cos(z*s*1.3-t*0.7);o[1]=Math.sin(z*s*1.1+t*0.8)+Math.cos(x*s*0.9+t);o[2]=(Math.sin(x*s*1.2-t)+Math.cos(y*s*1.05+t*0.6))*0.5;}
-  function resize(){const w=window.innerWidth,h=window.innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();}
-  resize(); window.addEventListener('resize',resize,{passive:true});
-  let hasMouse=false,mwx=0,mwy=0;
-  window.addEventListener('pointermove',e=>{hasMouse=true;mwx=((e.clientX/window.innerWidth)*2-1)*BX;mwy=-(((e.clientY/window.innerHeight)*2-1)*BY);},{passive:true});
-  const grp=new THREE.Group(); layers.forEach(L=>grp.add(L.pts)); scene.add(grp);
-  const v=[0,0,0]; let t=0;
-  function loop(){
-    t+=0.004; const speed=0.006;
-    for(const L of layers){
-      const a=L.geo.attributes.position.array;
-      for(let i=0;i<L.count;i++){const ix=i*3;let x=a[ix],y=a[ix+1],z=a[ix+2];
-        flow(x,y,z,t,v);const sp=speed*L.spd[i];x+=v[0]*sp;y+=v[1]*sp;z+=v[2]*sp;
-        if(hasMouse){const dx=x-mwx,dy=y-mwy,d2=dx*dx+dy*dy;if(d2<0.8){const f=(0.8-d2)*0.06;x+=dx*f;y+=dy*f;}}
-        if(x>BX)x-=BX*2;else if(x<-BX)x+=BX*2;
-        if(y>BY)y-=BY*2;else if(y<-BY)y+=BY*2;
-        if(z>BZ)z-=BZ*2;else if(z<-BZ)z+=BZ*2;
-        a[ix]=x;a[ix+1]=y;a[ix+2]=z;}
-      L.geo.attributes.position.needsUpdate=true;
-      L.mat.opacity=L.baseOp*(0.78+0.22*Math.sin(t*1.6+L.tw));
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canvas = document.getElementById('field');
+  if (!canvas || !window.THREE) { /* fall through -- rest of script still wires up nav/lightbox */ }
+  else (function(){
+    var THREE = window.THREE;
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+    camera.position.z = 4;
+    var BX = 2.7, BY = 2.1, BZ = 1.5;
+    function cw(s){ return ((Math.random()+Math.random()+Math.random()+Math.random())/4*2-1)*s; }
+    var starTex = (function(){
+      var c = document.createElement('canvas'); c.width = c.height = 64;
+      var cctx = c.getContext('2d');
+      var g = cctx.createRadialGradient(32,32,0,32,32,32);
+      g.addColorStop(0,'rgba(255,255,255,1)');
+      g.addColorStop(0.25,'rgba(255,255,255,0.85)');
+      g.addColorStop(0.5,'rgba(255,255,255,0.35)');
+      g.addColorStop(1,'rgba(255,255,255,0)');
+      cctx.fillStyle = g; cctx.fillRect(0,0,64,64);
+      var tex = new THREE.CanvasTexture(c); tex.needsUpdate = true; return tex;
+    })();
+    function layer(count,color,size,opacity,blending){
+      var pos = new Float32Array(count*3), spd = new Float32Array(count);
+      for (var i=0;i<count;i++){ pos[i*3]=cw(BX); pos[i*3+1]=cw(BY); pos[i*3+2]=cw(BZ); spd[i]=0.6+Math.random()*1.0; }
+      var g = new THREE.BufferGeometry();
+      g.setAttribute('position', new THREE.BufferAttribute(pos,3));
+      var m = new THREE.PointsMaterial({ color:color, size:size*1.7, sizeAttenuation:true, transparent:true, opacity:opacity, depthWrite:false, map:starTex, blending: blending || THREE.NormalBlending });
+      var p = new THREE.Points(g,m); scene.add(p);
+      return { pts:p, geo:g, mat:m, spd:spd, count:count, baseOp:opacity, tw: Math.random()*6.28 };
     }
-    grp.rotation.z=t*0.05; grp.rotation.x=Math.sin(t*0.3)*0.04; grp.position.y=Math.sin(t*0.4)*0.05;
-    renderer.render(scene,camera); requestAnimationFrame(loop);
+    var layers = [
+      layer(1800, 0xeae8e3, 0.015, 0.9),
+      layer(520, 0x9a9a9a, 0.021, 0.6),
+      layer(340, 0xff5a3c, 0.030, 0.95, THREE.AdditiveBlending),
+      layer(300, 0xa44dff, 0.028, 0.9, THREE.AdditiveBlending),
+      layer(40, 0xff5a3c, 0.085, 0.9, THREE.AdditiveBlending),
+      layer(20, 0xb14cff, 0.072, 0.85, THREE.AdditiveBlending)
+    ];
+    function flow(x,y,z,t,o){ var s=0.85; o[0]=Math.sin(y*s+t)+Math.cos(z*s*1.3-t*0.7); o[1]=Math.sin(z*s*1.1+t*0.8)+Math.cos(x*s*0.9+t); o[2]=(Math.sin(x*s*1.2-t)+Math.cos(y*s*1.05+t*0.6))*0.5; }
+    function resize(){ var w=window.innerWidth, h=window.innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
+    resize();
+    window.addEventListener('resize', resize, {passive:true});
+    var hasMouse = false, mwx = 0, mwy = 0;
+    window.addEventListener('pointermove', function(e){ hasMouse=true; mwx=((e.clientX/window.innerWidth)*2-1)*BX; mwy=-(((e.clientY/window.innerHeight)*2-1)*BY); }, {passive:true});
+    var grp = new THREE.Group(); layers.forEach(function(L){ grp.add(L.pts); }); scene.add(grp);
+    var v = [0,0,0], t = 0;
+    function frame(){
+      t += 0.004; var speed = 0.006;
+      for (var li=0; li<layers.length; li++){
+        var L = layers[li];
+        var a = L.geo.attributes.position.array;
+        for (var i=0;i<L.count;i++){
+          var ix=i*3, x=a[ix], y=a[ix+1], z=a[ix+2];
+          flow(x,y,z,t,v);
+          var sp = speed*L.spd[i];
+          x += v[0]*sp; y += v[1]*sp; z += v[2]*sp;
+          if (hasMouse){ var dx=x-mwx, dy=y-mwy, d2=dx*dx+dy*dy; if (d2<0.8){ var f=(0.8-d2)*0.06; x+=dx*f; y+=dy*f; } }
+          if (x>BX) x-=BX*2; else if (x<-BX) x+=BX*2;
+          if (y>BY) y-=BY*2; else if (y<-BY) y+=BY*2;
+          if (z>BZ) z-=BZ*2; else if (z<-BZ) z+=BZ*2;
+          a[ix]=x; a[ix+1]=y; a[ix+2]=z;
+        }
+        L.geo.attributes.position.needsUpdate = true;
+        L.mat.opacity = L.baseOp * (0.78 + 0.22*Math.sin(t*1.6+L.tw));
+      }
+      grp.rotation.z = t*0.05; grp.rotation.x = Math.sin(t*0.3)*0.04; grp.position.y = Math.sin(t*0.4)*0.05;
+      renderer.render(scene,camera);
+      if (!reduce) requestAnimationFrame(frame);
+    }
+    frame();
+    setTimeout(function(){
+      canvas.style.transition = 'opacity 1.5s ease'; canvas.style.opacity = '0.85';
+      if (reduce) return;
+      layers.forEach(function(L,i){
+        L.pts.scale.set(0.35,0.35,0.35);
+        var start = performance.now(), dur = 2000+i*150;
+        function sc(){ var p=Math.min(1,(performance.now()-start)/dur), val=0.35+0.65*p; L.pts.scale.set(val,val,val); if (p<1) requestAnimationFrame(sc); }
+        requestAnimationFrame(sc);
+      });
+    }, 300);
+  })();
+
+  /* scroll spy + nav bg */
+  var nav = document.getElementById('nav');
+  var links = document.querySelectorAll('.nav-link');
+  var sections = ['projects','about','stack','contact'].map(function(id){ return document.getElementById(id); });
+
+  function onScroll(){
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+    var pos = window.scrollY + window.innerHeight * 0.35;
+    var current = null;
+    sections.forEach(function(sec){
+      if (sec && sec.offsetTop <= pos) current = sec.id;
+    });
+    links.forEach(function(l){
+      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+    });
   }
-  loop();
-  setTimeout(()=>{
-    canvas.style.transition='opacity 1.5s ease'; canvas.style.opacity='0.95';
-    layers.forEach((L,i)=>{L.pts.scale.set(0.35,0.35,0.35);const start=performance.now(),dur=2000+i*150;
-      function sc(){const p=Math.min(1,(performance.now()-start)/dur),val=0.35+0.65*p;L.pts.scale.set(val,val,val);if(p<1)requestAnimationFrame(sc);}
-      requestAnimationFrame(sc);});
-  },300);
+  window.addEventListener('scroll', onScroll, {passive:true});
+  onScroll();
+
+  /* mobile nav */
+  var toggle = document.getElementById('navToggle');
+  var mobileNav = document.getElementById('mobileNav');
+  var mobileClose = document.getElementById('mobileClose');
+  toggle.addEventListener('click', function(){ mobileNav.classList.add('open'); });
+  mobileClose.addEventListener('click', function(){ mobileNav.classList.remove('open'); });
+  mobileNav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){ mobileNav.classList.remove('open'); });
+  });
+
+  /* lightbox */
+  var lightbox = document.getElementById('lightbox');
+  var lightboxImg = document.getElementById('lightboxImg');
+  var lightboxClose = document.getElementById('lightboxClose');
+  document.querySelectorAll('[data-lightbox]').forEach(function(frame){
+    frame.addEventListener('click', function(){
+      var img = document.getElementById(frame.getAttribute('data-lightbox'));
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+  function closeLightbox(){ lightbox.classList.remove('open'); document.body.style.overflow = ''; }
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', function(e){ if (e.target === lightbox) closeLightbox(); });
+  window.addEventListener('keydown', function(e){ if (e.key === 'Escape') closeLightbox(); });
 })();
 </script>
 </body>
