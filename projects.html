@@ -307,6 +307,12 @@ html, body {
   aspect-ratio: 16/10;
   object-fit: cover;
   object-position: top;
+  transform: scale(1.1);
+  transform-origin: top center;
+}
+
+@media (min-resolution: 2dppx) {
+  .browser-shot { transform: none; }
 }
 
 /* ARROWS */
