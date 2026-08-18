@@ -67,11 +67,10 @@ html, body {
 
 .nav-logo .solid { color: var(--white); }
 .nav-logo .ghost {
-  color: transparent;
-  -webkit-text-stroke: 1.75px rgba(255,255,255,0.92);
+  color: rgba(255,255,255,0.55);
 }
 @media (min-resolution: 2dppx) {
-  .nav-logo .ghost { -webkit-text-stroke: 0.75px rgba(255,255,255,0.88); }
+  .nav-logo .ghost { color: transparent; -webkit-text-stroke: 0.75px rgba(255,255,255,0.88); }
 }
 
 .nav-links { display: flex; gap: 32px; }
