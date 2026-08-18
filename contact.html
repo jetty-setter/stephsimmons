@@ -145,7 +145,7 @@ html, body {
 .statement .accent { color: var(--coral); }
 
 .body {
-  font-size: 15px;
+  font-size: 16.5px;
   line-height: 1.7;
   color: var(--gray-1);
   max-width: 520px;
@@ -178,7 +178,7 @@ html, body {
 }
 
 .link-value {
-  font-size: 16px;
+  font-size: 17.5px;
   font-weight: 500;
   position: relative;
   padding-bottom: 4px;
@@ -216,6 +216,11 @@ html, body {
   text-transform: uppercase;
   text-decoration: none;
   transition: background 0.2s ease, color 0.2s ease;
+}
+
+@media (min-resolution: 2dppx) {
+  .body { font-size: 15px; }
+  .link-value { font-size: 16px; }
 }
 
 .resume-btn:hover {

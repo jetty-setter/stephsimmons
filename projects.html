@@ -173,7 +173,7 @@ html, body {
 }
 
 .slide-kicker {
-  font-size: 13px;
+  font-size: 14.5px;
   color: var(--gray-1);
   line-height: 1.45;
   margin-bottom: 14px;
@@ -194,7 +194,7 @@ html, body {
 }
 
 .slide-bullets li {
-  font-size: 12px;
+  font-size: 13.5px;
   color: var(--gray-1);
   line-height: 1.5;
   padding-left: 16px;
@@ -243,6 +243,11 @@ html, body {
 }
 
 .slide-link.private::after { background: var(--gray-3); }
+
+@media (min-resolution: 2dppx) {
+  .slide-kicker { font-size: 13px; }
+  .slide-bullets li { font-size: 12px; }
+}
 
 /* MEDIA */
 .slide-media {
