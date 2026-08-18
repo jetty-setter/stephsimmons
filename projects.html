@@ -68,10 +68,8 @@ html, body {
 
 .nav-logo .solid { color: var(--white); }
 .nav-logo .ghost {
-  color: rgba(255,255,255,0.55);
-}
-@media (min-resolution: 2dppx) {
-  .nav-logo .ghost { color: transparent; -webkit-text-stroke: 0.75px rgba(255,255,255,0.88); }
+  color: transparent;
+  -webkit-text-stroke: 2px rgba(255,255,255,0.92);
 }
 
 .nav-links {
@@ -141,7 +139,7 @@ html, body {
 
 .slide.active .slide-content {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
 }
 
 .slide-num {
@@ -260,7 +258,7 @@ html, body {
 
 .slide.active .slide-media {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: none;
 }
 
 .browser-frame {
