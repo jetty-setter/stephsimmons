@@ -300,12 +300,75 @@ html, body {
   aspect-ratio: 16/10;
   object-fit: cover;
   object-position: top;
-  transform: scale(1.1);
-  transform-origin: top center;
+  cursor: zoom-in;
 }
 
-@media (min-resolution: 2dppx) {
-  .browser-shot { transform: none; }
+.browser-frame { position: relative; }
+
+.zoom-hint {
+  position: absolute;
+  top: 12px; right: 12px;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: rgba(8,10,15,0.7);
+  border: 1px solid rgba(255,255,255,0.15);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.85);
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.browser-frame:hover .zoom-hint { opacity: 1; }
+
+/* LIGHTBOX */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: rgba(5,6,9,0.94);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  cursor: zoom-out;
+}
+
+.lightbox.open { display: flex; }
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6);
+  cursor: default;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 24px; right: 28px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: var(--white);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(232,82,42,0.15);
+  border-color: var(--coral);
+}
+
+@media (max-width: 600px) {
+  .lightbox { padding: 20px; }
+  .lightbox-close { top: 14px; right: 14px; width: 38px; height: 38px; }
 }
 
 /* ARROWS */
@@ -474,6 +537,7 @@ html, body {
             <div class="browser-url"><span>rabbithole.stephsimmons.dev</span></div>
           </div>
           <img class="browser-shot" src="https://stephsimmons.dev/assets/rabbithole.png" alt="RabbitHole">
+          <span class="zoom-hint" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg></span>
         </div>
       </div>
     </div>
@@ -503,6 +567,7 @@ html, body {
             <div class="browser-url"><span>quiclens.stephsimmons.dev</span></div>
           </div>
           <img class="browser-shot" src="https://stephsimmons.dev/assets/quiclens.png" alt="QuicLens">
+          <span class="zoom-hint" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg></span>
         </div>
       </div>
     </div>
@@ -532,6 +597,7 @@ html, body {
             <div class="browser-url"><span>purezen.stephsimmons.dev</span></div>
           </div>
           <img class="browser-shot" src="https://stephsimmons.dev/assets/purezen.png" alt="PureZen">
+          <span class="zoom-hint" aria-hidden="true"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg></span>
         </div>
       </div>
     </div>
@@ -546,6 +612,11 @@ html, body {
   <button class="dot active" data-idx="0"></button>
   <button class="dot" data-idx="1"></button>
   <button class="dot" data-idx="2"></button>
+</div>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">&#10005;</button>
+  <img id="lightboxImg" src="" alt="">
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -645,6 +716,7 @@ html, body {
   dots.forEach(d => d.addEventListener('click', () => goTo(+d.dataset.idx)));
 
   window.addEventListener('keydown', e => {
+    if (document.getElementById('lightbox').classList.contains('open')) return;
     if (e.key === 'ArrowRight') goTo(cur === total - 1 ? 0 : cur + 1);
     if (e.key === 'ArrowLeft')  goTo(cur === 0 ? total - 1 : cur - 1);
   });
@@ -656,6 +728,33 @@ html, body {
     if (dx < -50) goTo(cur === total - 1 ? 0 : cur + 1);
     if (dx >  50) goTo(cur === 0 ? total - 1 : cur - 1);
   }, {passive:true});
+})();
+
+/* LIGHTBOX */
+(function(){
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const closeBtn = document.getElementById('lightboxClose');
+
+  function open(src, alt) {
+    lightboxImg.src = src;
+    lightboxImg.alt = alt;
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.browser-shot').forEach(img => {
+    img.addEventListener('click', () => open(img.src, img.alt));
+  });
+
+  closeBtn.addEventListener('click', close);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) close(); });
+  window.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
 })();
 </script>
 </body>
