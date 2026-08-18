@@ -34,6 +34,9 @@ html, body {
   background: var(--bg);
   font-family: 'Inter', system-ui, sans-serif;
   color: var(--white);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body { overflow-x: hidden; }
@@ -217,26 +220,6 @@ body { overflow-x: hidden; }
   .nav-link { font-size: 9px; letter-spacing: 1px; }
 }
 
-@media (max-width: 600px) {
-  .page { padding: 120px 24px 80px; }
-  .stack-statement { font-size: 36px; }
-  .cat-title { font-size: 24px; }
-  .hamburger { display: flex; }
-  .nav-links {
-    position: fixed;
-    inset: 0;
-    background: rgba(8,10,15,0.97);
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 40px;
-    display: none;
-    z-index: 15;
-  }
-  .nav-links.open { display: flex; }
-  .nav-link { font-size: 16px; letter-spacing: 3px; }
-}
-
 .hamburger {
   display: none;
   flex-direction: column;
@@ -258,6 +241,26 @@ body { overflow-x: hidden; }
 .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
 .hamburger.open span:nth-child(2) { opacity: 0; }
 .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+@media (max-width: 600px) {
+  .page { padding: 120px 24px 80px; }
+  .stack-statement { font-size: 36px; }
+  .cat-title { font-size: 24px; }
+  .hamburger { display: flex; }
+  .nav-links {
+    position: fixed;
+    inset: 0;
+    background: rgba(8,10,15,0.97);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    display: none;
+    z-index: 15;
+  }
+  .nav-links.open { display: flex; }
+  .nav-link { font-size: 16px; letter-spacing: 3px; }
+}
 </style>
 </head>
 <body>
