@@ -148,7 +148,7 @@ body { overflow-x: hidden; }
 }
 
 .hero-body {
-  font-size: 15px;
+  font-size: 16.5px;
   line-height: 1.75;
   color: var(--gray-1);
   max-width: 540px;
@@ -179,7 +179,7 @@ body { overflow-x: hidden; }
 .cred-item:first-of-type { padding-top: 0; }
 
 .cred-name {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--white);
   font-weight: 500;
   margin-bottom: 2px;
@@ -247,20 +247,20 @@ body { overflow-x: hidden; }
 }
 
 .tl-role {
-  font-size: 17px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--white);
   margin-bottom: 4px;
 }
 
 .tl-company {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--gray-2);
   margin-bottom: 12px;
 }
 
 .tl-desc {
-  font-size: 13px;
+  font-size: 14.5px;
   line-height: 1.65;
   color: var(--gray-1);
   max-width: 640px;
@@ -285,9 +285,18 @@ body { overflow-x: hidden; }
 }
 
 .indie-desc {
-  font-size: 13px;
+  font-size: 14.5px;
   line-height: 1.65;
   color: var(--gray-1);
+}
+
+@media (min-resolution: 2dppx) {
+  .hero-body { font-size: 15px; }
+  .cred-name { font-size: 13px; }
+  .tl-role { font-size: 17px; }
+  .tl-company { font-size: 12px; }
+  .tl-desc { font-size: 13px; }
+  .indie-desc { font-size: 13px; }
 }
 
 /* RESPONSIVE */
