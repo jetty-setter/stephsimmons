@@ -62,10 +62,14 @@ body { overflow-x: hidden; }
 
 .nav-logo {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(22px, 2.5vw, 32px);
+  font-size: clamp(32px, 4vw, 52px);
   letter-spacing: 0.04em;
   text-decoration: none;
   line-height: 1;
+}
+
+@media (min-resolution: 2dppx) {
+  .nav-logo { font-size: clamp(22px, 2.5vw, 32px); }
 }
 
 .nav-logo .solid { color: var(--white); }
