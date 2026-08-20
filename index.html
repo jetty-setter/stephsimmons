@@ -220,7 +220,6 @@ h1, h2, h3 { text-wrap: balance; }
   max-width: 100%;
   opacity: 0;
   animation: rise 0.8s cubic-bezier(.16,1,.3,1) 0.22s forwards;
-  text-shadow: 0 4px 30px rgba(255,255,255,0.65);
 }
 .hero-solid { color: var(--text); }
 .hero-accent { color: var(--accent); }
@@ -665,7 +664,6 @@ footer {
   <p class="hero-statement">I build <strong>systems that hold up after launch</strong> &mdash; from CDK-defined AWS infrastructure to the AI product running on top of it.</p>
   <div class="hero-actions">
     <a href="#projects" class="btn-primary">View Projects</a>
-    <a href="#contact" class="btn-ghost">Get in Touch</a>
   </div>
   <div class="scroll-cue"><div class="line"></div>SCROLL</div>
 </header>
@@ -923,12 +921,12 @@ footer {
       return { pts:p, geo:g, mat:m, spd:spd, count:count, baseOp:opacity, tw: Math.random()*6.28 };
     }
     var layers = [
-      layer(1800, 0x2a2a2a, 0.015, 0.55),
-      layer(520, 0x6a6a6a, 0.021, 0.4),
-      layer(340, 0x5200FF, 0.030, 0.42),
-      layer(300, 0xF900FF, 0.028, 0.38),
-      layer(40, 0xCCFF00, 0.085, 0.42),
-      layer(20, 0xFF6B00, 0.072, 0.4)
+      layer(1800, 0x2a2a2a, 0.015, 0.7),
+      layer(520, 0x6a6a6a, 0.021, 0.55),
+      layer(340, 0x5200FF, 0.030, 0.55),
+      layer(300, 0xF900FF, 0.028, 0.5),
+      layer(40, 0xCCFF00, 0.085, 0.55),
+      layer(20, 0xFF6B00, 0.072, 0.52)
     ];
     function flow(x,y,z,t,o){ var s=0.85; o[0]=Math.sin(y*s+t)+Math.cos(z*s*1.3-t*0.7); o[1]=Math.sin(z*s*1.1+t*0.8)+Math.cos(x*s*0.9+t); o[2]=(Math.sin(x*s*1.2-t)+Math.cos(y*s*1.05+t*0.6))*0.5; }
     function resize(){ var w=window.innerWidth, h=window.innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
@@ -963,7 +961,7 @@ footer {
     }
     frame();
     setTimeout(function(){
-      canvas.style.transition = 'opacity 1.5s ease'; canvas.style.opacity = '0.85';
+      canvas.style.transition = 'opacity 1.5s ease'; canvas.style.opacity = '1';
       if (reduce) return;
       layers.forEach(function(L,i){
         L.pts.scale.set(0.35,0.35,0.35);
