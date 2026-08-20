@@ -894,7 +894,7 @@ footer {
   else (function(){
     var THREE = window.THREE;
     var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     var scene = new THREE.Scene();
     var camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
     camera.position.z = 4;
@@ -905,8 +905,8 @@ footer {
       var cctx = c.getContext('2d');
       var g = cctx.createRadialGradient(32,32,0,32,32,32);
       g.addColorStop(0,'rgba(255,255,255,1)');
-      g.addColorStop(0.25,'rgba(255,255,255,0.85)');
-      g.addColorStop(0.5,'rgba(255,255,255,0.35)');
+      g.addColorStop(0.4,'rgba(255,255,255,1)');
+      g.addColorStop(0.7,'rgba(255,255,255,0.5)');
       g.addColorStop(1,'rgba(255,255,255,0)');
       cctx.fillStyle = g; cctx.fillRect(0,0,64,64);
       var tex = new THREE.CanvasTexture(c); tex.needsUpdate = true; return tex;
