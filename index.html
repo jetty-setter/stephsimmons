@@ -721,7 +721,7 @@ footer {
             <div class="bd r"></div><div class="bd y"></div><div class="bd g"></div>
             <div class="browser-url"><span>rabbithole.stephsimmons.dev</span></div>
           </div>
-          <img class="browser-shot" id="img-rabbithole" src="assets/rabbithole.jpg" alt="RabbitHole" loading="lazy">
+          <img class="browser-shot" id="img-rabbithole" src="assets/rabbithole.jpg" alt="RabbitHole" loading="lazy" width="1600" height="1000">
         </div>
       </div>
     </div>
@@ -750,7 +750,7 @@ footer {
             <div class="bd r"></div><div class="bd y"></div><div class="bd g"></div>
             <div class="browser-url"><span>quiclens.stephsimmons.dev</span></div>
           </div>
-          <img class="browser-shot" id="img-quiclens" src="assets/quiclens.png" alt="QuicLens" loading="lazy">
+          <img class="browser-shot" id="img-quiclens" src="assets/quiclens.png" alt="QuicLens" loading="lazy" width="2493" height="1558">
         </div>
       </div>
     </div>
@@ -779,7 +779,7 @@ footer {
             <div class="bd r"></div><div class="bd y"></div><div class="bd g"></div>
             <div class="browser-url"><span>purezen.stephsimmons.dev</span></div>
           </div>
-          <img class="browser-shot" id="img-purezen" src="assets/purezen.png" alt="PureZen" loading="lazy">
+          <img class="browser-shot" id="img-purezen" src="assets/purezen.png" alt="PureZen" loading="lazy" width="2419" height="1512">
         </div>
       </div>
     </div>
@@ -1007,7 +1007,10 @@ footer {
       if (sec && sec.offsetTop <= pos) current = sec.id;
     });
     links.forEach(function(l){
-      l.classList.toggle('active', l.getAttribute('href') === '#' + current);
+      var isCurrent = l.getAttribute('href') === '#' + current;
+      l.classList.toggle('active', isCurrent);
+      if (isCurrent) l.setAttribute('aria-current', 'true');
+      else l.removeAttribute('aria-current');
     });
   }
   window.addEventListener('scroll', onScroll, {passive:true});
