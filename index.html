@@ -312,27 +312,6 @@ h1, h2, h3 { text-wrap: balance; }
   }
 }
 
-.scroll-cue {
-  position: absolute;
-  bottom: 36px; left: 50%;
-  transform: translateX(-50%);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-.scroll-cue .line {
-  width: 1px; height: 34px;
-  background: linear-gradient(var(--text-dim), transparent);
-  animation: cue 2s ease-in-out infinite;
-}
-@keyframes cue { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .scroll-cue .line { animation: none; } }
-
 /* SECTION SCAFFOLDING */
 section { position: relative; padding: 130px 0; border-top: 1px solid var(--border-soft); }
 @media (max-width: 720px) { section { padding: 90px 0; } }
@@ -589,10 +568,10 @@ section { position: relative; padding: 130px 0; border-top: 1px solid var(--bord
 .contact-title { font-family: var(--font-display); font-size: clamp(38px, 5.6vw, 62px); line-height: 1.05; margin-bottom: 22px; }
 .contact-title .accent { color: var(--accent); }
 .contact-body { font-size: 16.5px; color: var(--text-muted); line-height: 1.6; margin-bottom: 46px; }
-.contact-links { display: flex; justify-content: center; gap: 50px; margin-bottom: 46px; flex-wrap: wrap; }
-.contact-link-label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px; }
-.contact-link-value { font-size: 15.5px; font-weight: 600; color: var(--text); border-bottom: 1.5px solid transparent; transition: border-color 0.2s ease, color 0.2s ease; }
-.contact-link-value:hover { color: var(--accent); border-color: var(--accent); }
+.contact-links { display: flex; justify-content: center; align-items: center; gap: 14px; margin-bottom: 46px; flex-wrap: wrap; font-size: 15.5px; font-weight: 600; }
+.contact-links a { color: var(--text); border-bottom: 1.5px solid transparent; transition: border-color 0.2s ease, color 0.2s ease; }
+.contact-links a:hover { color: var(--accent); border-color: var(--accent); }
+.contact-links .sep { color: var(--text-dim); font-weight: 400; }
 
 /* FOOTER */
 footer {
@@ -676,7 +655,6 @@ footer {
   <div class="hero-actions">
     <a href="#projects" class="btn-primary">View Projects</a>
   </div>
-  <div class="scroll-cue"><div class="line"></div>SCROLL</div>
 </header>
 
 <section id="projects">
@@ -870,12 +848,15 @@ footer {
       <h2 class="contact-title">Let's build the next <span class="accent">production system.</span></h2>
       <p class="contact-body">Open to remote Cloud Engineer and Platform Engineer roles. If you're hiring, or just want to talk shop about AWS architecture &mdash; reach out.</p>
       <div class="contact-links">
-        <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer" class="contact-link-item"><div class="contact-link-label">Resume</div><div class="contact-link-value">View &#8599;</div></a>
-        <a href="mailto:ssimmons86@icloud.com" class="contact-link-item"><div class="contact-link-label">Email</div><div class="contact-link-value">ssimmons86@icloud.com</div></a>
-        <a href="https://linkedin.com/in/ssimmonsne" target="_blank" rel="noopener noreferrer" class="contact-link-item"><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">in/ssimmonsne</div></a>
-        <a href="https://github.com/jetty-setter" target="_blank" rel="noopener noreferrer" class="contact-link-item"><div class="contact-link-label">GitHub</div><div class="contact-link-value">jetty-setter</div></a>
+        <a href="mailto:ssimmons86@icloud.com">Email</a>
+        <span class="sep">&middot;</span>
+        <a href="https://linkedin.com/in/ssimmonsne" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <span class="sep">&middot;</span>
+        <a href="https://github.com/jetty-setter" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <span class="sep">&middot;</span>
+        <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
       </div>
-      <a href="mailto:ssimmons86@icloud.com" class="btn-primary">Say Hello</a>
+      <a href="mailto:ssimmons86@icloud.com" class="btn-primary">Reach Out</a>
     </div>
   </div>
 </section>
