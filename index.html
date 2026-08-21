@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Steph Simmons — Cloud Engineer &amp; AWS Solutions Architect</title>
-<meta name="description" content="Steph Simmons — Cloud Engineer, AWS Solutions Architect, and Full-Stack Developer based in Omaha. Building scalable systems on AWS with Python, React, and TypeScript.">
+<meta name="description" content="Steph Simmons — Cloud Engineer, AWS Solutions Architect, and Full-Stack Developer. Building scalable systems on AWS with Python, React, and TypeScript.">
 <meta property="og:title" content="Steph Simmons — Cloud Engineer &amp; AWS Solutions Architect">
 <meta property="og:description" content="Cloud Engineer and AWS Solutions Architect building scalable systems with Python, React, and TypeScript. MS/MBA candidate, AWS Certified.">
 <meta property="og:type" content="website">
@@ -18,6 +18,25 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Steph Simmons",
+  "url": "https://stephsimmons.dev/",
+  "jobTitle": "Cloud Engineer",
+  "description": "Cloud Engineer and AWS Solutions Architect building scalable systems on AWS with Python, React, and TypeScript.",
+  "knowsAbout": ["AWS", "Cloud Engineering", "Python", "React", "TypeScript", "Serverless Architecture"],
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "University of Nebraska – Omaha"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/ssimmonsne",
+    "https://github.com/jetty-setter"
+  ]
+}
+</script>
 <style>
 :root {
   --bg: #ffffff;
@@ -692,8 +711,8 @@ footer {
         <div class="insight"><div class="insight-text"><strong>ECS Fargate over Lambda</strong> for transcoding &mdash; ffmpeg workloads are CPU-bound and long-running, and Lambda's 15-minute limit and cold starts would have killed the experience.</div></div>
         <div class="insight"><div class="insight-text"><strong>Three AI services had to fail independently.</strong> Claude Vision, Transcribe, and vector embeddings each run as an independent async step, so one failure never breaks the pipeline.</div></div>
         <div class="project-links">
-          <a href="https://rabbithole.stephsimmons.dev" target="_blank" class="project-link">Live Demo</a>
-          <a href="https://github.com/jetty-setter/rabbithole" target="_blank" class="project-link">GitHub</a>
+          <a href="https://rabbithole.stephsimmons.dev" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
+          <a href="https://github.com/jetty-setter/rabbithole" target="_blank" rel="noopener noreferrer" class="project-link">GitHub</a>
         </div>
       </div>
       <div class="project-media">
@@ -702,7 +721,7 @@ footer {
             <div class="bd r"></div><div class="bd y"></div><div class="bd g"></div>
             <div class="browser-url"><span>rabbithole.stephsimmons.dev</span></div>
           </div>
-          <img class="browser-shot" id="img-rabbithole" src="assets/rabbithole.png" alt="RabbitHole" loading="lazy">
+          <img class="browser-shot" id="img-rabbithole" src="assets/rabbithole.jpg" alt="RabbitHole" loading="lazy">
         </div>
       </div>
     </div>
@@ -721,7 +740,7 @@ footer {
         <div class="insight"><div class="insight-text"><strong>The math had to be right.</strong> Built a 92-test scientific validation suite verifying every calculation against the lab's own researcher-validated ground truth before a single user touched it.</div></div>
         <div class="insight"><div class="insight-text"><strong>Isolation, not just application logic.</strong> One misconfigured query could leak one lab's data to another &mdash; enforced at the DynamoDB partition key and the IAM boundary.</div></div>
         <div class="project-links">
-          <a href="https://quiclens.stephsimmons.dev" target="_blank" class="project-link">Live Demo</a>
+          <a href="https://quiclens.stephsimmons.dev" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
           <span class="project-link disabled">Code Private</span>
         </div>
       </div>
@@ -750,8 +769,8 @@ footer {
         <div class="insight"><div class="insight-text"><strong>Constraints drove the design.</strong> Started in an AWS Academy sandbox with no GPU and CPU-only Ollama inference &mdash; 10&ndash;40s generation times, which is exactly what drove the regex-first routing.</div></div>
         <div class="insight"><div class="insight-text"><strong>Never answers from memory.</strong> Services resolve against the real catalog, availability comes from DynamoDB, and booking actions are deterministic state machines.</div></div>
         <div class="project-links">
-          <a href="https://purezen.stephsimmons.dev" target="_blank" class="project-link">Live Demo</a>
-          <a href="https://github.com/jetty-setter/purezen" target="_blank" class="project-link">GitHub</a>
+          <a href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
+          <a href="https://github.com/jetty-setter/purezen" target="_blank" rel="noopener noreferrer" class="project-link">GitHub</a>
         </div>
       </div>
       <div class="project-media">
@@ -859,8 +878,8 @@ footer {
       <p class="contact-body">Open to remote Cloud Engineer and Platform Engineer roles. If you're hiring, or just want to talk shop about AWS architecture &mdash; reach out.</p>
       <div class="contact-links">
         <a href="mailto:ssimmons86@icloud.com" class="contact-link-item"><div class="contact-link-label">Email</div><div class="contact-link-value">ssimmons86@icloud.com</div></a>
-        <a href="https://linkedin.com/in/ssimmonsne" target="_blank" class="contact-link-item"><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">in/ssimmonsne</div></a>
-        <a href="https://github.com/jetty-setter" target="_blank" class="contact-link-item"><div class="contact-link-label">GitHub</div><div class="contact-link-value">jetty-setter</div></a>
+        <a href="https://linkedin.com/in/ssimmonsne" target="_blank" rel="noopener noreferrer" class="contact-link-item"><div class="contact-link-label">LinkedIn</div><div class="contact-link-value">in/ssimmonsne</div></a>
+        <a href="https://github.com/jetty-setter" target="_blank" rel="noopener noreferrer" class="contact-link-item"><div class="contact-link-label">GitHub</div><div class="contact-link-value">jetty-setter</div></a>
       </div>
       <a href="mailto:ssimmons86@icloud.com" class="btn-primary">Say Hello</a>
     </div>
@@ -875,7 +894,7 @@ footer {
       <a href="#projects">Projects</a>
       <a href="#about">About</a>
       <a href="#stack">Stack</a>
-      <a href="https://github.com/jetty-setter" target="_blank">GitHub</a>
+      <a href="https://github.com/jetty-setter" target="_blank" rel="noopener noreferrer">GitHub</a>
     </div>
   </div>
 </footer>
