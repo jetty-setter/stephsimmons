@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Steph Simmons — Cloud Engineer &amp; AWS Solutions Architect</title>
-<meta name="description" content="Steph Simmons — Cloud Engineer, AWS Solutions Architect, and Full-Stack Developer. Building scalable systems on AWS with Python, React, and TypeScript.">
+<meta name="description" content="Steph Simmons — Cloud Engineer, AWS Solutions Architect, and Platform Engineer. Building scalable systems on AWS with Python, React, and TypeScript.">
 <meta property="og:title" content="Steph Simmons — Cloud Engineer &amp; AWS Solutions Architect">
 <meta property="og:description" content="Cloud Engineer and AWS Solutions Architect building scalable systems with Python, React, and TypeScript. MS/MBA candidate, AWS Certified.">
 <meta property="og:type" content="website">
@@ -484,13 +484,13 @@ section { position: relative; padding: 130px 0; }
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid var(--border);
-  box-shadow: 0 40px 90px rgba(0,0,0,0.55);
+  box-shadow: 0 22px 50px rgba(0,0,0,0.28);
   cursor: zoom-in;
   transition: transform 0.35s cubic-bezier(.16,1,.3,1), box-shadow 0.35s ease;
 }
 .browser-frame:hover {
   transform: translateY(-6px);
-  box-shadow: 0 50px 110px rgba(0,0,0,0.65);
+  box-shadow: 0 28px 64px rgba(0,0,0,0.35);
 }
 .browser-bar {
   display: flex;
@@ -540,16 +540,6 @@ section { position: relative; padding: 130px 0; }
   border-left: 2px solid var(--accent);
   margin: 30px 0 40px;
   max-width: 480px;
-}
-
-.indie-line {
-  font-size: 14px;
-  line-height: 1.65;
-  color: var(--text-muted);
-  padding: 20px 24px;
-  background: var(--surface);
-  border-radius: 6px;
-  border: 1px solid var(--border-soft);
 }
 
 .cred-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 54px; }
@@ -681,7 +671,7 @@ footer {
 <header class="hero">
   <div class="hero-eyebrow">Cloud &amp; Product Engineering</div>
   <h1 class="hero-name"><span class="hero-solid">STEPH&nbsp;</span><span class="hero-accent">SIMMONS</span></h1>
-  <div class="hero-role">CLOUD ENGINEER <span>&middot;</span> AWS SOLUTIONS ARCHITECT <span>&middot;</span> FULL-STACK DEVELOPER</div>
+  <div class="hero-role">CLOUD ENGINEER <span>&middot;</span> AWS SOLUTIONS ARCHITECT <span>&middot;</span> PLATFORM ENGINEER</div>
   <p class="hero-statement">I build <strong>systems that hold up after launch</strong> &mdash; from CDK-defined AWS infrastructure to the AI product running on top of it.</p>
   <div class="hero-actions">
     <a href="#projects" class="btn-primary">View Projects</a>
@@ -693,7 +683,7 @@ footer {
   <div class="shell">
     <div class="section-head">
       <div class="eyebrow">Selected Work</div>
-      <h2 class="section-title">Shipped end-to-end, alongside a full-time job.</h2>
+      <h2 class="section-title">Production systems, designed and shipped end-to-end.</h2>
       <p class="section-lede">Three products, each deployed across its own isolated AWS account with CDK infrastructure-as-code and OIDC-based CI/CD &mdash; live, in production, and demoable right now.</p>
     </div>
 
@@ -791,12 +781,15 @@ footer {
     <div class="about-grid">
       <div>
         <div class="eyebrow">About</div>
-        <h2 class="section-title" style="margin-bottom:26px;">I build things that hold up after launch.</h2>
+        <h2 class="section-title" style="margin-bottom:26px;">A decade in enterprise IT. Five years building outside it, too.</h2>
         <p class="about-lede"><strong>Cloud Engineer and AWS Solutions Architect</strong> with a decade of enterprise IT experience &mdash; production systems built end-to-end on AWS, in isolated accounts, with CDK infrastructure-as-code, OIDC-based CI/CD, and cross-account observability across event-driven serverless backends, ECS Fargate workloads, and AI integrations with Anthropic Claude.</p>
         <div class="about-punch">Systems that are observable, documented, supportable &mdash; built for whoever owns them after I'm gone.</div>
-        <div class="indie-line"><strong style="color:var(--text)">2021&ndash;Present &middot; Independent Work.</strong> Designing and shipping the products above end-to-end, alongside a full-time enterprise IT role &mdash; each deployed across its own isolated AWS account with the same CDK and OIDC-based CI/CD discipline used at work.</div>
 
         <h3 class="timeline-title" style="margin-top:64px;">Experience</h3>
+        <div class="tl-item">
+          <div class="tl-dates">2021&ndash;Present</div>
+          <div><div class="tl-role">Independent Engineer &middot; Product &amp; Infrastructure</div><div class="tl-company">RabbitHole &middot; QuicLens &middot; PureZen</div><div class="tl-desc">Designing and shipping the products above end-to-end, alongside a full-time enterprise IT role &mdash; each deployed across its own isolated AWS account with the same CDK and OIDC-based CI/CD discipline used at work.</div></div>
+        </div>
         <div class="tl-item">
           <div class="tl-dates">2025&ndash;Present</div>
           <div><div class="tl-role">IS Supervisor</div><div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div><div class="tl-desc">Leads enterprise IT service desk operations &mdash; direct reports, team performance, and cross-functional alignment for upcoming change.</div></div>
@@ -874,7 +867,7 @@ footer {
   <div class="shell">
     <div class="contact-inner">
       <div class="eyebrow" style="text-align:center;">Contact</div>
-      <h2 class="contact-title">Let's build something <span class="accent">that holds up.</span></h2>
+      <h2 class="contact-title">Let's build the next <span class="accent">production system.</span></h2>
       <p class="contact-body">Open to remote Cloud Engineer and Platform Engineer roles. If you're hiring, or just want to talk shop about AWS architecture &mdash; reach out.</p>
       <div class="contact-links">
         <a href="mailto:ssimmons86@icloud.com" class="contact-link-item"><div class="contact-link-label">Email</div><div class="contact-link-value">ssimmons86@icloud.com</div></a>
@@ -958,8 +951,11 @@ footer {
     window.addEventListener('pointermove', function(e){ hasMouse=true; mwx=((e.clientX/window.innerWidth)*2-1)*BX; mwy=-(((e.clientY/window.innerHeight)*2-1)*BY); }, {passive:true});
     var grp = new THREE.Group(); layers.forEach(function(L){ grp.add(L.pts); }); scene.add(grp);
     var v = [0,0,0], t = 0;
+    var NEBULA_FLOOR = 0.22;
     function frame(){
       t += 0.004; var speed = 0.006;
+      var vh = window.innerHeight || 1;
+      var scrollFactor = Math.max(NEBULA_FLOOR, Math.min(1, 1 - (window.scrollY / (vh * 2.2))));
       for (var li=0; li<layers.length; li++){
         var L = layers[li];
         var a = L.geo.attributes.position.array;
@@ -975,7 +971,7 @@ footer {
           a[ix]=x; a[ix+1]=y; a[ix+2]=z;
         }
         L.geo.attributes.position.needsUpdate = true;
-        L.mat.opacity = L.baseOp * (0.78 + 0.22*Math.sin(t*1.6+L.tw));
+        L.mat.opacity = L.baseOp * scrollFactor * (0.78 + 0.22*Math.sin(t*1.6+L.tw));
       }
       grp.rotation.z = t*0.05; grp.rotation.x = Math.sin(t*0.3)*0.04; grp.position.y = Math.sin(t*0.4)*0.05;
       renderer.render(scene,camera);
