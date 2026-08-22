@@ -213,13 +213,16 @@ h1, h2, h3 { text-wrap: balance; }
 
 /* HERO */
 .hero {
-  min-height: 100svh;
+  min-height: calc(100svh - 160px);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
   padding: 140px 48px 80px;
+}
+@media (max-width: 720px) {
+  .hero { min-height: calc(100svh - 80px); }
 }
 
 .hero-eyebrow {
