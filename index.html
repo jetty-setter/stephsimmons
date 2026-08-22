@@ -4,15 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Steph Simmons — Cloud Engineer &amp; AWS Solutions Architect</title>
-<meta name="description" content="Steph Simmons — Cloud Engineer, AWS Solutions Architect, and Platform Engineer. Building scalable systems on AWS with Python, React, and TypeScript.">
+<meta name="description" content="Steph Simmons — Cloud Engineer and AWS Solutions Architect. Event-driven AWS systems, infrastructure as code, multi-tenant architecture, and applied AI, built for what happens after launch.">
+<link rel="canonical" href="https://stephsimmons.dev/">
 <meta property="og:title" content="Steph Simmons — Cloud Engineer &amp; AWS Solutions Architect">
-<meta property="og:description" content="Cloud Engineer and AWS Solutions Architect building scalable systems with Python, React, and TypeScript. MS/MBA candidate, AWS Certified.">
+<meta property="og:description" content="Event-driven AWS systems, infrastructure as code, and multi-tenant architecture, built for what happens after launch. MS/MBA candidate, AWS Certified.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://stephsimmons.dev/">
 <meta property="og:image" content="https://stephsimmons.dev/assets/og-card.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Steph Simmons — Cloud Engineer &amp; AWS Solutions Architect">
-<meta name="twitter:description" content="Cloud Engineer and AWS Solutions Architect building scalable systems with Python, React, and TypeScript.">
+<meta name="twitter:description" content="Event-driven AWS systems, infrastructure as code, and multi-tenant architecture, built for what happens after launch.">
 <meta name="twitter:image" content="https://stephsimmons.dev/assets/og-card.png">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
@@ -430,6 +431,28 @@ section { position: relative; padding: 130px 0; border-top: 1px solid var(--bord
 }
 .insight-text strong { color: var(--text); font-weight: 600; }
 
+.proof-stat {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0 12px 18px;
+  border-left: 2px solid var(--accent);
+  margin-bottom: 14px;
+  max-width: 500px;
+}
+.proof-stat .num {
+  font-family: var(--font-display);
+  font-size: 36px;
+  color: var(--accent);
+  line-height: 1;
+}
+.proof-stat .label {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--text-muted);
+  max-width: 220px;
+}
+
 .project-links {
   display: flex;
   gap: 26px;
@@ -566,6 +589,9 @@ section { position: relative; padding: 130px 0; border-top: 1px solid var(--bord
 .contact-links a { color: var(--text); border-bottom: 1.5px solid transparent; transition: border-color 0.2s ease, color 0.2s ease; }
 .contact-links a:hover { color: var(--accent); border-color: var(--accent); }
 .contact-links .sep { display: inline-block; width: 3px; height: 16px; background: var(--accent-2); border-radius: 1px; }
+.contact-email { margin-top: 18px; font-size: 13.5px; }
+.contact-email a { color: var(--text-dim); border-bottom: 1px solid transparent; transition: color 0.2s ease, border-color 0.2s ease; }
+.contact-email a:hover { color: var(--accent); border-color: var(--accent); }
 
 /* FOOTER */
 footer {
@@ -623,7 +649,7 @@ footer {
   <div class="nav-links">
     <a href="#projects" class="nav-link">Projects</a>
     <a href="#about" class="nav-link">About</a>
-    <a href="#stack" class="nav-link">Stack</a>
+    <a href="#stack" class="nav-link">Capabilities</a>
     <a href="#contact" class="nav-link">Contact</a>
   </div>
   <a href="#contact" class="nav-cta">Get in Touch</a>
@@ -634,7 +660,7 @@ footer {
   <button class="close" id="mobileClose" aria-label="Close menu">&#10005;</button>
   <a href="#projects">Projects</a>
   <a href="#about">About</a>
-  <a href="#stack">Stack</a>
+  <a href="#stack">Capabilities</a>
   <a href="#contact">Contact</a>
 </div>
 
@@ -643,8 +669,8 @@ footer {
 <header class="hero">
   <div class="hero-eyebrow">Cloud &amp; Product Engineering</div>
   <h1 class="hero-name"><span class="hero-solid">STEPH&nbsp;</span><span class="hero-accent">SIMMONS</span></h1>
-  <div class="hero-role">CLOUD ENGINEER <span>&middot;</span> AWS SOLUTIONS ARCHITECT <span>&middot;</span> PLATFORM ENGINEER</div>
-  <p class="hero-statement">I build <strong>systems that hold up after launch</strong> &mdash; from CDK-defined AWS infrastructure to the AI product running on top of it.</p>
+  <div class="hero-role">CLOUD &amp; PLATFORM ENGINEER <span>&middot;</span> AWS SOLUTIONS ARCHITECT</div>
+  <p class="hero-statement">I build <strong>systems that hold up after launch</strong> &mdash; from AWS infrastructure and delivery pipelines to the product running on top of them.</p>
 </header>
 
 <section id="projects">
@@ -652,7 +678,7 @@ footer {
     <div class="section-head">
       <div class="eyebrow">Projects</div>
       <h2 class="section-title">Production systems, designed and shipped end-to-end.</h2>
-      <p class="section-lede">Three products, each deployed across its own isolated AWS account with infrastructure-as-code and OIDC-based CI/CD &mdash; live, in production, and demoable right now.</p>
+      <p class="section-lede">Three products, each deployed across its own isolated AWS account with infrastructure-as-code and OIDC-based CI/CD &mdash; live, deployed, and publicly demoable right now.</p>
     </div>
 
     <div class="project">
@@ -667,7 +693,6 @@ footer {
           <span class="tag">ECS Fargate</span><span class="tag">EventBridge</span><span class="tag">SQS</span><span class="tag">ffmpeg</span><span class="tag">Claude Vision</span><span class="tag">AWS Transcribe</span><span class="tag">Terraform</span><span class="tag">React</span>
         </div>
         <div class="insight"><div class="insight-text"><strong>ECS Fargate over Lambda</strong> for transcoding &mdash; ffmpeg workloads are CPU-bound and long-running, and Lambda's 15-minute limit and cold starts would have killed the experience.</div></div>
-        <div class="insight"><div class="insight-text"><strong>Three AI services had to fail independently.</strong> Claude Vision, Transcribe, and vector embeddings each run as an independent async step, so one failure never breaks the pipeline.</div></div>
         <div class="project-links">
           <a href="https://rabbithole.stephsimmons.dev" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
           <a href="https://github.com/jetty-setter/rabbithole" target="_blank" rel="noopener noreferrer" class="project-link">GitHub</a>
@@ -695,8 +720,8 @@ footer {
         <div class="tag-row">
           <span class="tag">AWS CDK</span><span class="tag">Lambda (Docker)</span><span class="tag">API Gateway</span><span class="tag">DynamoDB</span><span class="tag">WorkOS SSO</span><span class="tag">Anthropic API</span><span class="tag">TypeScript</span>
         </div>
-        <div class="insight"><div class="insight-text"><strong>The math had to be right.</strong> Built a 92-test scientific validation suite verifying every calculation against the lab's own researcher-validated ground truth before a single user touched it.</div></div>
         <div class="insight"><div class="insight-text"><strong>Isolation, not just application logic.</strong> One misconfigured query could leak one lab's data to another &mdash; enforced at the DynamoDB partition key and the IAM boundary.</div></div>
+        <div class="proof-stat"><span class="num">92</span><span class="label">automated tests validating every calculation against researcher-verified ground truth</span></div>
         <div class="project-links">
           <a href="https://quiclens.stephsimmons.dev" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
           <span class="project-link disabled">Code Private</span>
@@ -717,14 +742,13 @@ footer {
       <div class="project-copy">
         <div class="project-meta">
           <span class="project-num">03</span>
-          <span class="project-type">AWS Academy Capstone</span>
+          <span class="project-type">Independent Rebuild</span>
         </div>
         <h3 class="project-title">PureZen</h3>
-        <p class="project-desc">A fully serverless AI spa booking platform with a conversational concierge that takes guests from service discovery to confirmed appointment &mdash; availability is resolved deterministically against live DynamoDB state rather than generated by the model.</p>
+        <p class="project-desc">A fully serverless AI spa booking platform with a conversational concierge that takes guests from service discovery to confirmed appointment &mdash; availability is resolved deterministically against live DynamoDB state rather than generated by the model. Originated as an AWS Academy capstone, then rebuilt outside the sandbox.</p>
         <div class="tag-row">
           <span class="tag">AWS CDK</span><span class="tag">Lambda</span><span class="tag">DynamoDB</span><span class="tag">Anthropic Claude</span><span class="tag">Ollama</span><span class="tag">React</span><span class="tag">FastAPI</span>
         </div>
-        <div class="insight"><div class="insight-text"><strong>Constraints drove the design.</strong> Started in an AWS Academy sandbox with no GPU and CPU-only Ollama inference &mdash; 10&ndash;40s generation times, which is exactly what drove the regex-first routing.</div></div>
         <div class="insight"><div class="insight-text"><strong>Never answers from memory.</strong> Services resolve against the real catalog, availability comes from DynamoDB, and booking actions are deterministic state machines.</div></div>
         <div class="project-links">
           <a href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
@@ -750,7 +774,7 @@ footer {
       <div>
         <div class="eyebrow">About</div>
         <h2 class="section-title" style="margin-bottom:26px;">A decade in enterprise IT. Five years building outside it, too.</h2>
-        <p class="about-lede"><strong>Cloud Engineer and AWS Solutions Architect</strong> with a decade of enterprise IT experience &mdash; production systems built end-to-end on AWS using infrastructure-as-code, OIDC-based CI/CD, and cross-account observability across event-driven serverless backends, ECS Fargate workloads, and AI integrations with Anthropic Claude.</p>
+        <p class="about-lede"><strong>Cloud Engineer and AWS Solutions Architect</strong>, shaped by a decade inside enterprise IT watching what happens after software ships &mdash; the incidents, the handoffs, the documentation nobody wrote, systems inherited by people who weren't there when they were built. That's the lens I bring to every system I design.</p>
         <div class="about-punch">Systems that are observable, documented, supportable &mdash; built for whoever owns them after I'm gone.</div>
 
         <h3 class="timeline-title" style="margin-top:64px;">Experience</h3>
@@ -759,20 +783,8 @@ footer {
           <div><div class="tl-role">Independent Engineer &middot; Product &amp; Infrastructure</div><div class="tl-company">RabbitHole &middot; QuicLens &middot; PureZen</div><div class="tl-desc">Designing and shipping the products above end-to-end, alongside a full-time enterprise IT role &mdash; each deployed in its own AWS environment using infrastructure-as-code, automated delivery, and the same operational-readiness discipline I bring to enterprise IT.</div></div>
         </div>
         <div class="tl-item">
-          <div class="tl-dates">2025&ndash;Present</div>
-          <div><div class="tl-role">IS Supervisor &middot; Scrum Master</div><div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div><div class="tl-desc">Leads a 24-person enterprise IT service desk and serves as a technical escalation point, coordinating platform changes across engineering, infrastructure, identity, and security.</div></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dates">2022&ndash;2025</div>
-          <div><div class="tl-role">Technical Lead &middot; Scrum Master</div><div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div><div class="tl-desc">Owned technical intake and delivery execution across engineering, infrastructure, and security. Built the KPI dashboards leadership used to see delivery risk.</div></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dates">2019&ndash;2022</div>
-          <div><div class="tl-role">Business Systems Consultant &middot; Scrum Master</div><div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div><div class="tl-desc">Translated business requirements into technical stories across multi-team delivery streams; partnered with security and data on compliance.</div></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dates">2015&ndash;2019</div>
-          <div><div class="tl-role">Senior Service Desk Analyst</div><div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div><div class="tl-desc">Advanced troubleshooting at high volume; wrote the knowledge content and trained the analysts who came after.</div></div>
+          <div class="tl-dates">2015&ndash;Present</div>
+          <div><div class="tl-role">IS Supervisor &middot; Scrum Master</div><div class="tl-company">Mutual of Omaha &middot; Omaha, NE</div><div class="tl-desc">Progressed from Senior Service Desk Analyst through Business Systems Consultant and Technical Lead to IS Supervisor &mdash; now leading a 24-person enterprise IT team as a technical escalation point, coordinating platform changes across engineering, infrastructure, identity, and security.</div></div>
         </div>
       </div>
 
@@ -792,39 +804,39 @@ footer {
 <section id="stack">
   <div class="shell">
     <div class="section-head">
-      <div class="eyebrow">Stack</div>
-      <h2 class="section-title">The tools I reach for when something needs to actually work.</h2>
+      <div class="eyebrow">Capabilities</div>
+      <h2 class="section-title">Engineering problems I can solve, not just software I've touched.</h2>
       <p class="section-lede">AWS infrastructure defined as code, event-driven backends, and AI integrated where it earns its place &mdash; not bolted on for the sake of it.</p>
     </div>
     <div class="stack-groups">
       <div class="stack-group">
-        <div><div class="stack-group-title">Cloud &amp; AWS</div><div class="stack-group-desc">Serverless-first, defined as code, observable across accounts.</div></div>
+        <div><div class="stack-group-title">Event-Driven Systems</div><div class="stack-group-desc">Event-driven by default when workloads don't require synchronous coupling.</div></div>
         <div class="chip-row">
-          <span class="chip">AWS Lambda</span><span class="chip">ECS Fargate</span><span class="chip">AWS CDK</span><span class="chip">API Gateway</span><span class="chip">EventBridge</span><span class="chip">Amazon SQS</span><span class="chip">DynamoDB</span><span class="chip">Amazon S3</span><span class="chip">CloudFront</span><span class="chip">IAM</span><span class="chip">OIDC</span><span class="chip">Terraform</span><span class="chip">CloudWatch</span>
+          <span class="chip">EventBridge</span><span class="chip">Amazon SQS</span><span class="chip">AWS Lambda</span><span class="chip">ECS Fargate</span><span class="chip">API Gateway</span><span class="chip">CloudFront</span>
         </div>
       </div>
       <div class="stack-group">
-        <div><div class="stack-group-title">Backend</div><div class="stack-group-desc">Python-first APIs, containerized when the workload demands it.</div></div>
+        <div><div class="stack-group-title">Platform &amp; Delivery</div><div class="stack-group-desc">Repeatable environments, defined as code, shipped without click-ops.</div></div>
         <div class="chip-row">
-          <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">REST APIs</span><span class="chip">Docker</span><span class="chip">ffmpeg</span><span class="chip">Mangum</span>
+          <span class="chip">AWS CDK</span><span class="chip">Terraform</span><span class="chip">GitHub Actions</span><span class="chip">OIDC</span><span class="chip">CloudWatch</span><span class="chip">Docker</span>
         </div>
       </div>
       <div class="stack-group">
-        <div><div class="stack-group-title">Frontend</div><div class="stack-group-desc">React and TypeScript, shipped without a heavy framework tax.</div></div>
+        <div><div class="stack-group-title">Data &amp; Multi-Tenancy</div><div class="stack-group-desc">Isolation enforced at the data layer, not just application logic.</div></div>
         <div class="chip-row">
-          <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Vite</span><span class="chip">Tailwind CSS</span><span class="chip">hls.js</span>
+          <span class="chip">DynamoDB</span><span class="chip">Amazon S3</span><span class="chip">IAM</span><span class="chip">WorkOS SSO</span><span class="chip">JWT</span><span class="chip">Multi-Tenant Architecture</span>
         </div>
       </div>
       <div class="stack-group">
-        <div><div class="stack-group-title">AI &amp; ML</div><div class="stack-group-desc">Grounded, cost-aware &mdash; never the front door for routine requests.</div></div>
+        <div><div class="stack-group-title">Applied AI</div><div class="stack-group-desc">Grounded, cost-aware &mdash; never the front door for routine requests.</div></div>
         <div class="chip-row">
           <span class="chip">Anthropic Claude API</span><span class="chip">Ollama</span><span class="chip">AWS Transcribe</span><span class="chip">Vector Embeddings</span><span class="chip">Semantic Search</span><span class="chip">Anthropic Tool Use</span>
         </div>
       </div>
       <div class="stack-group">
-        <div><div class="stack-group-title">Auth &amp; Delivery</div><div class="stack-group-desc">From a commit to production, safely.</div></div>
+        <div><div class="stack-group-title">Application Layer</div><div class="stack-group-desc">Python-first backends, React and TypeScript on the front end.</div></div>
         <div class="chip-row">
-          <span class="chip">GitHub Actions</span><span class="chip">WorkOS SSO</span><span class="chip">JWT</span><span class="chip">CI/CD</span><span class="chip">Multi-Tenant Architecture</span>
+          <span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">REST APIs</span><span class="chip">Mangum</span><span class="chip">ffmpeg</span><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Vite</span><span class="chip">Tailwind CSS</span><span class="chip">hls.js</span>
         </div>
       </div>
     </div>
@@ -845,6 +857,7 @@ footer {
         <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
       </div>
       <a href="mailto:ssimmons86@icloud.com" class="btn-primary">Reach Out</a>
+      <div class="contact-email"><a href="mailto:ssimmons86@icloud.com">ssimmons86@icloud.com</a></div>
     </div>
   </div>
 </section>
@@ -855,7 +868,7 @@ footer {
     <div class="footer-links">
       <a href="#projects">Projects</a>
       <a href="#about">About</a>
-      <a href="#stack">Stack</a>
+      <a href="#stack">Capabilities</a>
       <a href="https://github.com/jetty-setter" target="_blank" rel="noopener noreferrer">GitHub</a>
     </div>
   </div>
