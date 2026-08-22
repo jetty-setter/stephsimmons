@@ -191,9 +191,10 @@ h1, h2, h3 { text-wrap: balance; }
   border: 1px solid var(--accent);
   padding: 9px 18px;
   border-radius: 3px;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
 }
 .nav-cta:hover { background: var(--accent-2); color: #1a1a1a; border-color: var(--accent-2); }
+.nav-cta.is-hidden { opacity: 0; pointer-events: none; }
 
 .nav-toggle {
   display: none;
@@ -847,8 +848,6 @@ footer {
       <h2 class="contact-title">Let's build the next <span class="accent">production system.</span></h2>
       <p class="contact-body">Open to remote Cloud Engineer and Platform Engineer roles. If you're hiring, or just want to talk shop about AWS architecture &mdash; reach out.</p>
       <div class="contact-links">
-        <a href="mailto:ssimmons86@icloud.com">ssimmons86@icloud.com</a>
-        <span class="sep"></span>
         <a href="https://linkedin.com/in/ssimmonsne" target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <span class="sep"></span>
         <a href="https://github.com/jetty-setter" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -973,6 +972,7 @@ footer {
   /* scroll spy + nav bg */
   var nav = document.getElementById('nav');
   var links = document.querySelectorAll('.nav-link');
+  var navCta = document.querySelector('.nav-cta');
   var sections = ['projects','about','stack','contact'].map(function(id){ return document.getElementById(id); });
 
   function onScroll(){
@@ -988,6 +988,7 @@ footer {
       if (isCurrent) l.setAttribute('aria-current', 'true');
       else l.removeAttribute('aria-current');
     });
+    if (navCta) navCta.classList.toggle('is-hidden', current === 'contact');
   }
   window.addEventListener('scroll', onScroll, {passive:true});
   onScroll();
