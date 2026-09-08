@@ -1,5 +1,4 @@
 
-  /* ── Entry loading screen ────────────────────────────────── */
   (function () {
     const pre = document.getElementById('preloader');
     if (!pre) { document.body.classList.remove('loading'); return; }
@@ -47,7 +46,6 @@
     }
   })();
 
-  /* ── Hero intro ──────────── */
   (function () {
     const showAll = () => {
       ['.hero-eyebrow', '.hero-desc', '.hero-stats', '.hero-status', '.dot', '.hero-name'].forEach(s => {
@@ -81,7 +79,6 @@
     setTimeout(go, 3500); // safety
   })();
 
-  /* ── Flowing nebula (Three.js) ────────────────── */
   (function () {
     const canvas = document.getElementById('neb');
     if (!canvas || !window.THREE) return;
@@ -146,7 +143,7 @@
       scrollV=window.scrollY-lastY; lastY=window.scrollY;
       if (revealed) {
         const f = Math.min(1, window.scrollY / (window.innerHeight * 0.9));
-        canvas.style.opacity = (0.95 - f * 0.62).toFixed(3); // dense in hero → faint below
+        canvas.style.opacity = (0.95 - f * 0.62).toFixed(3);
       }
     }, {passive:true});
 
@@ -186,9 +183,7 @@
     setTimeout(()=>{ if(parseFloat(getComputedStyle(canvas).opacity)<0.1) reveal(); }, 3500);
   })();
 
-  /* ── Scroll-driven motion: progress rail ───────────────── */
   (function () {
-    const orb  = null;
     const fill = document.getElementById('railFill');
     const dot  = document.getElementById('railDot');
     const pct  = document.getElementById('railPct');
@@ -209,7 +204,6 @@
     update();
   })();
 
-  /* ── Page-wide scroll motion (GSAP ScrollTrigger) ──────── */
   (function () {
     const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!window.gsap || !window.ScrollTrigger || reduce) {
@@ -229,7 +223,6 @@
       if (count) tl.from(count, { autoAlpha: 0, duration: .6 }, .2);
     });
 
-    /* generic staggered reveals per section */
     function reveal(sel, items, opts) {
       const section = document.querySelector(sel);
       if (!section) return;
@@ -280,7 +273,6 @@
       if (next) next.textContent = String(projects.length + 1).padStart(2, '0');
     })();
 
-    /* Project showcase — reveal, parallax pan, cursor tilt + glare, detail callouts */
     gsap.utils.toArray('.project').forEach(p => {
       const mediaWrap = p.querySelector('.project-media');
       const browser = p.querySelector('.browser');
@@ -288,7 +280,6 @@
       const img = p.querySelector('.browser-shot img');
       const info = p.querySelectorAll('.project-index, .project-title, .project-kicker, .project-desc, .project-tags, .project-links');
 
-      // 3D door-swing entrance 
       const fromRight = p.classList.contains('reverse');
       const dir = fromRight ? 1 : -1;
       gsap.set(browser, { transformOrigin: fromRight ? 'right center' : 'left center' });
@@ -302,13 +293,11 @@
         scrollTrigger: { trigger: p, start: 'top 72%' }
       });
 
-      // longer parallax pan 
       if (img) gsap.fromTo(img, { yPercent: 0 }, {
         yPercent: -15, ease: 'none',
         scrollTrigger: { trigger: p, start: 'top bottom', end: 'bottom top', scrub: true }
       });
 
-      // cursor-driven 3D tilt + glare follow
       if (browser && !window.matchMedia('(hover: none)').matches) {
         const setX = gsap.quickTo(browser, 'rotationY', { duration: .5, ease: 'power3' });
         const setY = gsap.quickTo(browser, 'rotationX', { duration: .5, ease: 'power3' });
@@ -329,7 +318,6 @@
     window.addEventListener('load', () => ScrollTrigger.refresh());
   })();
 
-  /* Active nav */
   const secs = document.querySelectorAll('section[id]');
   const navAs = document.querySelectorAll('.nav-links a:not(.pill)');
   window.addEventListener('scroll', () => {
@@ -338,6 +326,5 @@
     navAs.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + cur); });
   }, { passive: true });
 
-  /* Mobile nav */
   function openMnav()  { document.getElementById('mnav').classList.add('open'); }
   function closeMnav() { document.getElementById('mnav').classList.remove('open'); }
