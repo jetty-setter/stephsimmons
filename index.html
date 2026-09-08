@@ -49,6 +49,7 @@
   --accent-soft: rgba(82,0,255,0.10);
   --accent-2: #CCFF00;
   --accent-2-soft: rgba(204,255,0,0.18);
+  --rule: rgba(0,0,0,0.22);
   --text: #1a1a1a;
   --text-muted: #5a5a5a;
   --text-dim: #757575;
@@ -460,20 +461,41 @@ section { position: relative; padding: 130px 0; border-top: 1px solid var(--bord
   margin-top: 26px;
 }
 .project-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text);
-  border-bottom: 1.5px solid var(--accent);
-  padding-bottom: 3px;
-  transition: color 0.2s ease, border-color 0.2s ease;
+  padding-bottom: 4px;
+  background-image: linear-gradient(var(--accent), var(--accent)), linear-gradient(var(--rule), var(--rule));
+  background-size: 0% 1.5px, 100% 1px;
+  background-position: left 100%, left 100%;
+  background-repeat: no-repeat;
+  transition: color 0.2s ease, background-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.project-link:hover { color: var(--accent); }
+.project-link::after {
+  content: "\2197";
+  font-size: 0.95em;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+.project-link:hover {
+  color: var(--accent);
+  background-size: 100% 1.5px, 100% 1px;
+}
+.project-link:hover::after { transform: translate(2px, -2px); }
 .project-link.disabled {
   color: var(--text-dim);
-  border-color: var(--text-dim);
   cursor: default;
+  background-image: linear-gradient(var(--rule), var(--rule));
+  background-size: 100% 1px;
+}
+.project-link.disabled::after { content: none; }
+@media (prefers-reduced-motion: reduce) {
+  .project-link, .project-link::after { transition: none; }
 }
 
 .browser-frame {
@@ -589,7 +611,7 @@ section { position: relative; padding: 130px 0; border-top: 1px solid var(--bord
 .contact-links { display: flex; justify-content: center; align-items: center; gap: 14px; margin-bottom: 46px; flex-wrap: wrap; font-size: 15.5px; font-weight: 600; }
 .contact-links a { color: var(--text); border-bottom: 1.5px solid transparent; transition: border-color 0.2s ease, color 0.2s ease; }
 .contact-links a:hover { color: var(--accent); border-color: var(--accent); }
-.contact-links .sep { display: inline-block; width: 3px; height: 16px; background: var(--accent-2); border-radius: 1px; }
+.contact-links .sep { display: inline-block; width: 1px; height: 13px; background: var(--rule); }
 
 /* FOOTER */
 footer {
