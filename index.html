@@ -915,12 +915,12 @@ footer {
       return { pts:p, geo:g, mat:m, spd:spd, count:count, baseOp:opacity, tw: Math.random()*6.28 };
     }
     var layers = [
-      layer(6400, 0x121212, 0.009, 0.9),
-      layer(1300, 0x5f5f5f, 0.011, 0.5),
-      layer(880, 0x5200FF, 0.016, 1.0),
-      layer(720, 0xF900FF, 0.015, 1.0),
-      layer(480, 0xCCFF00, 0.022, 1.0),
-      layer(400, 0xFF6000, 0.020, 1.0)
+      layer(7200, 0x121212, 0.009, 0.9),
+      layer(1400, 0x5f5f5f, 0.011, 0.5),
+      layer(1500, 0x5200FF, 0.018, 1.0),
+      layer(1250, 0xF900FF, 0.017, 1.0),
+      layer(760, 0xCCFF00, 0.020, 1.0),
+      layer(460, 0xFF6000, 0.019, 1.0)
     ];
     function flow(x,y,z,t,o){ var s=0.85; o[0]=Math.sin(y*s+t)+Math.cos(z*s*1.3-t*0.7); o[1]=Math.sin(z*s*1.1+t*0.8)+Math.cos(x*s*0.9+t); o[2]=(Math.sin(x*s*1.2-t)+Math.cos(y*s*1.05+t*0.6))*0.5; }
     function resize(){ var w=window.innerWidth, h=window.innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
