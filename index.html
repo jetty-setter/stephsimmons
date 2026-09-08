@@ -898,7 +898,7 @@ footer {
       var cctx = c.getContext('2d');
       var g = cctx.createRadialGradient(64,64,0,64,64,64);
       g.addColorStop(0,'rgba(255,255,255,1)');
-      g.addColorStop(0.82,'rgba(255,255,255,1)');
+      g.addColorStop(0.88,'rgba(255,255,255,1)');
       g.addColorStop(1,'rgba(255,255,255,0)');
       cctx.fillStyle = g; cctx.fillRect(0,0,128,128);
       var tex = new THREE.CanvasTexture(c); tex.needsUpdate = true;
@@ -910,17 +910,17 @@ footer {
       for (var i=0;i<count;i++){ pos[i*3]=cw(BX); pos[i*3+1]=cw(BY); pos[i*3+2]=cw(BZ); spd[i]=0.6+Math.random()*1.0; }
       var g = new THREE.BufferGeometry();
       g.setAttribute('position', new THREE.BufferAttribute(pos,3));
-      var m = new THREE.PointsMaterial({ color:color, size:size*1.3, sizeAttenuation:true, transparent:true, opacity:opacity, depthWrite:false, map:starTex, blending: blending || THREE.NormalBlending });
+      var m = new THREE.PointsMaterial({ color:color, size:size*1.0, sizeAttenuation:true, transparent:true, opacity:opacity, depthWrite:false, map:starTex, blending: blending || THREE.NormalBlending });
       var p = new THREE.Points(g,m); scene.add(p);
       return { pts:p, geo:g, mat:m, spd:spd, count:count, baseOp:opacity, tw: Math.random()*6.28 };
     }
     var layers = [
-      layer(1800, 0x1a1a1a, 0.018, 0.85),
-      layer(600, 0x555555, 0.024, 0.75),
-      layer(70, 0x5200FF, 0.028, 0.8),
-      layer(55, 0xF900FF, 0.026, 0.75),
-      layer(35, 0xCCFF00, 0.042, 0.9),
-      layer(18, 0xFF6B00, 0.038, 0.85)
+      layer(6400, 0x121212, 0.009, 0.9),
+      layer(1300, 0x5f5f5f, 0.011, 0.5),
+      layer(880, 0x5200FF, 0.016, 1.0),
+      layer(720, 0xF900FF, 0.015, 1.0),
+      layer(480, 0xCCFF00, 0.022, 1.0),
+      layer(400, 0xFF6000, 0.020, 1.0)
     ];
     function flow(x,y,z,t,o){ var s=0.85; o[0]=Math.sin(y*s+t)+Math.cos(z*s*1.3-t*0.7); o[1]=Math.sin(z*s*1.1+t*0.8)+Math.cos(x*s*0.9+t); o[2]=(Math.sin(x*s*1.2-t)+Math.cos(y*s*1.05+t*0.6))*0.5; }
     function resize(){ var w=window.innerWidth, h=window.innerHeight; renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); }
@@ -930,7 +930,7 @@ footer {
     window.addEventListener('pointermove', function(e){ hasMouse=true; mwx=((e.clientX/window.innerWidth)*2-1)*BX; mwy=-(((e.clientY/window.innerHeight)*2-1)*BY); }, {passive:true});
     var grp = new THREE.Group(); layers.forEach(function(L){ grp.add(L.pts); }); scene.add(grp);
     var v = [0,0,0], t = 0;
-    var NEBULA_FLOOR = 0.22;
+    var NEBULA_FLOOR = 0.28;
     function frame(){
       t += 0.004; var speed = 0.006;
       var vh = window.innerHeight || 1;
@@ -950,7 +950,7 @@ footer {
           a[ix]=x; a[ix+1]=y; a[ix+2]=z;
         }
         L.geo.attributes.position.needsUpdate = true;
-        L.mat.opacity = L.baseOp * scrollFactor * (0.78 + 0.22*Math.sin(t*1.6+L.tw));
+        L.mat.opacity = L.baseOp * scrollFactor * (0.84 + 0.16*Math.sin(t*1.6+L.tw));
       }
       grp.rotation.z = t*0.05; grp.rotation.x = Math.sin(t*0.3)*0.04; grp.position.y = Math.sin(t*0.4)*0.05;
       renderer.render(scene,camera);
