@@ -71,6 +71,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   transition: width 0.25s ease;
 }
 .nav-link:hover, .nav-link.active { color: var(--text); }
+.nav-mobile-contact { display: none; }
 .nav-link:hover::after, .nav-link.active::after { width: 100%; }
 .nav-cta {
   font-size: 12px;
@@ -439,6 +440,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   }
   .nav-links::-webkit-scrollbar { display: none; }
   .nav-link { font-size: 10.5px; }
+  .nav-mobile-contact { display: inline-flex; }
   .nav-cta { display: none; }
   .cs-wrap { padding: 120px 22px 72px; }
   .cs-back { margin-bottom: 42px; }
