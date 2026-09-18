@@ -11,83 +11,22 @@
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://stephsimmons.dev/purezen.html">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
-  <style>
-    .cs-wrap { max-width: 880px; margin: 0 auto; padding: 7rem var(--pad) 6rem; }
-    .cs-back {
-      font-family: var(--mono); font-size: .7rem; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--sub); text-decoration: none;
-      display: inline-flex; gap: .5rem; align-items: center; margin-bottom: 3rem;
-      transition: color .2s;
-    }
-    .cs-back:hover { color: var(--acid); }
-    .cs-eyebrow {
-      font-family: var(--mono); font-size: .7rem; letter-spacing: .16em;
-      text-transform: uppercase; color: var(--acid); margin-bottom: 1rem;
-    }
-    .cs-title {
-      font-family: var(--display); font-weight: 800;
-      font-size: clamp(2.4rem, 6vw, 4rem); letter-spacing: -.03em;
-      line-height: 1; color: var(--text); margin-bottom: 1.2rem;
-    }
-    .cs-lede { font-size: 1.05rem; font-weight: 300; color: var(--sub); line-height: 1.7; max-width: 60ch; }
-    .cs-callout {
-      border-left: 2px solid var(--line); padding: 1rem 0 1rem 1.4rem;
-      margin: 2.4rem 0; color: var(--sub); font-size: .9rem; line-height: 1.7;
-    }
-    .cs-callout strong { color: var(--text); font-weight: 600; }
-    .cs-callout a { color: var(--acid); text-decoration: none; }
-    .cs h2 {
-      font-family: var(--display); font-weight: 800;
-      font-size: clamp(1.5rem, 3.5vw, 2.1rem); letter-spacing: -.02em;
-      color: var(--text); margin: 3.5rem 0 1.2rem;
-      padding-top: 2.2rem; border-top: 1px solid var(--line);
-    }
-    .cs h3 { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--text); margin: 1.8rem 0 .4rem; }
-    .cs p { font-size: .98rem; font-weight: 300; color: var(--sub); line-height: 1.85; margin-bottom: 1.1rem; }
-    .cs strong { color: var(--text); font-weight: 600; }
-    .cs ul { list-style: none; margin: 0 0 1.4rem; padding: 0; }
-    .cs li { font-size: .96rem; font-weight: 300; color: var(--sub); line-height: 1.7; padding-left: 1.4rem; position: relative; margin-bottom: .6rem; }
-    .cs li::before { content: ''; position: absolute; left: 0; top: .65em; width: 6px; height: 6px; border-radius: 50%; background: var(--acid); }
-    .cs li strong { color: var(--text); }
-    .cs table { width: 100%; border-collapse: collapse; margin: 1.4rem 0; font-size: .9rem; }
-    .cs th, .cs td { text-align: left; padding: .7rem 1rem; border-bottom: 1px solid var(--line); }
-    .cs th { font-family: var(--mono); font-size: .66rem; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); font-weight: 500; }
-    .cs td { color: var(--sub); font-weight: 300; }
-    .cs td:first-child { color: var(--text); font-weight: 500; }
-    .cs-foot { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--line); font-size: .9rem; color: var(--sub); line-height: 1.7; }
-    .cs-foot a { color: var(--acid); text-decoration: none; }
-
-    /* architecture diagram */
-    .cs-cap { font-family: var(--mono); font-size: .6rem; letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin: 1.8rem 0 .2rem; }
-    .arch { margin: 2rem 0 1rem; display: flex; flex-direction: column; align-items: center; gap: 0; }
-    .arch-tier { display: flex; gap: .8rem; flex-wrap: wrap; justify-content: center; width: 100%; }
-    .arch-node {
-      flex: 1 1 0; min-width: 150px; background: var(--bg2); border: 1px solid var(--line);
-      border-radius: 8px; padding: .9rem 1rem; text-align: center;
-    }
-    .arch-node.accent { border-color: rgba(255,90,60,.4); }
-    .arch-node b { display: block; font-family: var(--display); font-weight: 700; font-size: .92rem; color: var(--text); letter-spacing: -.01em; }
-    .arch-node span { font-family: var(--mono); font-size: .6rem; letter-spacing: .06em; text-transform: uppercase; color: var(--dim); }
-    .arch-arrow { display: flex; align-items: center; gap: .5rem; padding: .55rem 0; color: var(--dim); }
-    .arch-arrow::before { content: '↓'; font-size: 1rem; color: var(--acid); }
-    .arch-arrow span { font-family: var(--mono); font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; }
-    .arch-side {
-      margin-top: .9rem; font-family: var(--mono); font-size: .62rem; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--sub); border: 1px dashed var(--line);
-      border-radius: 6px; padding: .55rem .9rem;
-    }
-    .arch-side b { color: var(--acid); font-weight: 500; }
-    /* VPC boundary + subnet zones for the network diagram */
-    .arch-vpc { width: 100%; border: 1px dashed rgba(255,90,60,.35); border-radius: 12px; padding: .9rem; margin: .2rem 0; }
-    .arch-vpc-label { font-family: var(--mono); font-size: .56rem; letter-spacing: .12em; text-transform: uppercase; color: var(--acid); opacity: .85; margin-bottom: .7rem; text-align: center; }
-    .arch-zone { border: 1px dashed var(--line); border-radius: 9px; padding: .7rem; margin: .35rem 0; }
-    .arch-zone-label { font-family: var(--mono); font-size: .54rem; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); margin-bottom: .55rem; text-align: center; }
-    .arch-vpc .arch-arrow { padding: .35rem 0; }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="stylesheet" href="case-study.css" />
 </head>
-<body style="background:var(--bg)">
+<body>
+  <nav class="nav">
+    <a href="index.html#top" class="logo" aria-label="Steph Simmons - Home">Steph Simmons</a>
+    <div class="nav-links">
+      <a href="index.html#projects" class="nav-link active">Projects</a>
+      <a href="index.html#about" class="nav-link">About</a>
+      <a href="index.html#stack" class="nav-link">Capabilities</a>
+      <a href="index.html#contact" class="nav-link">Contact</a>
+    </div>
+    <a href="index.html#contact" class="nav-cta">Get in Touch</a>
+  </nav>
   <div class="cs-wrap cs">
     <a href="index.html#projects" class="cs-back">← Back to portfolio</a>
 
@@ -113,7 +52,7 @@
     <p>A chat-first booking experience. Guests describe what they want in plain language (“A deep-tissue massage next Tuesday afternoon”); the system resolves the service against the real catalog, checks live availability, and walks them through booking, rescheduling, cancelling, or reviewing past appointments. The conversation state persists per session.</p>
     <h3>Administrative console</h3>
     <p>A staff portal with dashboards for daily overview, schedule, guests, users, and analytics. plus an <strong>AI assistant that answers operational questions by querying live data</strong> (“How many bookings tomorrow?”, “What are this week’s trends?”, “Show me this guest’s history”). Each answer is produced from a real database query, not the model’s memory.</p>
-    <p>You can explore it yourself  -  the <a href="https://purezen.stephsimmons.dev/admin.html" target="_blank" rel="noopener" style="color:var(--acid);text-decoration:none">admin console ↗</a> opens in a read-only demo: every dashboard and the AI assistant are live, while changes are disabled so the shared data stays intact.</p>
+    <p>You can explore it yourself  -  the <a href="https://purezen.stephsimmons.dev/admin.html" target="_blank" rel="noopener">admin console ↗</a> opens in a read-only demo: every dashboard and the AI assistant are live, while changes are disabled so the shared data stays intact.</p>
 
     <h2>Architecture</h2>
     <p>A serverless design on AWS with no always-on application compute to maintain. The static frontend is delivered from S3 via CloudFront; API traffic flows through API Gateway to a containerized Lambda.</p>
@@ -213,5 +152,17 @@
       <a href="index.html#contact">Get in touch ↗</a>
     </div>
   </div>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="footer-mark">STEPH SIMMONS</div>
+      <div class="footer-links">
+        <a href="index.html#projects">Projects</a>
+        <a href="index.html#about">About</a>
+        <a href="index.html#stack">Capabilities</a>
+        <a href="https://github.com/jetty-setter" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
