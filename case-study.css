@@ -7,8 +7,6 @@
   --rule: rgba(0,0,0,0.22);
   --accent: #5200FF;
   --accent-soft: rgba(82,0,255,0.10);
-  --accent-2: #CCFF00;
-  --accent-2-soft: rgba(204,255,0,0.18);
   --text: #1a1a1a;
   --text-muted: #5a5a5a;
   --text-dim: #757575;
@@ -85,7 +83,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   border-radius: 3px;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
-.nav-cta:hover { background: var(--accent-2); color: var(--text); border-color: var(--accent-2); }
+.nav-cta:hover { background: var(--accent); color: #ffffff; border-color: var(--accent); }
 
 /* Case-study page shell */
 .cs-wrap {
@@ -109,21 +107,12 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
 .cs-back:hover { color: var(--accent); border-color: var(--accent); }
 
 .cs-eyebrow {
-  display: flex;
-  align-items: center;
-  gap: 12px;
   margin-bottom: 16px;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--accent);
-}
-.cs-eyebrow::before {
-  content: '';
-  width: 30px;
-  height: 3px;
-  background: var(--accent-2);
 }
 .cs-title {
   font-family: var(--font-display);
@@ -154,30 +143,69 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   font-size: 15px;
   line-height: 1.75;
 }
-.cs-callout::after {
-  content: '';
-  position: absolute;
-  right: 18px;
-  top: -1px;
-  width: 48px;
-  height: 4px;
-  background: var(--accent-2);
-}
 .cs-callout strong { color: var(--text); font-weight: 700; }
-.cs-callout a,
-.cs p a,
-.cs-foot a {
+.cs p a {
   color: var(--accent);
-  font-weight: 600;
+  font-weight: 650;
   border-bottom: 1px solid rgba(82,0,255,0.28);
-  transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  transition: color 0.2s ease, border-color 0.2s ease;
 }
-.cs-callout a:hover,
-.cs p a:hover,
-.cs-foot a:hover {
+.cs p a:hover {
   color: var(--text);
-  border-color: var(--accent-2);
-  background: var(--accent-2-soft);
+  border-color: var(--accent);
+}
+
+.cs-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+.cs-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 40px;
+  padding: 10px 16px;
+  border-radius: 4px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  line-height: 1;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+.cs-button:hover {
+  background: #3f00c9;
+  border-color: #3f00c9;
+  transform: translateY(-1px);
+}
+.cs-button.secondary {
+  background: #ffffff;
+  color: var(--text);
+  border-color: var(--rule);
+}
+.cs-button.secondary:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--surface);
+}
+.cs-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 10px 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
 }
 
 .cs h2 {
@@ -235,9 +263,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   top: 0.7em;
   width: 8px;
   height: 8px;
-  background: var(--accent-2);
-  border: 1px solid var(--accent);
-  border-radius: 2px;
+  background: var(--accent);
+  border-radius: 50%;
 }
 .cs li strong { color: var(--text); }
 
@@ -348,7 +375,7 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   width: 100%;
   margin-top: 14px;
   padding: 10px 13px;
-  background: var(--accent-2-soft);
+  background: var(--accent-soft);
   border: 1px solid rgba(82,0,255,0.13);
   border-radius: 5px;
   text-align: center;
@@ -428,6 +455,8 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   .cs-back { margin-bottom: 42px; }
   .cs-title { font-size: clamp(60px, 19vw, 92px); }
   .cs-callout { padding: 20px; }
+  .cs-actions { flex-direction: column; }
+  .cs-button, .cs-status { width: 100%; }
   .arch { padding: 18px; }
   .arch-tier { flex-direction: column; }
   .arch-node { min-width: 0; width: 100%; }
