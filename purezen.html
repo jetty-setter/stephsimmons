@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PureZen — Case Study · Steph Simmons</title>
+  <meta name="description" content="PureZen case study: a spa booking platform evolved from an AWS Academy EC2/VPC architecture through Vercel and Hetzner to an AWS serverless platform using Lambda, API Gateway, DynamoDB, S3, CloudFront, and CDK.">
+  <link rel="canonical" href="https://stephsimmons.dev/purezen.html">
+  <meta property="og:title" content="PureZen — Case Study · Steph Simmons">
+  <meta property="og:description" content="Three infrastructure generations: AWS Academy, Vercel/Hetzner, and an AWS serverless re-platform.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://stephsimmons.dev/purezen.html">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
@@ -83,7 +89,7 @@
 </head>
 <body style="background:var(--bg)">
   <div class="cs-wrap cs">
-    <a href="index.html#work" class="cs-back">← Back to portfolio</a>
+    <a href="index.html#projects" class="cs-back">← Back to portfolio</a>
 
     <div class="cs-eyebrow">Case Study</div>
     <h1 class="cs-title">PureZen</h1>
@@ -110,7 +116,7 @@
     <p>You can explore it yourself — the <a href="https://purezen.stephsimmons.dev/admin.html" target="_blank" rel="noopener" style="color:var(--acid);text-decoration:none">admin console ↗</a> opens in a read-only demo: every dashboard and the AI assistant are live, while changes are disabled so the shared data stays intact.</p>
 
     <h2>Architecture</h2>
-    <p>A fully serverless design on AWS with no servers to patch, automatic scaling, and pay-per-request economics that scale to zero when idle. The static frontend is delivered from S3 via CloudFront; API traffic flows through API Gateway to a containerized Lambda.</p>
+    <p>A serverless design on AWS with no always-on application compute to maintain. The static frontend is delivered from S3 via CloudFront; API traffic flows through API Gateway to a containerized Lambda.</p>
    <br>
     <p class="cs-cap">Present State in AWS</p>
     <div class="arch">
@@ -141,7 +147,7 @@
 
     <h2>Highlights</h2>
     <ul>
-      <li><strong>Serverless compute</strong> — a containerized Lambda (Python 3.11) runs FastAPI through Mangum behind API Gateway; nothing to patch or keep warm, and zero cost when idle.</li>
+      <li><strong>Serverless compute</strong> — a containerized Lambda (Python 3.11) runs FastAPI through Mangum behind API Gateway, removing the always-on application server from the current operating model.</li>
       <li><strong>Global delivery</strong> — the static frontend ships from S3 behind CloudFront, with TLS and edge caching for low-latency access anywhere.</li>
       <li><strong>Booking integrity</strong> — slots are claimed with a DynamoDB <em>conditional write</em> that only succeeds while the slot is still marked available, so two guests can never confirm the same time.</li>
       <li><strong>Security by design</strong> — least-privilege IAM (no credentials in code), bcrypt-hashed passwords, and UUID session tokens rotated on login with server-side invalidation on logout and a 24-hour DynamoDB TTL.</li>
@@ -160,46 +166,30 @@
     <h3>Decide when <em>not</em> to use the LLM</h3>
     <p>The most reliable features used the least AI. Anything with an exact answer — availability, trend counts, a guest’s history — is a deterministic function reading live data, which is faster, cheaper, and more predictable than asking a model. The LLM is reserved for language understanding and phrasing, where it’s genuinely the right tool.</p>
     <h3>Working within — then beyond — AWS Academy</h3>
-    <p>PureZen began as a course project inside an <strong>AWS Academy sandbox</strong> — no GPU instances, a capped budget, and short-lived session credentials. Within those limits it was built as a textbook <strong>three-tier AWS architecture</strong>: a custom <strong>VPC in us-east-1 across two Availability Zones</strong> (four subnets), an <strong>Application Load Balancer</strong> and a <strong>bastion host</strong> in the public subnets, and an <strong>EC2 Auto Scaling Group</strong> in the private subnets (no public IPs). Each backend instance ran FastAPI under <strong>uvicorn</strong> on port 8000 alongside a <strong>self-hosted Ollama model (qwen2.5:3b)</strong> on an <strong>r7a.large (2 vCPU, no GPU)</strong> — CPU-only, so generation took <strong>10–40 seconds</strong>, which is exactly what motivated the regex-first routing. <strong>DynamoDB</strong> (point-in-time recovery, GSIs, conditional writes) held the data, reached over <strong>IAM instance profiles</strong> with no credentials in code, while <strong>CloudWatch + SNS</strong> handled observability and alerts.</p>
-<br>
-    <p class="cs-cap">Previous State (three-tier on EC2)</p>
+    <p>PureZen began as an AWS Academy capstone using the infrastructure available in that environment, including <strong>EC2, load balancing, VPC networking, routing tables, and IAM</strong>. That first generation gave me hands-on experience with traditional AWS infrastructure, but the Academy environment was intentionally constrained and temporary.</p>
+
+    <p>The second generation moved the application outside the Academy environment: the frontend was hosted on <strong>Vercel</strong> and the FastAPI backend ran on <strong>Hetzner</strong>. That removed the Academy lifecycle constraint, but it still left the application split across external hosting and persistent backend compute.</p>
+
+    <p>The third generation brought the application back to AWS and re-platformed it around managed services: <strong>container-image Lambda + API Gateway</strong> for the FastAPI backend, <strong>DynamoDB</strong> for application data, <strong>private S3 + CloudFront</strong> for frontend delivery, and <strong>AWS CDK v2</strong> for reproducible infrastructure. The local Ollama runtime dependency was also removed from the deployment path in favor of managed Anthropic inference.</p>
+
+    <p class="cs-cap">Infrastructure evolution</p>
     <div class="arch">
       <div class="arch-tier">
-        <div class="arch-node"><b>Browser</b><span>guest &amp; admin UI</span></div>
+        <div class="arch-node"><b>Generation 1</b><span>AWS Academy</span></div>
+        <div class="arch-node"><b>EC2 + Load Balancing</b><span>VPC · routing · IAM</span></div>
       </div>
-      <div class="arch-arrow"><span>HTTP :80</span></div>
-
-      <div class="arch-vpc">
-        <div class="arch-vpc-label">VPC · us-east-1 · 2 Availability Zones</div>
-
-        <div class="arch-zone">
-          <div class="arch-zone-label">Public subnets (AZ-a / AZ-b)</div>
-          <div class="arch-tier">
-            <div class="arch-node accent"><b>Application Load Balancer</b><span>HTTP :80 · health checks</span></div>
-            <div class="arch-node"><b>Bastion host</b><span>EC2 · SSH :22</span></div>
-          </div>
-        </div>
-
-        <div class="arch-arrow"><span>SG: ALB :80 → app :8000 · SSH :22 from bastion</span></div>
-
-        <div class="arch-zone">
-          <div class="arch-zone-label">Private subnets (AZ-a / AZ-b) · no public IPs</div>
-          <div class="arch-tier">
-            <div class="arch-node accent"><b>EC2 Auto Scaling Group</b><span>FastAPI · uvicorn :8000</span></div>
-            <div class="arch-node"><b>Ollama — self-hosted</b><span>qwen2.5:3b · r7a.large CPU</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="arch-arrow"><span>IAM instance profile · SDK</span></div>
+      <div class="arch-arrow"><span>re-host</span></div>
       <div class="arch-tier">
-        <div class="arch-node"><b>DynamoDB</b><span>PITR 35d · GSIs · conditional writes</span></div>
-        <div class="arch-node"><b>S3 + CloudWatch + SNS</b><span>static assets · logs · alerts</span></div>
+        <div class="arch-node"><b>Generation 2</b><span>Vercel frontend</span></div>
+        <div class="arch-node"><b>Hetzner backend</b><span>persistent FastAPI server</span></div>
       </div>
-      <div class="arch-side"><b>AWS Academy limits</b> &nbsp;no GPU · capped budget · session credentials · CPU inference 10–40s</div>
+      <div class="arch-arrow"><span>re-platform</span></div>
+      <div class="arch-tier">
+        <div class="arch-node accent"><b>Generation 3</b><span>AWS serverless</span></div>
+        <div class="arch-node accent"><b>Lambda + API Gateway</b><span>S3 · CloudFront · DynamoDB · CDK</span></div>
+      </div>
     </div>
 
-    <p>Rebuilding outside the Academy constraints replaced that box entirely: the conversational layer moved to <strong>Anthropic's Claude</strong>, which removed the inference bottleneck and unlocked the <strong>fully serverless backend</strong> the project runs on today, the AWS API Gateway and a containerized Lambda, with nothing to keep warm. </p>
     <h3>Infrastructure as code with CDK</h3>
     <p>An early environment loss, when the system existed only AWS Academy, made reproducibility a first-class concern. The stack is now declared in <strong>AWS CDK</strong>, so the entire environment (compute, gateway, CDN, data, IAM, and frontend deploy with cache invalidation) rebuilds from code rather than memory.</p>
 
