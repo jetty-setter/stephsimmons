@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RabbitHole — Case Study · Steph Simmons</title>
+  <meta name="description" content="RabbitHole case study: an implemented event-driven AWS video-processing architecture using Lambda, ECS Fargate, EventBridge, SQS, CloudFront, Terraform, OIDC delivery, and CloudWatch observability.">
+  <link rel="canonical" href="https://stephsimmons.dev/rabbithole.html">
+  <meta property="og:title" content="RabbitHole — Case Study · Steph Simmons">
+  <meta property="og:description" content="Event-driven video processing on AWS with serverless APIs, container workers, queue-driven scale-to-zero, Terraform, and observability.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://stephsimmons.dev/rabbithole.html">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
@@ -77,18 +83,19 @@
 </head>
 <body style="background:var(--bg)">
   <div class="cs-wrap cs">
-    <a href="index.html#work" class="cs-back">← Back to portfolio</a>
+    <a href="index.html#projects" class="cs-back">← Back to portfolio</a>
 
     <div class="cs-eyebrow">Case Study</div>
     <h1 class="cs-title">RabbitHole</h1>
     <p class="cs-lede">An event-driven, AI-augmented video platform on AWS. Upload a clip; an autoscaling fleet transcodes it into adaptive-bitrate HLS, a vision model writes its title and tags, and speech-to-text makes every spoken word searchable — then you stream it back through a CDN with live status the whole way. Shipped continuously through CI/CD, with a dashboard that tracks cost per transcode.</p>
 
     <div class="cs-callout">
+      <strong>Architecture note:</strong> this case study documents an earlier RabbitHole iteration that I implemented and deployed. The live product has continued to evolve, so the current interface and behavior may not map one-for-one to every component described below. The repository preserves the infrastructure and delivery evidence for this architecture.<br><br>
       Built to demonstrate <strong>cloud architecture</strong> (event-driven design, a serverless + container
       hybrid, autoscaling-to-zero, real-time, cost-awareness), <strong>AI integration</strong> (vision + speech
       + semantic search, three different invocation patterns), and <strong>delivery maturity</strong>
       (tests, OIDC-based CI/CD, remote-state IaC, observability) — all in Terraform.
-      Live: <a href="https://rabbithole.stephsimmons.dev" target="_blank" rel="noopener">rabbithole.stephsimmons.dev ↗</a> ·
+      Current product: <a href="https://rabbithole.stephsimmons.dev" target="_blank" rel="noopener">rabbithole.stephsimmons.dev ↗</a> ·
       Code: <a href="https://github.com/jetty-setter/rabbithole" target="_blank" rel="noopener">GitHub ↗</a>
     </div>
 
