@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>QuicLens — Case Study · Steph Simmons</title>
+  <meta name="description" content="QuicLens case study: a multi-tenant scientific analytics platform migrated from Vercel and Railway to an AWS-native serverless architecture using Lambda, API Gateway, DynamoDB, S3, CloudFront, WorkOS, and CDK.">
+  <link rel="canonical" href="https://stephsimmons.dev/quiclens.html">
+  <meta property="og:title" content="QuicLens — Case Study · Steph Simmons">
+  <meta property="og:description" content="Multi-tenant scientific analytics on AWS, including the Vercel/Railway to Lambda/API Gateway/S3/CloudFront migration.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://stephsimmons.dev/quiclens.html">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
@@ -90,7 +96,7 @@
 
     <div class="cs-eyebrow">Case Study</div>
     <h1 class="cs-title">QuicLens</h1>
-    <p class="cs-lede">A multi-tenant, cloud-native analytics platform for research labs — designed, built, and deployed solo, from database schema to React interface to AWS infrastructure.</p>
+    <p class="cs-lede">A multi-tenant, cloud-native analytics platform for research labs — engineered and deployed as the sole developer, from data model and authorization rules to React interface and AWS infrastructure.</p>
 
     <div class="cs-callout">
       The source code is private. This case study covers the architecture and engineering
@@ -149,23 +155,27 @@
     </div>
     <p><strong>Frontend</strong> — React + TypeScript (Vite) with hand-built SVG charts for the fluorescence-kinetics and dose-response visualizations, served as a static build from S3 behind CloudFront with Origin Access Control and HTTPS redirect.</p>
     <p><strong>Backend</strong> — FastAPI (Python) packaged as a container image and run on AWS Lambda via Mangum, fronted by API Gateway. Clean layered structure: api/routes → services → models, with a dedicated analysis layer.</p>
-    <p><strong>Data</strong> — DynamoDB with per-tenant partitioning and GSIs; an encrypted S3 bucket (retain-on-delete) for archived plate data.</p>
-    <p><strong>Auth</strong> — WorkOS AuthKit for enterprise SSO and multi-tenant identity.</p>
+    <p><strong>Data</strong> — DynamoDB tables and GSIs store organization, lab, project, plate, membership, and audit data; an encrypted, versioned S3 bucket retains archived plate records.</p>
+    <p><strong>Auth</strong> — WorkOS AuthKit verifies identity. The backend resolves the active organization/lab and enforces membership, role, and resource-level authorization before tenant-scoped operations execute.</p>
     <p><strong>Infrastructure</strong> — AWS CDK (TypeScript). The entire stack — buckets, distribution, Lambda, API Gateway, IAM policies, and frontend deployment — is reproducible from code.</p>
+
+    <h2>Infrastructure evolution</h2>
+    <p>QuicLens did not start on its current AWS platform. The first hosted version used <strong>Vercel</strong> for the React frontend and <strong>Railway</strong> for the FastAPI backend. I later re-platformed the application onto AWS: the frontend moved to a private S3 origin behind CloudFront, while the API moved to a container-image Lambda behind API Gateway, with the platform defined in <strong>AWS CDK v2</strong>.</p>
+    <p>The migration removed the Vercel/Railway deployment dependency while preserving the application model and making the current infrastructure reproducible in code.</p>
 
     <h2>Engineering decisions &amp; trade-offs</h2>
     <h3>Why serverless (Lambda + API Gateway) over a long-running server?</h3>
     <p>Lab usage is bursty — heavy during analysis runs, idle otherwise. Serverless means no idle cost and no servers to patch, and the FastAPI app stays portable (it runs identically locally and in Lambda via Mangum).</p>
     <h3>Why DynamoDB over a relational database?</h3>
-    <p>Access patterns are tenant-scoped and key-based (org → lab → project → plate → results). DynamoDB gives predictable performance and clean per-tenant isolation via key design, with IAM policies scoped to specific table ARNs as a second layer of tenant safety.</p>
+    <p>The workload is dominated by known, key-based access patterns across organizations, labs, projects, plates, and results. DynamoDB provides predictable performance, on-demand scaling, GSIs for targeted lookups, and point-in-time recovery. Tenant authorization is enforced in the application layer rather than delegated to IAM or a partition key.</p>
     <h3>Why a container image for the Lambda?</h3>
     <p>The analysis stack (pandas/NumPy/SciPy) exceeds the zipped-Lambda size limits and is far simpler to manage as a container.</p>
     <h3>Tenant isolation as a first-class concern</h3>
-    <p>Isolation is enforced at multiple layers: key design in DynamoDB, service-layer authorization checks, and scoped IAM. The development history reflects deliberate security hardening passes — fixing auth-bypass and cross-tenant data paths found in self-audits.</p>
+    <p>Identity and authorization are deliberately separated. WorkOS verifies the user; application-owned organization and lab memberships establish tenant context; role checks and resource-level access rules govern reads and writes, including cross-lab sharing. The development history also includes explicit hardening of auth and cross-tenant data paths surfaced during self-audits.</p>
 
     <h2>Testing &amp; reliability</h2>
     <ul>
-      <li>Backend test suite (~1,800 LOC) covering the analysis math (curve fitting, SD50, classification, thresholds), upload validation, and API integration.</li>
+      <li><strong>143 named backend pytest functions across 9 test modules</strong> covering curve fitting, SD50 math, classification, thresholds, upload validation, parser helpers, assay logic, and API integration. This is the test inventory present in the repository, not a claimed current CI pass count.</li>
       <li>Iterative security hardening: dedicated work addressing auth, role enforcement, and cross-tenant data-integrity issues surfaced by principle-based self-audits.</li>
     </ul>
 
