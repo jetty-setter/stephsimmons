@@ -698,7 +698,7 @@ footer {
     <div class="section-head">
       <div class="eyebrow">Projects</div>
       <h2 class="section-title">Production systems, designed and shipped end-to-end.</h2>
-      <p class="section-lede">Three products, each deployed across its own isolated AWS account with infrastructure-as-code and OIDC-based CI/CD &mdash; live, deployed, and publicly demoable right now.</p>
+      <p class="section-lede">Three independently engineered products spanning event-driven infrastructure, multi-tenant platforms, and serverless modernization &mdash; each with its architecture and trade-offs documented in code.</p>
     </div>
 
     <div class="project">
@@ -740,8 +740,8 @@ footer {
         <div class="tag-row">
           <span class="tag">AWS CDK</span><span class="tag">Lambda (Docker)</span><span class="tag">API Gateway</span><span class="tag">DynamoDB</span><span class="tag">WorkOS SSO</span><span class="tag">Anthropic API</span><span class="tag">TypeScript</span>
         </div>
-        <div class="insight"><div class="insight-text"><strong>Isolation, not just application logic.</strong> One misconfigured query could leak one lab's data to another &mdash; enforced at the DynamoDB partition key and the IAM boundary.</div></div>
-        <div class="proof-stat"><span class="num">92</span><span class="label">automated tests validating every calculation against researcher-verified ground truth</span></div>
+        <div class="insight"><div class="insight-text"><strong>Tenant authorization is explicit.</strong> WorkOS verifies identity; organization and lab membership, role checks, and resource-level access rules determine what each user can read or change.</div></div>
+        <div class="proof-stat"><span class="num">143</span><span class="label">named backend pytest functions across 9 modules covering analysis, validation, classification, thresholds, and API integration</span></div>
         <div class="project-links">
           <a href="https://quiclens.stephsimmons.dev" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
           <span class="project-link disabled">Code Private</span>
@@ -765,9 +765,9 @@ footer {
           <span class="project-type">Independent Rebuild</span>
         </div>
         <h3 class="project-title">PureZen</h3>
-        <p class="project-desc">A fully serverless AI spa booking platform with a conversational concierge that takes guests from service discovery to confirmed appointment. Originated as an AWS Academy capstone, then rebuilt outside the sandbox.</p>
+        <p class="project-desc">A spa booking platform re-platformed across three infrastructure generations: AWS Academy on EC2/VPC/ALB, Vercel + Hetzner, and a final AWS serverless architecture built with Lambda, API Gateway, S3, CloudFront, DynamoDB, and CDK.</p>
         <div class="tag-row">
-          <span class="tag">AWS CDK</span><span class="tag">Lambda</span><span class="tag">DynamoDB</span><span class="tag">Anthropic Claude</span><span class="tag">Ollama</span><span class="tag">React</span><span class="tag">FastAPI</span>
+          <span class="tag">AWS CDK</span><span class="tag">Lambda</span><span class="tag">API Gateway</span><span class="tag">DynamoDB</span><span class="tag">S3 + CloudFront</span><span class="tag">Anthropic Claude</span><span class="tag">FastAPI</span>
         </div>
         <div class="insight"><div class="insight-text"><strong>Never answers from memory.</strong> Services resolve against the real catalog, availability comes from DynamoDB, and booking actions are deterministic state machines.</div></div>
         <div class="project-links">
@@ -842,7 +842,7 @@ footer {
         </div>
       </div>
       <div class="stack-group">
-        <div><div class="stack-group-title">Data &amp; Multi-Tenancy</div><div class="stack-group-desc">Isolation enforced at the data layer, not just application logic.</div></div>
+        <div><div class="stack-group-title">Data &amp; Multi-Tenancy</div><div class="stack-group-desc">Tenant-aware authorization through identity, membership, roles, resource checks, and deliberate data modeling.</div></div>
         <div class="chip-row">
           <span class="chip">DynamoDB</span><span class="chip">Amazon S3</span><span class="chip">IAM</span><span class="chip">WorkOS SSO</span><span class="chip">JWT</span><span class="chip">Multi-Tenant Architecture</span>
         </div>
