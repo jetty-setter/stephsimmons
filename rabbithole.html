@@ -86,43 +86,59 @@
 
     <h2>Architecture</h2>
     <p>An event-driven pipeline that decouples the fast path (upload) from the slow path (transcode), with a serverless API and a container worker fleet, using the right tool for each job. The AI work hangs off that same backbone: synchronous vision at the worker, async event-driven speech-to-text, and an embedding model inside the API.</p>
-<figure class="system-diagram" role="img" aria-label="RabbitHole architecture diagram showing the upload, transcode, streaming, AI enrichment, and live status paths">
-      <figcaption>
-        <span>Primary media path</span>
-        <b>Upload to playback</b>
-      </figcaption>
-      <div class="diagram-flow">
-        <div class="diagram-node">Browser<small>React + hls.js</small></div>
-        <div class="diagram-arrow"><span>presign</span></div>
-        <div class="diagram-node accent">API Gateway + Lambda<small>FastAPI</small></div>
-        <div class="diagram-arrow"><span>PUT</span></div>
-        <div class="diagram-node">S3 uploads<small>raw video</small></div>
-        <div class="diagram-arrow"><span>event</span></div>
-        <div class="diagram-node">EventBridge</div>
-        <div class="diagram-arrow"><span>queue</span></div>
-        <div class="diagram-node">SQS<small>DLQ + retries</small></div>
-        <div class="diagram-arrow"><span>work</span></div>
-        <div class="diagram-node accent">ECS Fargate<small>ffmpeg workers</small></div>
-        <div class="diagram-arrow"><span>HLS</span></div>
-        <div class="diagram-node">S3 streaming<small>private origin</small></div>
-        <div class="diagram-arrow"><span>CDN</span></div>
-        <div class="diagram-node accent">CloudFront<small>adaptive playback</small></div>
-      </div>
-      <div class="diagram-branches">
-        <div class="diagram-lane">
-          <div class="diagram-lane-title">AI enrichment</div>
-          <div class="diagram-mini-flow">
-            <span>ECS Fargate</span><i></i><span>Claude Vision</span><i></i><span>AWS Transcribe</span><i></i><span>Caption processor</span>
-          </div>
+<figure class="arch-board" aria-labelledby="rh-arch-title">
+      <div class="arch-board-head">
+        <div>
+          <span class="arch-kicker">System architecture</span>
+          <h3 id="rh-arch-title">From upload to playback</h3>
         </div>
-        <div class="diagram-lane">
-          <div class="diagram-lane-title">Live status</div>
-          <div class="diagram-mini-flow">
-            <span>DynamoDB</span><i></i><span>Stream</span><i></i><span>Broadcaster Lambda</span><i></i><span>WebSocket</span>
-          </div>
-        </div>
+        <p>Fast requests stay serverless. Heavy media work moves through a queue to container workers.</p>
       </div>
-      <div class="diagram-footnote">Terraform provisions the application, queues, compute, storage, delivery, observability, and deployment roles.</div>
+
+      <div class="arch-stage-grid four">
+        <section class="arch-stage">
+          <span class="arch-step">01</span>
+          <h4>Ingest</h4>
+          <div class="arch-service accent">Browser</div>
+          <div class="arch-service">API Gateway + Lambda</div>
+          <div class="arch-service">S3 uploads</div>
+          <p>Presigned uploads keep video bytes off the API path.</p>
+        </section>
+
+        <section class="arch-stage">
+          <span class="arch-step">02</span>
+          <h4>Orchestrate</h4>
+          <div class="arch-service accent">EventBridge</div>
+          <div class="arch-service">SQS</div>
+          <div class="arch-service">DLQ + retries</div>
+          <p>Upload events are buffered so processing can scale independently.</p>
+        </section>
+
+        <section class="arch-stage">
+          <span class="arch-step">03</span>
+          <h4>Process</h4>
+          <div class="arch-service accent">ECS Fargate</div>
+          <div class="arch-service">ffmpeg</div>
+          <div class="arch-service">Claude Vision + Transcribe</div>
+          <p>Long running media work and AI enrichment happen off the request path.</p>
+        </section>
+
+        <section class="arch-stage">
+          <span class="arch-step">04</span>
+          <h4>Deliver</h4>
+          <div class="arch-service accent">S3 HLS</div>
+          <div class="arch-service">CloudFront</div>
+          <div class="arch-service">WebSocket status</div>
+          <p>Adaptive streams are delivered from the edge while status updates stay live.</p>
+        </section>
+      </div>
+
+      <div class="arch-support-row">
+        <span>State</span><b>DynamoDB</b>
+        <span>Observability</span><b>CloudWatch</b>
+        <span>Infrastructure</span><b>Terraform</b>
+        <span>Delivery</span><b>GitHub Actions + OIDC</b>
+      </div>
     </figure>
 
     <h2>Highlights</h2>
