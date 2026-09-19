@@ -184,24 +184,7 @@
       <li><span class="cs-list-label">Multi-region</span> streaming origins with latency-based routing; signed URLs / cookies on the streaming bucket.</li>
     </ul>
 
-    <h2>Stack at a glance</h2>
-    <table>
-      <tr><th>Layer</th><th>Tech</th></tr>
-      <tr><td>Frontend</td><td>React + TypeScript (Vite), hls.js → S3 + CloudFront</td></tr>
-      <tr><td>API</td><td>FastAPI on Lambda (container image) + API Gateway</td></tr>
-      <tr><td>Workers</td><td>ECS Fargate + ffmpeg (ARM64/Graviton), step-autoscaling on SQS depth (min 0)</td></tr>
-      <tr><td>AI / ML</td><td>Claude vision (auto-metadata) · AWS Transcribe (captions) · local embeddings (bge-small/ONNX) for semantic search</td></tr>
-      <tr><td>Real-time</td><td>DynamoDB Streams → Lambda → API Gateway WebSocket</td></tr>
-      <tr><td>Messaging</td><td>SQS + DLQ, EventBridge (S3 + Transcribe events)</td></tr>
-      <tr><td>Data</td><td>S3 (uploads + streaming), DynamoDB</td></tr>
-      <tr><td>CDN / secrets</td><td>CloudFront (Origin Access Control) · SSM Parameter Store (SecureString)</td></tr>
-      <tr><td>IaC</td><td>Terraform (remote S3 state + native locking)</td></tr>
-      <tr><td>Tests</td><td>pytest + moto (API + caption pipeline) · Vitest (frontend), coverage-gated</td></tr>
-      <tr><td>CI/CD</td><td>GitHub Actions: tests + coverage gate, OIDC-based deploy, infra plan/apply</td></tr>
-      <tr><td>Observability</td><td>CloudWatch dashboard (incl. $/transcode) · X-Ray tracing</td></tr>
-    </table>
-
-    <div class="cs-foot">
+<div class="cs-foot">
       <span class="cs-footer-label">My role:</span> Sole architect and engineer: the event-driven AWS architecture, the FastAPI/Lambda API, the Fargate ffmpeg worker, the AI metadata + speech-to-text + semantic-search pipelines, the real-time WebSocket layer, the React + hls.js frontend, the OIDC-based CI/CD and observability, and the Terraform that provisions all of it.
     </div>
     </div>
