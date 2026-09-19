@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="case-study.css" />
 </head>
 <body>
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="scrim" aria-hidden="true"></div>
+
   <nav class="nav" id="nav">
     <a href="index.html#top" class="logo" aria-label="Steph Simmons Home">Steph Simmons</a>
     <div class="nav-links">
@@ -184,6 +187,8 @@
       </div>
     </div>
   </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="case-study-nebula.js"></script>
   <script>
     var toggle = document.getElementById('navToggle');
     var mobileNav = document.getElementById('mobileNav');
