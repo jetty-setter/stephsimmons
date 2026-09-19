@@ -272,7 +272,7 @@ h1, h2, h3 { text-wrap: balance; }
   opacity: 0;
   animation: rise 0.7s ease 0.52s forwards;
 }
-.hero-statement strong { color: var(--text); font-weight: 600; }
+.hero-statement { font-weight: 600; }
 
 .btn-primary {
   background: var(--accent);
@@ -428,9 +428,9 @@ section { position: relative; padding: 130px 0; border-top: 1px solid var(--bord
 .insight-text {
   font-size: 14px;
   line-height: 1.6;
-  color: var(--text-muted);
+  color: var(--text);
+  font-weight: 600;
 }
-.insight-text strong { color: var(--text); font-weight: 600; }
 
 .proof-stat {
   display: flex;
@@ -678,7 +678,7 @@ footer {
   <div class="hero-eyebrow">Cloud &amp; Product Engineering</div>
   <h1 class="hero-name"><span class="hero-solid">STEPH </span><span class="hero-accent">SIMMONS</span></h1>
   <div class="hero-role">CLOUD &amp; PLATFORM ENGINEER <span>&middot;</span> AWS SOLUTIONS ARCHITECT</div>
-  <p class="hero-statement">I build <strong>systems that hold up after launch</strong>, from AWS infrastructure and delivery pipelines to the product running on top of them.</p>
+  <p class="hero-statement">I build systems that hold up after launch, from AWS infrastructure and delivery pipelines to the product running on top of them.</p>
 </header>
 
 <section id="projects">
@@ -700,7 +700,7 @@ footer {
         <div class="tag-row">
           <span class="tag">ECS Fargate</span><span class="tag">EventBridge</span><span class="tag">SQS</span><span class="tag">ffmpeg</span><span class="tag">Claude Vision</span><span class="tag">AWS Transcribe</span><span class="tag">Terraform</span><span class="tag">React</span>
         </div>
-        <div class="insight"><div class="insight-text"><strong>ECS Fargate over Lambda</strong> for transcoding; ffmpeg workloads are CPU-bound and long-running, and Lambda's 15-minute limit and cold starts would have killed the experience.</div></div>
+        <div class="insight"><div class="insight-text">ECS Fargate over Lambda for transcoding; ffmpeg workloads are CPU-bound and long-running, and Lambda's 15-minute limit and cold starts would have killed the experience.</div></div>
         <div class="project-links">
           <a href="rabbithole.html" class="project-link">Case Study</a>
           <span class="project-link disabled">Under Construction</span>
@@ -729,7 +729,7 @@ footer {
         <div class="tag-row">
           <span class="tag">AWS CDK</span><span class="tag">Lambda (Docker)</span><span class="tag">API Gateway</span><span class="tag">DynamoDB</span><span class="tag">WorkOS SSO</span><span class="tag">Anthropic API</span><span class="tag">TypeScript</span>
         </div>
-        <div class="insight"><div class="insight-text"><strong>Tenant authorization is explicit.</strong> WorkOS verifies identity; organization and lab membership, role checks, and resource-level access rules determine what each user can read or change.</div></div>
+        <div class="insight"><div class="insight-text">Tenant authorization is explicit. WorkOS verifies identity; organization and lab membership, role checks, and resource-level access rules determine what each user can read or change.</div></div>
         <div class="proof-stat"><span class="num">143</span><span class="label">named backend pytest functions across 9 modules covering analysis, validation, classification, thresholds, and API integration</span></div>
         <div class="project-links">
           <a href="quiclens.html" class="project-link">Case Study</a>
@@ -759,7 +759,7 @@ footer {
         <div class="tag-row">
           <span class="tag">AWS CDK</span><span class="tag">Lambda</span><span class="tag">API Gateway</span><span class="tag">DynamoDB</span><span class="tag">S3 + CloudFront</span><span class="tag">Anthropic Claude</span><span class="tag">FastAPI</span>
         </div>
-        <div class="insight"><div class="insight-text"><strong>Never answers from memory.</strong> Services resolve against the real catalog, availability comes from DynamoDB, and booking actions are deterministic state machines.</div></div>
+        <div class="insight"><div class="insight-text">Never answers from memory. Services resolve against the real catalog, availability comes from DynamoDB, and booking actions are deterministic state machines.</div></div>
         <div class="project-links">
           <a href="purezen.html" class="project-link">Case Study</a>
           <a href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
@@ -785,7 +785,7 @@ footer {
       <div>
         <div class="eyebrow">About</div>
         <h2 class="section-title" style="margin-bottom:26px;">A decade in enterprise IT. Five years building outside it, too.</h2>
-        <p class="about-lede"><strong>Cloud Engineer and AWS Solutions Architect</strong>, shaped by a decade inside enterprise IT watching what happens after software ships: the incidents, the handoffs, the documentation nobody wrote, and systems inherited by people who weren't there when they were built. That's the lens I bring to every system I design.</p>
+        <p class="about-lede">Cloud Engineer and AWS Solutions Architect, shaped by a decade inside enterprise IT watching what happens after software ships: the incidents, the handoffs, the documentation nobody wrote, and systems inherited by people who weren't there when they were built. That's the lens I bring to every system I design.</p>
         <div class="about-punch">Systems that are observable, documented, and supportable, built for whoever owns them after I'm gone.</div>
 
         <h3 class="timeline-title" style="margin-top:64px;">Experience</h3>
@@ -865,7 +865,7 @@ footer {
         <span class="sep"></span>
         <a href="https://github.com/jetty-setter" target="_blank" rel="noopener noreferrer">GitHub</a>
         <span class="sep"></span>
-        <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer">Résumé</a>
+        <a href="assets/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
       </div>
       <a href="mailto:ssimmons86@icloud.com" class="btn-primary">Reach Out</a>
     </div>
