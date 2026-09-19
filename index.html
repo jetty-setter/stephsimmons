@@ -438,30 +438,38 @@ section { position: relative; padding: 130px 0; border-top: 1px solid var(--bord
 }
 
 .proof-stat {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: 14px;
-  padding: 12px 0;
-  margin-bottom: 14px;
-  max-width: 500px;
+  gap: 20px;
+  max-width: 560px;
+  margin: 10px 0 30px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border-soft);
+  border-bottom: 1px solid var(--border-soft);
 }
 .proof-stat .num {
   font-family: var(--font-display);
-  font-size: 36px;
+  font-size: 46px;
   color: var(--accent);
-  line-height: 1;
+  line-height: 0.95;
 }
 .proof-stat .label {
-  font-size: 13px;
-  line-height: 1.4;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.5;
   color: var(--text-muted);
-  max-width: 220px;
+}
+.proof-stat + .project-links {
+  margin-top: 0;
 }
 
 .project-links {
   display: flex;
-  gap: 26px;
-  margin-top: 26px;
+  flex-wrap: wrap;
+  column-gap: 28px;
+  row-gap: 12px;
+  margin-top: 28px;
 }
 .project-link {
   display: inline-flex;
@@ -473,21 +481,20 @@ section { position: relative; padding: 130px 0; border-top: 1px solid var(--bord
   text-transform: uppercase;
   color: var(--text);
   padding-bottom: 4px;
-  background-image: linear-gradient(var(--accent), var(--accent)), linear-gradient(var(--rule), var(--rule));
-  background-size: 0% 1.5px, 100% 1px;
-  background-position: left 100%, left 100%;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0% 1.5px;
+  background-position: left 100%;
   background-repeat: no-repeat;
   transition: color 0.2s ease, background-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .project-link:hover {
   color: var(--accent);
-  background-size: 100% 1.5px, 100% 1px;
+  background-size: 100% 1.5px;
 }
 .project-link.disabled {
   color: var(--text-dim);
   cursor: default;
-  background-image: linear-gradient(var(--rule), var(--rule));
-  background-size: 100% 1px;
+  background-image: none;
 }
 @media (prefers-reduced-motion: reduce) {
   .project-link { transition: none; }
