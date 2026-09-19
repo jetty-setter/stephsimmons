@@ -607,25 +607,51 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   line-height: 1.55;
   color: var(--text-dim);
 }
-.arch-support-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px 22px;
-  align-items: baseline;
-  padding: 18px 0 20px;
+.arch-support {
+  padding: 20px 0 22px;
   border-top: 1px solid var(--border-soft);
 }
-.arch-support-row span {
-  font-size: 9px;
+.arch-support-title {
+  margin-bottom: 14px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.arch-support-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+.arch-support-grid.three {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.arch-support-item {
+  min-width: 0;
+  padding: 0 22px;
+  border-left: 1px solid var(--border-soft);
+}
+.arch-support-item:first-child {
+  padding-left: 0;
+  border-left: 0;
+}
+.arch-support-item:last-child {
+  padding-right: 0;
+}
+.arch-support-item span {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 8.5px;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--text-dim);
 }
-.arch-support-row b {
-  margin-right: 12px;
+.arch-support-item b {
+  display: block;
   font-size: 11.5px;
   font-weight: 650;
+  line-height: 1.45;
   color: var(--text);
 }
 
@@ -795,13 +821,21 @@ a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-
   .arch-stage:first-child {
     border-top: 0;
   }
-  .arch-support-row {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 8px 14px;
+  .arch-support-grid,
+  .arch-support-grid.three {
+    grid-template-columns: 1fr;
   }
-  .arch-support-row b {
-    margin-right: 0;
+  .arch-support-item {
+    padding: 12px 0;
+    border-left: 0;
+    border-top: 1px solid var(--border-soft);
+  }
+  .arch-support-item:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+  .arch-support-item:last-child {
+    padding-bottom: 0;
   }
   .evolution-track {
     grid-template-columns: 1fr;
