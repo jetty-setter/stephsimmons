@@ -91,38 +91,59 @@
 
     <h2>Architecture</h2>
     <p>A serverless, single-region AWS stack defined entirely in infrastructure-as-code.</p>
-    <figure class="system-diagram" role="img" aria-label="QuicLens architecture diagram showing frontend delivery, API processing, tenant authorization, data storage, and CDK infrastructure">
-      <figcaption>
-        <span>Request path</span>
-        <b>Research UI to tenant scoped data</b>
-      </figcaption>
-      <div class="diagram-flow">
-        <div class="diagram-node">Browser<small>React + TypeScript</small></div>
-        <div class="diagram-arrow"><span>HTTPS</span></div>
-        <div class="diagram-node">CloudFront + S3<small>static frontend</small></div>
-        <div class="diagram-arrow"><span>API</span></div>
-        <div class="diagram-node accent">API Gateway</div>
-        <div class="diagram-arrow"><span>invoke</span></div>
-        <div class="diagram-node accent">Lambda<small>FastAPI container</small></div>
-        <div class="diagram-arrow"><span>read / write</span></div>
-        <div class="diagram-node">DynamoDB<small>tenant data</small></div>
-        <div class="diagram-node">S3 archive<small>encrypted records</small></div>
-      </div>
-      <div class="diagram-branches">
-        <div class="diagram-lane">
-          <div class="diagram-lane-title">Authorization path</div>
-          <div class="diagram-mini-flow">
-            <span>WorkOS AuthKit</span><i></i><span>Identity</span><i></i><span>Org + lab membership</span><i></i><span>Role + resource checks</span>
-          </div>
+    <figure class="arch-board" aria-labelledby="ql-arch-title">
+      <div class="arch-board-head">
+        <div>
+          <span class="arch-kicker">System architecture</span>
+          <h3 id="ql-arch-title">Tenant scoped research analytics</h3>
         </div>
-        <div class="diagram-lane">
-          <div class="diagram-lane-title">Infrastructure</div>
-          <div class="diagram-mini-flow">
-            <span>AWS CDK v2</span><i></i><span>CloudFront + S3</span><i></i><span>Lambda + API Gateway</span><i></i><span>IAM + DynamoDB</span>
-          </div>
-        </div>
+        <p>Identity, authorization, analysis, and data access are separated into clear layers.</p>
       </div>
-      <div class="diagram-footnote">Tenant isolation lives in the application layer: identity is verified first, then organization, lab, role, and resource access are resolved before data operations run.</div>
+
+      <div class="arch-stage-grid four">
+        <section class="arch-stage">
+          <span class="arch-step">01</span>
+          <h4>Experience</h4>
+          <div class="arch-service accent">React + TypeScript</div>
+          <div class="arch-service">CloudFront</div>
+          <div class="arch-service">Private S3 origin</div>
+          <p>The browser receives a static frontend over HTTPS.</p>
+        </section>
+
+        <section class="arch-stage">
+          <span class="arch-step">02</span>
+          <h4>Application</h4>
+          <div class="arch-service accent">API Gateway</div>
+          <div class="arch-service">Lambda</div>
+          <div class="arch-service">FastAPI container</div>
+          <p>The analysis API runs as a container image on Lambda through Mangum.</p>
+        </section>
+
+        <section class="arch-stage">
+          <span class="arch-step">03</span>
+          <h4>Authorization</h4>
+          <div class="arch-service accent">WorkOS AuthKit</div>
+          <div class="arch-service">Org + lab membership</div>
+          <div class="arch-service">Role + resource checks</div>
+          <p>Identity is verified first, then tenant and resource access are resolved in the application.</p>
+        </section>
+
+        <section class="arch-stage">
+          <span class="arch-step">04</span>
+          <h4>Data</h4>
+          <div class="arch-service accent">DynamoDB</div>
+          <div class="arch-service">S3 archive</div>
+          <div class="arch-service">Audit records</div>
+          <p>Tenant data and archived plate records remain isolated behind the authorization layer.</p>
+        </section>
+      </div>
+
+      <div class="arch-support-row">
+        <span>Infrastructure</span><b>AWS CDK v2</b>
+        <span>Analysis</span><b>pandas + NumPy + SciPy</b>
+        <span>Reporting</span><b>ReportLab + matplotlib</b>
+        <span>Cloud</span><b>IAM + CloudWatch</b>
+      </div>
     </figure>
     <p>Frontend: React + TypeScript (Vite) with hand-built SVG charts for the fluorescence-kinetics and dose-response visualizations, served as a static build from S3 behind CloudFront with Origin Access Control and HTTPS redirect.</p>
     <p>Backend: FastAPI (Python) packaged as a container image and run on AWS Lambda via Mangum, fronted by API Gateway. Clean layered structure: api/routes → services → models, with a dedicated analysis layer.</p>
