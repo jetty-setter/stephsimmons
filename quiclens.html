@@ -38,20 +38,35 @@
 <div class="cs-wrap cs">
     <a href="index.html#projects" class="cs-back">Back to portfolio</a>
 
-    <div class="cs-eyebrow">Case Study</div>
-    <h1 class="cs-title">QuicLens</h1>
-    <p class="cs-lede">A multi-tenant, cloud-native analytics platform for research labs, engineered and deployed as the sole developer, from data model and authorization rules to React interface and AWS infrastructure.</p>
+    <header class="cs-hero">
+      <div class="cs-hero-copy">
+        <div class="cs-eyebrow">Case Study</div>
+        <h1 class="cs-title">QuicLens</h1>
+        <p class="cs-lede">A multi-tenant, cloud-native analytics platform for research labs, engineered and deployed as the sole developer, from data model and authorization rules to React interface and AWS infrastructure.</p>
 
-    <div class="cs-callout">
-      The source code is private. This case study covers the architecture and engineering decisions.
-      <div class="cs-actions">
-        <a class="cs-action-link" href="https://quiclens.stephsimmons.dev" target="_blank" rel="noopener">View Read-Only Demo</a>
+        <div class="cs-facts">
+          <div><span>Architecture</span><strong>Multi tenant serverless</strong></div>
+          <div><span>Compute</span><strong>AWS Lambda</strong></div>
+          <div><span>Infrastructure</span><strong>AWS CDK</strong></div>
+        </div>
+
+        <div class="cs-callout">
+          The source code is private. This case study covers the architecture and engineering decisions.
+          <div class="cs-actions">
+            <a class="cs-action-link" href="https://quiclens.stephsimmons.dev" target="_blank" rel="noopener">View Demo</a>
+          </div>
+        </div>
+        <div class="cs-callout cs-ruo">
+          <span class="cs-note-label">Research use only; not for diagnostic use.</span> QuicLens is a laboratory analysis tool and does not provide medical diagnosis or clinical decisions.
+        </div>
       </div>
-    </div>
-    <div class="cs-callout cs-ruo">
-      <strong>Research use only; not for diagnostic use.</strong> QuicLens is a
-      laboratory analysis tool and does not provide medical diagnosis or clinical decisions.
-    </div>
+
+      <figure class="cs-hero-media">
+        <img src="assets/quiclens.png" alt="QuicLens application interface" width="2493" height="1558">
+      </figure>
+    </header>
+
+    <div class="cs-content">
 
     <!-- DEMO VIDEO: DROP-IN:
          1. Record the ~75s walkthrough; export assets/quiclens-demo.mp4 (+ optional poster frame quiclens-demo-poster.jpg).
@@ -61,51 +76,62 @@
     </video>
     <div class="cs-video-cap">~75s walkthrough: multi-tenant lab analytics, upload → analysis → report</div>
     -->
-
     <h2>The problem</h2>
     <p>Research labs running RT-QuIC and similar fluorescence assays were stuck analyzing plate data in spreadsheets and one-off scripts; the process was slow, error-prone, and impossible to audit. Regulated science needs reproducible analysis, clear provenance, and multiple labs/teams working in isolation without stepping on each other's data.</p>
     <p>QuicLens turns that workflow into a real platform: upload plate data, get real-time kinetic analysis and classification, and keep a full audit trail, with strict separation between organizations and labs.</p>
 
     <h2>What it does</h2>
     <ul>
-      <li><strong>Real-time assay analysis:</strong> ThT fluorescence kinetics, curve fitting, SD50/dose-response math, and per-sample classification (pandas / NumPy / SciPy).</li>
-      <li><strong>Plate-map workflow:</strong> design-first plate creation, lifecycle states (Planned → Analyzing → Analyzed → Archived), and plate-level access control.</li>
-      <li><strong>Multi-tenancy:</strong> organizations contain labs; data is isolated per tenant, with role-based sharing and invites across teams.</li>
-      <li><strong>Result reporting:</strong> server-generated PDF reports (ReportLab + matplotlib) summarizing assay results, with a research-use disclaimer and signature blocks.</li>
-      <li><strong>Audit &amp; governance:</strong> action logging across plates and projects, plus a platform-admin console for operators.</li>
+      <li><span class="cs-list-label">Real-time assay analysis:</span> ThT fluorescence kinetics, curve fitting, SD50/dose-response math, and per-sample classification (pandas / NumPy / SciPy).</li>
+      <li><span class="cs-list-label">Plate-map workflow:</span> design-first plate creation, lifecycle states (Planned → Analyzing → Analyzed → Archived), and plate-level access control.</li>
+      <li><span class="cs-list-label">Multi-tenancy:</span> organizations contain labs; data is isolated per tenant, with role-based sharing and invites across teams.</li>
+      <li><span class="cs-list-label">Result reporting:</span> server-generated PDF reports (ReportLab + matplotlib) summarizing assay results, with a research-use disclaimer and signature blocks.</li>
+      <li><span class="cs-list-label">Audit &amp; governance:</span> action logging across plates and projects, plus a platform-admin console for operators.</li>
     </ul>
 
     <h2>Architecture</h2>
     <p>A serverless, single-region AWS stack defined entirely in infrastructure-as-code.</p>
-    <div class="arch">
-      <div class="arch-tier">
-        <div class="arch-node"><b>Browser</b><span>React client</span></div>
+    <figure class="system-diagram" role="img" aria-label="QuicLens architecture diagram showing frontend delivery, API processing, tenant authorization, data storage, and CDK infrastructure">
+      <figcaption>
+        <span>Request path</span>
+        <b>Research UI to tenant scoped data</b>
+      </figcaption>
+      <div class="diagram-flow">
+        <div class="diagram-node">Browser<small>React + TypeScript</small></div>
+        <div class="diagram-arrow"><span>HTTPS</span></div>
+        <div class="diagram-node">CloudFront + S3<small>static frontend</small></div>
+        <div class="diagram-arrow"><span>API</span></div>
+        <div class="diagram-node accent">API Gateway</div>
+        <div class="diagram-arrow"><span>invoke</span></div>
+        <div class="diagram-node accent">Lambda<small>FastAPI container</small></div>
+        <div class="diagram-arrow"><span>read / write</span></div>
+        <div class="diagram-node">DynamoDB<small>tenant data</small></div>
+        <div class="diagram-node">S3 archive<small>encrypted records</small></div>
       </div>
-      <div class="arch-arrow"></div>
-      <div class="arch-tier">
-        <div class="arch-node"><b>CloudFront</b><span>HTTPS · OAC</span></div>
-        <div class="arch-node"><b>S3</b><span>React build</span></div>
+      <div class="diagram-branches">
+        <div class="diagram-lane">
+          <div class="diagram-lane-title">Authorization path</div>
+          <div class="diagram-mini-flow">
+            <span>WorkOS AuthKit</span><i></i><span>Identity</span><i></i><span>Org + lab membership</span><i></i><span>Role + resource checks</span>
+          </div>
+        </div>
+        <div class="diagram-lane">
+          <div class="diagram-lane-title">Infrastructure</div>
+          <div class="diagram-mini-flow">
+            <span>AWS CDK v2</span><i></i><span>CloudFront + S3</span><i></i><span>Lambda + API Gateway</span><i></i><span>IAM + DynamoDB</span>
+          </div>
+        </div>
       </div>
-      <div class="arch-arrow"><span>/api/*</span></div>
-      <div class="arch-tier">
-        <div class="arch-node accent"><b>API Gateway</b><span>REST API</span></div>
-        <div class="arch-node accent"><b>Lambda</b><span>FastAPI · container</span></div>
-      </div>
-      <div class="arch-arrow"></div>
-      <div class="arch-tier">
-        <div class="arch-node"><b>DynamoDB</b><span>tenants · plates</span></div>
-        <div class="arch-node"><b>S3 archive</b><span>encrypted</span></div>
-      </div>
-      <div class="arch-side"><b>WorkOS</b> &nbsp;enterprise SSO / multi-tenant auth</div>
-    </div>
-    <p><strong>Frontend:</strong> React + TypeScript (Vite) with hand-built SVG charts for the fluorescence-kinetics and dose-response visualizations, served as a static build from S3 behind CloudFront with Origin Access Control and HTTPS redirect.</p>
-    <p><strong>Backend:</strong> FastAPI (Python) packaged as a container image and run on AWS Lambda via Mangum, fronted by API Gateway. Clean layered structure: api/routes → services → models, with a dedicated analysis layer.</p>
-    <p><strong>Data:</strong> DynamoDB tables and GSIs store organization, lab, project, plate, membership, and audit data; an encrypted, versioned S3 bucket retains archived plate records.</p>
-    <p><strong>Auth:</strong> WorkOS AuthKit verifies identity. The backend resolves the active organization/lab and enforces membership, role, and resource-level authorization before tenant-scoped operations execute.</p>
-    <p><strong>Infrastructure:</strong> AWS CDK (TypeScript). The entire stack, including buckets, distribution, Lambda, API Gateway, IAM policies, and frontend deployment, is reproducible from code.</p>
+      <div class="diagram-footnote">Tenant isolation lives in the application layer: identity is verified first, then organization, lab, role, and resource access are resolved before data operations run.</div>
+    </figure>
+    <p>Frontend: React + TypeScript (Vite) with hand-built SVG charts for the fluorescence-kinetics and dose-response visualizations, served as a static build from S3 behind CloudFront with Origin Access Control and HTTPS redirect.</p>
+    <p>Backend: FastAPI (Python) packaged as a container image and run on AWS Lambda via Mangum, fronted by API Gateway. Clean layered structure: api/routes → services → models, with a dedicated analysis layer.</p>
+    <p>Data: DynamoDB tables and GSIs store organization, lab, project, plate, membership, and audit data; an encrypted, versioned S3 bucket retains archived plate records.</p>
+    <p>Auth: WorkOS AuthKit verifies identity. The backend resolves the active organization/lab and enforces membership, role, and resource-level authorization before tenant-scoped operations execute.</p>
+    <p>Infrastructure: AWS CDK (TypeScript). The entire stack, including buckets, distribution, Lambda, API Gateway, IAM policies, and frontend deployment, is reproducible from code.</p>
 
     <h2>Infrastructure evolution</h2>
-    <p>QuicLens did not start on its current AWS platform. The first hosted version used <strong>Vercel</strong> for the React frontend and <strong>Railway</strong> for the FastAPI backend. I later re-platformed the application onto AWS: the frontend moved to a private S3 origin behind CloudFront, while the API moved to a container-image Lambda behind API Gateway, with the platform defined in <strong>AWS CDK v2</strong>.</p>
+    <p>QuicLens did not start on its current AWS platform. The first hosted version used Vercel for the React frontend and Railway for the FastAPI backend. I later re-platformed the application onto AWS: the frontend moved to a private S3 origin behind CloudFront, while the API moved to a container-image Lambda behind API Gateway, with the platform defined in AWS CDK v2.</p>
     <p>The migration removed the Vercel/Railway deployment dependency while preserving the application model and making the current infrastructure reproducible in code.</p>
 
     <h2>Engineering decisions &amp; trade-offs</h2>
@@ -120,7 +146,7 @@
 
     <h2>Testing &amp; reliability</h2>
     <ul>
-      <li><strong>143 named backend pytest functions across 9 test modules</strong> covering curve fitting, SD50 math, classification, thresholds, upload validation, parser helpers, assay logic, and API integration. This is the test inventory present in the repository, not a claimed current CI pass count.</li>
+      <li><span class="cs-list-label">143 named backend pytest functions across 9 test modules</span> covering curve fitting, SD50 math, classification, thresholds, upload validation, parser helpers, assay logic, and API integration. This is the test inventory present in the repository, not a claimed current CI pass count.</li>
       <li>Iterative security hardening: dedicated work addressing auth, role enforcement, and cross-tenant data-integrity issues surfaced by principle-based self-audits.</li>
     </ul>
 
@@ -138,11 +164,12 @@
     </table>
 
     <div class="cs-foot">
-      <strong style="color:var(--text)">My role:</strong> Sole engineer and architect: product design, data modeling, backend, frontend, infrastructure-as-code, and deployment. Built on my own time and hardware.<br><br>
+      <span class="cs-footer-label">My role:</span> Sole engineer and architect: product design, data modeling, backend, frontend, infrastructure-as-code, and deployment. Built on my own time and hardware.<br><br>
       Code is private (commercial product). Architecture walkthrough available on request.
       <div class="cs-actions">
         <a class="cs-action-link" href="index.html#contact">Contact</a>
       </div>
+    </div>
     </div>
   </div>
 
