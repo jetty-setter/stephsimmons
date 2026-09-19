@@ -465,110 +465,250 @@ body::before {
   color: var(--accent) !important;
 }
 
-/* Architecture schematic */
-.arch {
-  margin: 20px 0 38px;
-  padding: 32px 0;
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--border-soft);
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-.arch-tier {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  gap: 24px;
-}
-.arch-node {
-  min-width: 0;
-  padding: 4px 0 8px;
-  text-align: left;
-}
-.arch-node b {
+/* Intentional text hierarchy */
+.cs-note-label,
+.cs-footer-label {
   display: block;
-  font-family: var(--font-display);
-  font-size: 27px;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  line-height: 1;
-  color: var(--text);
   margin-bottom: 5px;
-}
-.arch-node.accent b {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--accent);
 }
-.arch-node span {
+.cs-list-label {
   display: block;
-  font-size: 10px;
+  margin-bottom: 4px;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.10em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-.arch-arrow {
-  display: flex;
-  align-items: center;
-  min-height: 32px;
-  padding: 4px 0;
-  color: var(--text-dim);
-}
-.arch-arrow::before {
-  content: '';
-  width: 44px;
-  height: 1px;
-  margin-right: 10px;
-  background: var(--accent);
-}
-.arch-arrow span {
-  font-size: 9.5px;
-  font-weight: 750;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-.arch-side {
-  width: 100%;
-  margin-top: 16px;
-  padding-top: 13px;
-  border-top: 1px solid var(--border-soft);
-  text-align: left;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-}
-.arch-side b {
-  color: var(--accent);
+  color: var(--text);
 }
 
-.arch-vpc {
-  width: 100%;
-  border-top: 1px solid rgba(82,0,255,0.34);
-  border-bottom: 1px solid rgba(82,0,255,0.14);
-  padding: 18px 0;
-  margin: 8px 0;
+/* Architecture diagrams */
+.system-diagram {
+  margin: 30px 0 46px;
+  padding: 30px;
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  background: rgba(255,255,255,0.82);
+  box-shadow: 0 18px 50px rgba(24,18,48,0.06);
 }
-.arch-vpc-label,
-.arch-zone-label {
+.system-diagram figcaption {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 18px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.system-diagram figcaption span {
   font-size: 10px;
   font-weight: 800;
-  letter-spacing: 0.11em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  text-align: left;
-}
-.arch-vpc-label {
   color: var(--accent);
-  margin-bottom: 12px;
 }
-.arch-zone {
-  padding: 8px 0;
-  margin: 10px 0;
+.system-diagram figcaption b {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: var(--text);
 }
-.arch-zone-label {
+.diagram-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.diagram-node {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 52px;
+  padding: 10px 15px;
+  border: 1px solid rgba(0,0,0,0.14);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.96);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--text);
+  white-space: nowrap;
+}
+.diagram-node small {
+  margin-top: 4px;
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   color: var(--text-dim);
+}
+.diagram-node.accent {
+  border-color: rgba(82,0,255,0.48);
+  color: var(--accent);
+  background: rgba(82,0,255,0.035);
+}
+.diagram-arrow {
+  position: relative;
+  width: 42px;
+  height: 22px;
+  flex: 0 0 42px;
+}
+.diagram-arrow::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 7px;
+  top: 10px;
+  height: 1px;
+  background: rgba(82,0,255,0.58);
+}
+.diagram-arrow::after {
+  content: '';
+  position: absolute;
+  right: 2px;
+  top: 7px;
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid rgba(82,0,255,0.72);
+  border-right: 1px solid rgba(82,0,255,0.72);
+  transform: rotate(45deg);
+}
+.diagram-arrow span {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 4px;
+  background: #fff;
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+.diagram-branches {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 28px;
+  padding-top: 22px;
+  border-top: 1px solid var(--border-soft);
+}
+.diagram-lane-title {
+  margin-bottom: 10px;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.diagram-mini-flow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.diagram-mini-flow span {
+  font-size: 11px;
+  font-weight: 650;
+  color: var(--text);
+}
+.diagram-mini-flow i {
+  width: 20px;
+  height: 1px;
+  background: rgba(0,0,0,0.2);
+}
+.diagram-footnote {
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-soft);
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+.system-diagram.compact {
+  padding: 28px;
+}
+.evolution-flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr;
+  gap: 14px;
+  align-items: stretch;
+}
+.evolution-stage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 132px;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.9);
+}
+.evolution-stage span {
   margin-bottom: 8px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+.evolution-stage b {
+  margin-bottom: 6px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--text);
+}
+.evolution-stage small {
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+.evolution-stage.accent {
+  border-color: rgba(82,0,255,0.38);
+  background: rgba(82,0,255,0.035);
+}
+.evolution-stage.accent b {
+  color: var(--accent);
+}
+.evolution-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 46px;
+  position: relative;
+}
+.evolution-connector::before {
+  content: '';
+  width: 36px;
+  height: 1px;
+  background: rgba(82,0,255,0.55);
+}
+.evolution-connector::after {
+  content: '';
+  position: absolute;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  border-top: 1px solid rgba(82,0,255,0.7);
+  border-right: 1px solid rgba(82,0,255,0.7);
+  transform: rotate(45deg);
+}
+.evolution-connector span {
+  position: absolute;
+  top: calc(50% - 22px);
+  padding: 0 5px;
+  background: #fff;
+  font-size: 8px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
 }
 
 .cs-foot {
@@ -654,12 +794,68 @@ body::before {
     margin-top: 78px;
     padding-top: 34px;
   }
-  .arch {
-    padding: 26px 0;
+  .system-diagram {
+    padding: 22px 18px;
+    border-radius: 18px;
   }
-  .arch-tier {
+  .system-diagram figcaption {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .diagram-flow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .diagram-node {
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+  }
+  .diagram-arrow {
+    width: 100%;
+    height: 36px;
+    flex-basis: 36px;
+  }
+  .diagram-arrow::before {
+    left: 50%;
+    right: auto;
+    top: 4px;
+    width: 1px;
+    height: 27px;
+  }
+  .diagram-arrow::after {
+    right: auto;
+    left: calc(50% - 3px);
+    top: 24px;
+    transform: rotate(135deg);
+  }
+  .diagram-arrow span {
+    top: 9px;
+    left: calc(50% + 16px);
+    transform: none;
+  }
+  .diagram-branches {
     grid-template-columns: 1fr;
-    gap: 18px;
+  }
+  .evolution-flow {
+    grid-template-columns: 1fr;
+  }
+  .evolution-connector {
+    min-height: 42px;
+  }
+  .evolution-connector::before {
+    width: 1px;
+    height: 32px;
+  }
+  .evolution-connector::after {
+    right: auto;
+    bottom: 3px;
+    transform: rotate(135deg);
+  }
+  .evolution-connector span {
+    top: 12px;
+    left: calc(50% + 12px);
   }
   .cs table {
     font-size: 13px;
