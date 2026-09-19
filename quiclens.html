@@ -141,11 +141,14 @@
         </section>
       </div>
 
-      <div class="arch-support-row">
-        <span>Infrastructure</span><b>AWS CDK v2</b>
-        <span>Analysis</span><b>pandas + NumPy + SciPy</b>
-        <span>Reporting</span><b>ReportLab + matplotlib</b>
-        <span>Cloud</span><b>IAM + CloudWatch</b>
+      <div class="arch-support">
+        <div class="arch-support-title">Platform foundation</div>
+        <div class="arch-support-grid">
+          <div class="arch-support-item"><span>Infrastructure</span><b>AWS CDK v2</b></div>
+          <div class="arch-support-item"><span>Analysis</span><b>pandas + NumPy + SciPy</b></div>
+          <div class="arch-support-item"><span>Reporting</span><b>ReportLab + matplotlib</b></div>
+          <div class="arch-support-item"><span>Operations</span><b>IAM + CloudWatch</b></div>
+        </div>
       </div>
     </figure>
     <p>The application keeps identity, authorization, analysis, and persistence separate. WorkOS establishes identity, the backend resolves organization and lab context, and every tenant-scoped operation is checked before DynamoDB or archived S3 data is accessed. The entire AWS platform is reproducible in CDK.</p>
