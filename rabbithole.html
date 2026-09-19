@@ -51,10 +51,10 @@
         </div>
 
         <div class="cs-callout">
-          <strong>Architecture note:</strong> this case study documents an earlier RabbitHole iteration that I implemented and deployed. The live product has continued to evolve, so the current interface and behavior may not map one-for-one to every component described below. The repository preserves the infrastructure and delivery evidence for this architecture.<br><br>
-          Built to demonstrate <strong>cloud architecture</strong> (event-driven design, a serverless + container
-          hybrid, autoscaling-to-zero, real-time, cost-awareness), <strong>AI integration</strong> (vision + speech
-          + semantic search, three different invocation patterns), and <strong>delivery maturity</strong>
+          <span class="cs-note-label">Architecture note:</span> this case study documents an earlier RabbitHole iteration that I implemented and deployed. The live product has continued to evolve, so the current interface and behavior may not map one-for-one to every component described below. The repository preserves the infrastructure and delivery evidence for this architecture.<br><br>
+          Built to demonstrate cloud architecture (event-driven design, a serverless + container
+          hybrid, autoscaling-to-zero, real-time, cost-awareness), AI integration (vision + speech
+          + semantic search, three different invocation patterns), and delivery maturity
           (tests, OIDC-based CI/CD, remote-state IaC, observability), all in Terraform.
           <div class="cs-actions">
             <span class="cs-status">Current product: Under Construction</span>
@@ -70,72 +70,79 @@
 
     <div class="cs-content">
     <h2>The problem</h2>
-    <p>A streaming service is a textbook <strong>asynchronous workload</strong>: uploads are fast, but transcoding is slow and bursty. That mismatch is exactly what event-driven, autoscaling infrastructure exists to solve, so RabbitHole is built to <em>demonstrate</em> that architecture rather than fake it with a CRUD app. The goal: take a raw upload all the way to adaptive playback through a fully decoupled pipeline that costs nothing when no one is using it, then layer real AI on top of it without compromising that.</p>
+    <p>A streaming service is a textbook asynchronous workload: uploads are fast, but transcoding is slow and bursty. That mismatch is exactly what event-driven, autoscaling infrastructure exists to solve, so RabbitHole is built to <em>demonstrate</em> that architecture rather than fake it with a CRUD app. The goal: take a raw upload all the way to adaptive playback through a fully decoupled pipeline that costs nothing when no one is using it, then layer real AI on top of it without compromising that.</p>
 
     <h2>What it does</h2>
     <ul>
-      <li><strong>Direct-to-S3 upload:</strong> the browser requests a presigned URL and PUTs the file straight to S3; the API never proxies the bytes.</li>
-      <li><strong>Async transcode:</strong> the S3 upload emits an event that fans out through EventBridge and SQS to Fargate workers running ffmpeg, producing a multi-rendition HLS ladder.</li>
-      <li><strong>Adaptive playback:</strong> hls.js streams the renditions from CloudFront, switching quality to match the viewer's bandwidth.</li>
-      <li><strong>AI auto-metadata:</strong> leave the title blank and Claude <em>vision</em> samples frames across the clip and writes a punchy, accuracy-guarded title, description, and tags.</li>
-      <li><strong>Speech-to-text + searchable captions:</strong> AWS Transcribe turns audio into caption cues; the watch page gets a searchable transcript, click-to-jump, and real WebVTT captions.</li>
-      <li><strong>Cross-video semantic search:</strong> a local embedding model indexes every transcript; search a phrase and it ranks the best <em>moment</em> in each video by meaning, then deep-links the player to that timestamp.</li>
-      <li><strong>Real-time status:</strong> a DynamoDB Stream drives a broadcaster Lambda that pushes <em>Transcoding → Ready</em> over a WebSocket, with no polling.</li>
-      <li><strong>Public / unlisted visibility, cost dashboard:</strong> owners publish public or unlisted; each transcode's Fargate cost is measured and surfaced.</li>
+      <li><span class="cs-list-label">Direct-to-S3 upload:</span> the browser requests a presigned URL and PUTs the file straight to S3; the API never proxies the bytes.</li>
+      <li><span class="cs-list-label">Async transcode:</span> the S3 upload emits an event that fans out through EventBridge and SQS to Fargate workers running ffmpeg, producing a multi-rendition HLS ladder.</li>
+      <li><span class="cs-list-label">Adaptive playback:</span> hls.js streams the renditions from CloudFront, switching quality to match the viewer's bandwidth.</li>
+      <li><span class="cs-list-label">AI auto-metadata:</span> leave the title blank and Claude <em>vision</em> samples frames across the clip and writes a punchy, accuracy-guarded title, description, and tags.</li>
+      <li><span class="cs-list-label">Speech-to-text + searchable captions:</span> AWS Transcribe turns audio into caption cues; the watch page gets a searchable transcript, click-to-jump, and real WebVTT captions.</li>
+      <li><span class="cs-list-label">Cross-video semantic search:</span> a local embedding model indexes every transcript; search a phrase and it ranks the best <em>moment</em> in each video by meaning, then deep-links the player to that timestamp.</li>
+      <li><span class="cs-list-label">Real-time status:</span> a DynamoDB Stream drives a broadcaster Lambda that pushes <em>Transcoding → Ready</em> over a WebSocket, with no polling.</li>
+      <li><span class="cs-list-label">Public / unlisted visibility, cost dashboard:</span> owners publish public or unlisted; each transcode's Fargate cost is measured and surfaced.</li>
     </ul>
 
     <h2>Architecture</h2>
     <p>An event-driven pipeline that decouples the fast path (upload) from the slow path (transcode), with a serverless API and a container worker fleet, using the right tool for each job. The AI work hangs off that same backbone: synchronous vision at the worker, async event-driven speech-to-text, and an embedding model inside the API.</p>
-
-    <p class="cs-cap">Upload → transcode → stream</p>
-    <div class="arch">
-      <div class="arch-tier">
-        <div class="arch-node"><b>Browser</b><span>React · hls.js</span></div>
+<figure class="system-diagram" role="img" aria-label="RabbitHole architecture diagram showing the upload, transcode, streaming, AI enrichment, and live status paths">
+      <figcaption>
+        <span>Primary media path</span>
+        <b>Upload to playback</b>
+      </figcaption>
+      <div class="diagram-flow">
+        <div class="diagram-node">Browser<small>React + hls.js</small></div>
+        <div class="diagram-arrow"><span>presign</span></div>
+        <div class="diagram-node accent">API Gateway + Lambda<small>FastAPI</small></div>
+        <div class="diagram-arrow"><span>PUT</span></div>
+        <div class="diagram-node">S3 uploads<small>raw video</small></div>
+        <div class="diagram-arrow"><span>event</span></div>
+        <div class="diagram-node">EventBridge</div>
+        <div class="diagram-arrow"><span>queue</span></div>
+        <div class="diagram-node">SQS<small>DLQ + retries</small></div>
+        <div class="diagram-arrow"><span>work</span></div>
+        <div class="diagram-node accent">ECS Fargate<small>ffmpeg workers</small></div>
+        <div class="diagram-arrow"><span>HLS</span></div>
+        <div class="diagram-node">S3 streaming<small>private origin</small></div>
+        <div class="diagram-arrow"><span>CDN</span></div>
+        <div class="diagram-node accent">CloudFront<small>adaptive playback</small></div>
       </div>
-      <div class="arch-arrow"><span>1 · presigned URL</span></div>
-      <div class="arch-tier">
-        <div class="arch-node accent"><b>API Gateway → Lambda</b><span>FastAPI · container image</span></div>
+      <div class="diagram-branches">
+        <div class="diagram-lane">
+          <div class="diagram-lane-title">AI enrichment</div>
+          <div class="diagram-mini-flow">
+            <span>ECS Fargate</span><i></i><span>Claude Vision</span><i></i><span>AWS Transcribe</span><i></i><span>Caption processor</span>
+          </div>
+        </div>
+        <div class="diagram-lane">
+          <div class="diagram-lane-title">Live status</div>
+          <div class="diagram-mini-flow">
+            <span>DynamoDB</span><i></i><span>Stream</span><i></i><span>Broadcaster Lambda</span><i></i><span>WebSocket</span>
+          </div>
+        </div>
       </div>
-      <div class="arch-arrow"><span>2 · PUT file</span></div>
-      <div class="arch-tier">
-        <div class="arch-node"><b>S3 uploads</b><span>raw video</span></div>
-      </div>
-      <div class="arch-arrow"><span>3 · ObjectCreated event</span></div>
-      <div class="arch-tier">
-        <div class="arch-node accent"><b>EventBridge → SQS</b><span>+ DLQ · retries</span></div>
-      </div>
-      <div class="arch-arrow"><span>4 · poll · autoscale 0→N</span></div>
-      <div class="arch-tier">
-        <div class="arch-node accent"><b>ECS Fargate workers</b><span>ffmpeg · Graviton · HLS</span></div>
-      </div>
-      <div class="arch-arrow"><span>HLS renditions</span></div>
-      <div class="arch-tier">
-        <div class="arch-node"><b>S3 streaming</b><span>private · OAC</span></div>
-        <div class="arch-node accent"><b>CloudFront</b><span>adaptive playback → UI</span></div>
-      </div>
-      <div class="arch-side"><b>Real-time path</b> &nbsp;DynamoDB (videos) → Stream → Broadcaster Lambda → API Gateway WebSocket → live status in the UI</div>
-      <div class="arch-side"><b>AI metadata</b> &nbsp;worker samples frames → Claude vision → title / description / tags (key in SSM SecureString)</div>
-      <div class="arch-side"><b>Speech &amp; search</b> &nbsp;worker → AWS Transcribe → EventBridge → post-processor Lambda → caption cues; a local embedding model in the API indexes transcripts for cross-video semantic search</div>
-    </div>
+      <div class="diagram-footnote">Terraform provisions the application, queues, compute, storage, delivery, observability, and deployment roles.</div>
+    </figure>
 
     <h2>Highlights</h2>
     <ul>
-      <li><strong>Deterministic scale-to-zero:</strong> a scale-up Lambda <em>pins</em> the autoscaling floor while work is queued; a scale-down Lambda releases it only when an idle alarm confirms the queue is empty. A stale metric can never strand a job, yet idle cost is still <strong>~$0</strong> (no running tasks, no NAT gateway). This replaced a naïve setup whose race could reap a freshly-queued job.</li>
-      <li><strong>Two AI invocation patterns:</strong> synchronous Claude <em>vision</em> for metadata (multi-frame, accuracy-guarded) and async, event-driven AWS Transcribe for captions. The worker fires the transcription job and returns, so transcode latency is untouched.</li>
-      <li><strong>Semantic search without a vector-DB bill:</strong> a small embedding model (bge-small / ONNX) is baked into the API; vectors live in DynamoDB and a brute-force cosine ranks moments. At this scale it's instant and ~free, deliberately avoiding a managed vector store (≈$700/mo) and keeping the whole thing scale-to-zero.</li>
-      <li><strong>Event-driven decoupling:</strong> EventBridge → SQS (with a DLQ and retries) fully separates upload from transcode: resilient to worker failure, idempotent, fan-out-ready.</li>
-      <li><strong>Serverless + container hybrid:</strong> Lambda runs the lightweight API; Fargate (ARM64/Graviton) runs the long-running, CPU-heavy ffmpeg. Each layer uses the right compute model.</li>
-      <li><strong>Private by default:</strong> CloudFront with Origin Access Control keeps the streaming bucket fully private; secrets live in SSM SecureString, never in code or state.</li>
+      <li><span class="cs-list-label">Deterministic scale-to-zero:</span> a scale-up Lambda <em>pins</em> the autoscaling floor while work is queued; a scale-down Lambda releases it only when an idle alarm confirms the queue is empty. A stale metric can never strand a job, yet idle cost is still ~$0 (no running tasks, no NAT gateway). This replaced a naïve setup whose race could reap a freshly-queued job.</li>
+      <li><span class="cs-list-label">Two AI invocation patterns:</span> synchronous Claude <em>vision</em> for metadata (multi-frame, accuracy-guarded) and async, event-driven AWS Transcribe for captions. The worker fires the transcription job and returns, so transcode latency is untouched.</li>
+      <li><span class="cs-list-label">Semantic search without a vector-DB bill:</span> a small embedding model (bge-small / ONNX) is baked into the API; vectors live in DynamoDB and a brute-force cosine ranks moments. At this scale it's instant and ~free, deliberately avoiding a managed vector store (≈$700/mo) and keeping the whole thing scale-to-zero.</li>
+      <li><span class="cs-list-label">Event-driven decoupling:</span> EventBridge → SQS (with a DLQ and retries) fully separates upload from transcode: resilient to worker failure, idempotent, fan-out-ready.</li>
+      <li><span class="cs-list-label">Serverless + container hybrid:</span> Lambda runs the lightweight API; Fargate (ARM64/Graviton) runs the long-running, CPU-heavy ffmpeg. Each layer uses the right compute model.</li>
+      <li><span class="cs-list-label">Private by default:</span> CloudFront with Origin Access Control keeps the streaming bucket fully private; secrets live in SSM SecureString, never in code or state.</li>
     </ul>
 
     <h2>How it ships &amp; runs</h2>
     <p>The operational layer is part of the project, not an afterthought; it's what turns "a deployed app" into something you can actually run and evolve.</p>
     <ul>
-      <li><strong>CI:</strong> every push/PR runs the test suites (pytest + moto for the API and caption pipeline, Vitest for the frontend) behind a coverage gate, plus an image build and <code>terraform validate</code>.</li>
-      <li><strong>CD, no static keys:</strong> a push to <em>main</em> assumes a least-privilege role via <strong>GitHub OIDC</strong>, builds the ARM64 images on native ARM runners, rolls out the Lambda and Fargate service, and publishes the frontend with a CDN invalidation.</li>
-      <li><strong>Infra through CI:</strong> Terraform state lives in a versioned, encrypted S3 bucket with native state locking; the pipeline plans on merge and applies via a deliberate manual gate (auto-applying infra is intentionally avoided).</li>
-      <li><strong>Observability + FinOps:</strong> a CloudWatch dashboard tracks queue depth, worker load, API latency (p95) and errors, plus a custom worker metric that surfaces <strong>$ per transcode</strong>; X-Ray traces the serverless path.</li>
-      <li><strong>Hardened:</strong> scoped CORS, API-gateway rate limiting, reserved admin identity, and rotated credentials before sharing.</li>
+      <li><span class="cs-list-label">CI:</span> every push/PR runs the test suites (pytest + moto for the API and caption pipeline, Vitest for the frontend) behind a coverage gate, plus an image build and <code>terraform validate</code>.</li>
+      <li><span class="cs-list-label">CD, no static keys:</span> a push to <em>main</em> assumes a least-privilege role via GitHub OIDC, builds the ARM64 images on native ARM runners, rolls out the Lambda and Fargate service, and publishes the frontend with a CDN invalidation.</li>
+      <li><span class="cs-list-label">Infra through CI:</span> Terraform state lives in a versioned, encrypted S3 bucket with native state locking; the pipeline plans on merge and applies via a deliberate manual gate (auto-applying infra is intentionally avoided).</li>
+      <li><span class="cs-list-label">Observability + FinOps:</span> a CloudWatch dashboard tracks queue depth, worker load, API latency (p95) and errors, plus a custom worker metric that surfaces $ per transcode; X-Ray traces the serverless path.</li>
+      <li><span class="cs-list-label">Hardened:</span> scoped CORS, API-gateway rate limiting, reserved admin identity, and rotated credentials before sharing.</li>
     </ul>
 
     <h2>Engineering decisions &amp; trade-offs</h2>
@@ -153,12 +160,12 @@
     <h2>What I'd change at scale</h2>
     <p>The demo deliberately optimizes for cost and clarity. Honest production trade-offs that remain:</p>
     <ul>
-      <li><strong>AWS Elemental MediaConvert:</strong> instead of self-managed ffmpeg, this means less operational surface and per-job billing.</li>
-      <li><strong>Real multi-user auth:</strong> Cognito or a user store would replace today's single-creator model with an owner field.</li>
-      <li><strong>Private subnets + VPC endpoints</strong> for the workers; defense-in-depth over the public-subnet demo.</li>
-      <li><strong>A GSI on <em>created_at</em> + pagination</strong> instead of a Scan for the library listing.</li>
-      <li><strong>OpenSearch / pgvector</strong> if the search corpus grows past brute-force; a Fargate X-Ray sidecar for worker-level tracing.</li>
-      <li><strong>Multi-region</strong> streaming origins with latency-based routing; signed URLs / cookies on the streaming bucket.</li>
+      <li><span class="cs-list-label">AWS Elemental MediaConvert:</span> instead of self-managed ffmpeg, this means less operational surface and per-job billing.</li>
+      <li><span class="cs-list-label">Real multi-user auth:</span> Cognito or a user store would replace today's single-creator model with an owner field.</li>
+      <li><span class="cs-list-label">Private subnets + VPC endpoints</span> for the workers; defense-in-depth over the public-subnet demo.</li>
+      <li><span class="cs-list-label">A GSI on <em>created_at</em> + pagination</span> instead of a Scan for the library listing.</li>
+      <li><span class="cs-list-label">OpenSearch / pgvector</span> if the search corpus grows past brute-force; a Fargate X-Ray sidecar for worker-level tracing.</li>
+      <li><span class="cs-list-label">Multi-region</span> streaming origins with latency-based routing; signed URLs / cookies on the streaming bucket.</li>
     </ul>
 
     <h2>Stack at a glance</h2>
@@ -179,8 +186,8 @@
     </table>
 
     <div class="cs-foot">
-      <strong style="color:var(--text)">My role:</strong> Sole architect and engineer: the event-driven AWS architecture, the FastAPI/Lambda API, the Fargate ffmpeg worker, the AI metadata + speech-to-text + semantic-search pipelines, the real-time WebSocket layer, the React + hls.js frontend, the OIDC-based CI/CD and observability, and the Terraform that provisions all of it.<br><br>
-      <strong>Current product: Under Construction</strong> &nbsp;·&nbsp;
+      <span class="cs-footer-label">My role:</span> Sole architect and engineer: the event-driven AWS architecture, the FastAPI/Lambda API, the Fargate ffmpeg worker, the AI metadata + speech-to-text + semantic-search pipelines, the real-time WebSocket layer, the React + hls.js frontend, the OIDC-based CI/CD and observability, and the Terraform that provisions all of it.<br><br>
+      <span class="cs-footer-label">Current product: Under Construction</span> &nbsp;·&nbsp;
       <div class="cs-actions">
         <a class="cs-action-link" href="https://github.com/jetty-setter/rabbithole" target="_blank" rel="noopener">View Code</a>
         <a class="cs-action-link" href="index.html#contact">Contact</a>
