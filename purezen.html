@@ -55,9 +55,11 @@
           API Gateway, Lambda, S3, CloudFront, and DynamoDB using Anthropic's Claude
           powering the conversational and agentic layers, all defined in AWS CDK.
           <div class="cs-actions">
-            <a class="cs-action-link" href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener">Guest Concierge</a>
-            <a class="cs-action-link" href="https://purezen.stephsimmons.dev/admin.html" target="_blank" rel="noopener">Admin Demo</a>
-            <a class="cs-action-link" href="https://github.com/jetty-setter/purezen" target="_blank" rel="noopener">GitHub</a>
+            <a class="cs-primary-action" href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener">View Demo</a>
+            <div class="cs-secondary-links">
+              <a class="cs-text-link" href="https://purezen.stephsimmons.dev/admin.html" target="_blank" rel="noopener">Admin Console</a>
+              <a class="cs-text-link" href="https://github.com/jetty-setter/purezen" target="_blank" rel="noopener">GitHub</a>
+            </div>
           </div>
         </div>
       </div>
@@ -82,37 +84,56 @@
     <h2>Architecture</h2>
     <p>A serverless design on AWS with no always-on application compute to maintain. The static frontend is delivered from S3 via CloudFront; API traffic flows through API Gateway to a containerized Lambda.</p>
    <br>
-<figure class="system-diagram" role="img" aria-label="PureZen architecture diagram showing guest and admin delivery, API processing, deterministic booking data, and Claude integration">
-      <figcaption>
-        <span>Present state</span>
-        <b>Serverless booking platform on AWS</b>
-      </figcaption>
-      <div class="diagram-flow">
-        <div class="diagram-node">Guest + Admin<small>browser clients</small></div>
-        <div class="diagram-arrow"><span>HTTPS</span></div>
-        <div class="diagram-node">CloudFront + S3<small>static frontend</small></div>
-        <div class="diagram-arrow"><span>API</span></div>
-        <div class="diagram-node accent">API Gateway</div>
-        <div class="diagram-arrow"><span>invoke</span></div>
-        <div class="diagram-node accent">Lambda<small>FastAPI + Mangum</small></div>
-        <div class="diagram-arrow"><span>state</span></div>
-        <div class="diagram-node">DynamoDB<small>bookings + sessions</small></div>
-      </div>
-      <div class="diagram-branches">
-        <div class="diagram-lane">
-          <div class="diagram-lane-title">Deterministic booking path</div>
-          <div class="diagram-mini-flow">
-            <span>Catalog</span><i></i><span>Availability</span><i></i><span>Conditional write</span><i></i><span>Confirmed booking</span>
-          </div>
+<figure class="arch-board" aria-labelledby="pz-arch-title">
+      <div class="arch-board-head">
+        <div>
+          <span class="arch-kicker">Current architecture</span>
+          <h3 id="pz-arch-title">Serverless booking platform</h3>
         </div>
-        <div class="diagram-lane">
-          <div class="diagram-lane-title">Language layer</div>
-          <div class="diagram-mini-flow">
-            <span>Intent router</span><i></i><span>Claude when needed</span><i></i><span>Typed tools</span><i></i><span>Live data response</span>
-          </div>
-        </div>
+        <p>Guest and staff experiences share one backend, with deterministic booking logic and AI only where language adds value.</p>
       </div>
-      <div class="diagram-footnote">AWS CDK defines the Lambda image, API Gateway, DynamoDB tables, S3, CloudFront, IAM, and deployment behavior.</div>
+
+      <div class="arch-stage-grid four">
+        <section class="arch-stage">
+          <span class="arch-step">01</span>
+          <h4>Experience</h4>
+          <div class="arch-service accent">Guest concierge</div>
+          <div class="arch-service">Admin console</div>
+          <p>Two interfaces use the same application and data layer.</p>
+        </section>
+
+        <section class="arch-stage">
+          <span class="arch-step">02</span>
+          <h4>Delivery</h4>
+          <div class="arch-service accent">CloudFront</div>
+          <div class="arch-service">Private S3</div>
+          <p>The frontend is static, cached at the edge, and separated from application compute.</p>
+        </section>
+
+        <section class="arch-stage">
+          <span class="arch-step">03</span>
+          <h4>Application</h4>
+          <div class="arch-service accent">API Gateway</div>
+          <div class="arch-service">Lambda</div>
+          <div class="arch-service">FastAPI + Mangum</div>
+          <p>The API scales with demand and owns booking rules, auth, and tool execution.</p>
+        </section>
+
+        <section class="arch-stage">
+          <span class="arch-step">04</span>
+          <h4>Data + AI</h4>
+          <div class="arch-service accent">DynamoDB</div>
+          <div class="arch-service">Anthropic Claude</div>
+          <div class="arch-service">Typed admin tools</div>
+          <p>Availability and bookings stay deterministic; Claude handles language and tool selection.</p>
+        </section>
+      </div>
+
+      <div class="arch-support-row">
+        <span>Booking path</span><b>Catalog → availability → conditional write</b>
+        <span>Language path</span><b>Intent router → Claude → typed tools</b>
+        <span>Infrastructure</span><b>AWS CDK</b>
+      </div>
     </figure>
 
     <h2>Highlights</h2>
@@ -141,29 +162,42 @@
     <p>The second generation moved the application outside the Academy environment: the frontend was hosted on Vercel and the FastAPI backend ran on Hetzner. That removed the Academy lifecycle constraint, but it still left the application split across external hosting and persistent backend compute.</p>
 
     <p>The third generation brought the application back to AWS and re-platformed it around managed services: container-image Lambda + API Gateway for the FastAPI backend, DynamoDB for application data, private S3 + CloudFront for frontend delivery, and AWS CDK v2 for reproducible infrastructure. The local Ollama runtime dependency was also removed from the deployment path in favor of managed Anthropic inference.</p>
-<figure class="system-diagram compact" role="img" aria-label="PureZen infrastructure evolution from AWS Academy to external hosting to the current AWS serverless architecture">
-      <figcaption>
-        <span>Infrastructure evolution</span>
-        <b>Three generations, one product</b>
-      </figcaption>
-      <div class="evolution-flow">
-        <div class="evolution-stage">
-          <span>Generation 1</span>
-          <b>AWS Academy</b>
-          <small>EC2, load balancing, VPC, routing, IAM</small>
+<figure class="arch-board arch-evolution" aria-labelledby="pz-evolution-title">
+      <div class="arch-board-head">
+        <div>
+          <span class="arch-kicker">Infrastructure evolution</span>
+          <h3 id="pz-evolution-title">Three generations of the same product</h3>
         </div>
-        <div class="evolution-connector"><span>rehost</span></div>
-        <div class="evolution-stage">
-          <span>Generation 2</span>
-          <b>Vercel + Hetzner</b>
-          <small>static frontend, persistent FastAPI backend</small>
-        </div>
-        <div class="evolution-connector"><span>replatform</span></div>
-        <div class="evolution-stage accent">
-          <span>Generation 3</span>
-          <b>AWS serverless</b>
-          <small>Lambda, API Gateway, DynamoDB, S3, CloudFront, CDK</small>
-        </div>
+        <p>Each move removed a constraint from the previous version instead of rebuilding for novelty.</p>
+      </div>
+
+      <div class="evolution-track">
+        <section class="evolution-point">
+          <span class="evolution-num">01</span>
+          <div>
+            <span class="evolution-label">AWS Academy</span>
+            <h4>Traditional AWS</h4>
+            <p>EC2, load balancing, VPC networking, routing, and IAM.</p>
+          </div>
+        </section>
+
+        <section class="evolution-point">
+          <span class="evolution-num">02</span>
+          <div>
+            <span class="evolution-label">External hosting</span>
+            <h4>Vercel + Hetzner</h4>
+            <p>Static frontend with a persistent FastAPI backend outside the Academy lifecycle.</p>
+          </div>
+        </section>
+
+        <section class="evolution-point current">
+          <span class="evolution-num">03</span>
+          <div>
+            <span class="evolution-label">Current state</span>
+            <h4>AWS serverless</h4>
+            <p>Lambda, API Gateway, DynamoDB, private S3, CloudFront, and AWS CDK.</p>
+          </div>
+        </section>
       </div>
     </figure>
 
@@ -184,11 +218,10 @@
 
     <div class="cs-foot">
       <span class="cs-footer-label">My role:</span> Architect and engineer: serverless architecture (API Gateway, Lambda, S3, CloudFront), DynamoDB data modeling, the FastAPI backend, the grounded concierge and the agentic admin assistant on Anthropic's Claude, the frontend, and the AWS CDK deployment.<br><br>
-      <div class="cs-actions">
-        <a class="cs-action-link" href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener">Guest Concierge</a>
-        <a class="cs-action-link" href="https://purezen.stephsimmons.dev/admin.html" target="_blank" rel="noopener">Admin Demo</a>
-        <a class="cs-action-link" href="https://github.com/jetty-setter/purezen" target="_blank" rel="noopener">View Code</a>
-        <a class="cs-action-link" href="index.html#contact">Contact</a>
+      <div class="cs-secondary-links">
+        <a class="cs-text-link" href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener">View Demo</a>
+        <a class="cs-text-link" href="https://purezen.stephsimmons.dev/admin.html" target="_blank" rel="noopener">Admin Console</a>
+        <a class="cs-text-link" href="https://github.com/jetty-setter/purezen" target="_blank" rel="noopener">View Code</a>
       </div>
     </div>
     </div>
