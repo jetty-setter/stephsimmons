@@ -82,7 +82,7 @@
     <p>A chat-first booking experience. Guests describe what they want in plain language (“A deep-tissue massage next Tuesday afternoon”); the system resolves the service against the real catalog, checks live availability, and walks them through booking, rescheduling, cancelling, or reviewing past appointments. The conversation state persists per session.</p>
     <h3>Administrative console</h3>
     <p>A staff portal with dashboards for daily overview, schedule, guests, users, and analytics. plus an AI assistant that answers operational questions by querying live data (“How many bookings tomorrow?”, “What are this week’s trends?”, “Show me this guest’s history”). Each answer is produced from a real database query, not the model’s memory.</p>
-    <p>You can explore it yourself; the <a href="https://purezen.stephsimmons.dev/admin.html" target="_blank" rel="noopener">admin console</a> opens in a read-only demo: every dashboard and the AI assistant are live, while changes are disabled so the shared data stays intact.</p>
+    <p>You can explore it yourself; the admin console opens in a read-only demo, with the dashboards and AI assistant live while changes are disabled so the shared data stays intact.</p>
 
     <h2>Architecture</h2>
     <p>A serverless design on AWS with no always-on application compute to maintain. The static frontend is delivered from S3 via CloudFront; API traffic flows through API Gateway to a containerized Lambda.</p>
