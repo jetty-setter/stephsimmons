@@ -38,20 +38,35 @@
 <div class="cs-wrap cs">
     <a href="index.html#projects" class="cs-back">Back to portfolio</a>
 
-    <div class="cs-eyebrow">Case Study</div>
-    <h1 class="cs-title">QuicLens</h1>
-    <p class="cs-lede">A multi-tenant, cloud-native analytics platform for research labs, engineered and deployed as the sole developer, from data model and authorization rules to React interface and AWS infrastructure.</p>
+    <header class="cs-hero">
+      <div class="cs-hero-copy">
+        <div class="cs-eyebrow">Case Study</div>
+        <h1 class="cs-title">QuicLens</h1>
+        <p class="cs-lede">A multi-tenant, cloud-native analytics platform for research labs, engineered and deployed as the sole developer, from data model and authorization rules to React interface and AWS infrastructure.</p>
 
-    <div class="cs-callout">
-      The source code is private. This case study covers the architecture and engineering decisions.
-      <div class="cs-actions">
-        <a class="cs-action-link" href="https://quiclens.stephsimmons.dev" target="_blank" rel="noopener">View Read-Only Demo</a>
+        <div class="cs-facts">
+          <div><span>Architecture</span><strong>Multi tenant serverless</strong></div>
+          <div><span>Compute</span><strong>AWS Lambda</strong></div>
+          <div><span>Infrastructure</span><strong>AWS CDK</strong></div>
+        </div>
+
+        <div class="cs-callout">
+          The source code is private. This case study covers the architecture and engineering decisions.
+          <div class="cs-actions">
+            <a class="cs-action-link" href="https://quiclens.stephsimmons.dev" target="_blank" rel="noopener">View Read-Only Demo</a>
+          </div>
+        </div>
+        <div class="cs-callout cs-ruo">
+          <strong>Research use only; not for diagnostic use.</strong> QuicLens is a laboratory analysis tool and does not provide medical diagnosis or clinical decisions.
+        </div>
       </div>
-    </div>
-    <div class="cs-callout cs-ruo">
-      <strong>Research use only; not for diagnostic use.</strong> QuicLens is a
-      laboratory analysis tool and does not provide medical diagnosis or clinical decisions.
-    </div>
+
+      <figure class="cs-hero-media">
+        <img src="assets/quiclens.png" alt="QuicLens application interface" width="2493" height="1558">
+      </figure>
+    </header>
+
+    <div class="cs-content">
 
     <!-- DEMO VIDEO: DROP-IN:
          1. Record the ~75s walkthrough; export assets/quiclens-demo.mp4 (+ optional poster frame quiclens-demo-poster.jpg).
@@ -61,7 +76,6 @@
     </video>
     <div class="cs-video-cap">~75s walkthrough: multi-tenant lab analytics, upload → analysis → report</div>
     -->
-
     <h2>The problem</h2>
     <p>Research labs running RT-QuIC and similar fluorescence assays were stuck analyzing plate data in spreadsheets and one-off scripts; the process was slow, error-prone, and impossible to audit. Regulated science needs reproducible analysis, clear provenance, and multiple labs/teams working in isolation without stepping on each other's data.</p>
     <p>QuicLens turns that workflow into a real platform: upload plate data, get real-time kinetic analysis and classification, and keep a full audit trail, with strict separation between organizations and labs.</p>
@@ -143,6 +157,7 @@
       <div class="cs-actions">
         <a class="cs-action-link" href="index.html#contact">Contact</a>
       </div>
+    </div>
     </div>
   </div>
 
