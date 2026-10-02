@@ -708,11 +708,11 @@ footer {
           <span class="project-type">Personal Project</span>
         </div>
         <h3 class="project-title">RabbitHole</h3>
-        <p class="project-desc">An event-driven video platform where uploads trigger an AI-powered processing pipeline for transcoding, speech indexing, and semantic search across your entire library.</p>
+        <p class="project-desc">A full-stack video platform for uploading, processing, searching, and streaming media. The React interface tracks processing in real time, while the backend handles transcoding, speech indexing, metadata generation, and semantic search.</p>
         <div class="tag-row">
-          <span class="tag">ECS Fargate</span><span class="tag">EventBridge</span><span class="tag">SQS</span><span class="tag">ffmpeg</span><span class="tag">Claude Vision</span><span class="tag">AWS Transcribe</span><span class="tag">Terraform</span><span class="tag">React</span>
+          <span class="tag">React</span><span class="tag">FastAPI</span><span class="tag">WebSockets</span><span class="tag">hls.js</span><span class="tag">ffmpeg</span><span class="tag">AWS Transcribe</span><span class="tag">ECS Fargate</span><span class="tag">Terraform</span>
         </div>
-        <div class="insight"><div class="insight-text">ECS Fargate over Lambda for transcoding; ffmpeg workloads are CPU-bound and long-running, and Lambda's 15-minute limit and cold starts would have killed the experience.</div></div>
+        <div class="insight"><div class="insight-text">The product experience stays connected to a long-running async pipeline: users can upload once, watch processing status update live, then search transcripts and semantic matches from the same interface.</div></div>
         <div class="project-links">
           <a href="rabbithole.html" class="project-link">Case Study</a>
           <span class="project-link disabled">Under Construction</span>
@@ -737,11 +737,11 @@ footer {
           <span class="project-type">Co-Founded &middot; Proprietary</span>
         </div>
         <h3 class="project-title">QuicLens</h3>
-        <p class="project-desc">A multi-tenant research analytics SaaS for neurodegenerative disease labs, replacing manual R scripts and Excel with structured, cloud-native plate analysis and audit-ready records.</p>
+        <p class="project-desc">A multi-tenant research analytics SaaS that replaces spreadsheets and one-off scripts with a structured workflow for plate uploads, kinetic analysis, classification, collaboration, and audit-ready results.</p>
         <div class="tag-row">
-          <span class="tag">AWS CDK</span><span class="tag">Lambda (Docker)</span><span class="tag">API Gateway</span><span class="tag">DynamoDB</span><span class="tag">WorkOS SSO</span><span class="tag">Anthropic API</span><span class="tag">TypeScript</span>
+          <span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">FastAPI</span><span class="tag">pytest</span><span class="tag">WorkOS SSO</span><span class="tag">DynamoDB</span><span class="tag">AWS CDK</span>
         </div>
-        <div class="insight"><div class="insight-text">Tenant authorization is explicit. WorkOS verifies identity; organization and lab membership, role checks, and resource-level access rules determine what each user can read or change.</div></div>
+        <div class="insight"><div class="insight-text">The application turns a scientific workflow into a product: upload raw plate data, run analysis, classify results, review them in the UI, and preserve the context needed to reproduce and audit the work later.</div></div>
         <div class="proof-stat"><span class="num">143</span><span class="label">named backend pytest functions across 9 modules covering analysis, validation, classification, thresholds, and API integration</span></div>
         <div class="project-links">
           <a href="quiclens.html" class="project-link">Case Study</a>
@@ -767,11 +767,11 @@ footer {
           <span class="project-type">Independent Rebuild</span>
         </div>
         <h3 class="project-title">PureZen</h3>
-        <p class="project-desc">A spa booking platform re-platformed across three infrastructure generations: AWS Academy on EC2/VPC/ALB, Vercel + Hetzner, and a final AWS serverless architecture built with Lambda, API Gateway, S3, CloudFront, DynamoDB, and CDK.</p>
+        <p class="project-desc">A full-stack spa booking product with a conversational guest experience and a separate staff console for schedules, guests, analytics, and operational questions, backed by deterministic booking logic and live data.</p>
         <div class="tag-row">
-          <span class="tag">AWS CDK</span><span class="tag">Lambda</span><span class="tag">API Gateway</span><span class="tag">DynamoDB</span><span class="tag">S3 + CloudFront</span><span class="tag">Anthropic Claude</span><span class="tag">FastAPI</span>
+          <span class="tag">FastAPI</span><span class="tag">REST APIs</span><span class="tag">Guest Concierge</span><span class="tag">Admin Console</span><span class="tag">DynamoDB</span><span class="tag">Anthropic Claude</span><span class="tag">AWS CDK</span>
         </div>
-        <div class="insight"><div class="insight-text">Never answers from memory. Services resolve against the real catalog, availability comes from DynamoDB, and booking actions are deterministic state machines.</div></div>
+        <div class="insight"><div class="insight-text">Two user experiences share the same backend: guests can book and manage appointments conversationally, while staff get dashboards and an assistant that answers questions from live operational data.</div></div>
         <div class="project-links">
           <a href="purezen.html" class="project-link">Case Study</a>
           <a href="https://purezen.stephsimmons.dev" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
@@ -870,7 +870,7 @@ footer {
   <div class="shell">
     <div class="contact-inner">
       <div class="eyebrow" style="text-align:center;">Contact</div>
-      <h2 class="contact-title">Let's build the next <span class="accent">product.</span></h2>
+      <h2 class="contact-title">Let's build the next <span class="accent">product</span></h2>
       <p class="contact-body">Open to Full Stack, Software, and Cloud Engineering roles. If you're building modern applications or cloud systems and want someone comfortable across the stack, reach out.</p>
       <div class="contact-links">
         <a href="https://linkedin.com/in/ssimmonsne" target="_blank" rel="noopener noreferrer">LinkedIn</a>
