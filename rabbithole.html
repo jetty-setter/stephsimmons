@@ -45,20 +45,17 @@
       <div class="cs-hero-copy">
         <div class="cs-eyebrow">Case Study</div>
         <h1 class="cs-title">RabbitHole</h1>
-        <p class="cs-lede">An event-driven, AI-augmented video platform on AWS. Upload a clip; an autoscaling fleet transcodes it into adaptive-bitrate HLS, a vision model writes its title and tags, and speech-to-text makes every spoken word searchable; then you stream it back through a CDN with live status the whole way. Shipped continuously through CI/CD, with a dashboard that tracks cost per transcode.</p>
+        <p class="cs-lede">A full-stack video platform for uploading, processing, searching, and streaming media. The React experience stays connected to the backend throughout the workflow, showing live processing state before turning video, transcripts, metadata, and semantic matches into something users can actually browse and search.</p>
 
         <div class="cs-facts">
-          <div><span>Architecture</span><strong>Event driven</strong></div>
-          <div><span>Compute</span><strong>Lambda + Fargate</strong></div>
-          <div><span>Infrastructure</span><strong>Terraform</strong></div>
+          <div><span>Frontend</span><strong>React + hls.js</strong></div>
+          <div><span>Backend</span><strong>FastAPI + WebSockets</strong></div>
+          <div><span>Cloud</span><strong>Event-driven AWS</strong></div>
         </div>
 
         <div class="cs-callout">
           <span class="cs-note-label">Architecture note:</span> this case study documents an earlier RabbitHole iteration that I implemented and deployed. The live product has continued to evolve, so the current interface and behavior may not map one-for-one to every component described below. The repository preserves the infrastructure and delivery evidence for this architecture.<br><br>
-          Built to demonstrate cloud architecture (event-driven design, a serverless + container
-          hybrid, autoscaling-to-zero, real-time, cost-awareness), AI integration (vision + speech
-          + semantic search, three different invocation patterns), and delivery maturity
-          (tests, OIDC-based CI/CD, remote-state IaC, observability), all in Terraform.
+          Built as an end-to-end product, not just an infrastructure exercise: a React playback and search experience, a FastAPI application layer, real-time status over WebSockets, AI-assisted metadata and speech indexing, and an asynchronous media-processing pipeline underneath it. The AWS architecture and Terraform support the product rather than being the product.
           <div class="cs-actions">
             <a class="cs-primary-action" href="https://github.com/jetty-setter/rabbithole" target="_blank" rel="noopener">View Code</a>
             <span class="cs-status">Current product under construction</span>
@@ -73,7 +70,7 @@
 
     <div class="cs-content">
     <h2>The problem</h2>
-    <p>A streaming service is a textbook asynchronous workload: uploads are fast, but transcoding is slow and bursty. That mismatch is exactly what event-driven, autoscaling infrastructure exists to solve, so RabbitHole is built to <em>demonstrate</em> that architecture rather than fake it with a CRUD app. The goal: take a raw upload all the way to adaptive playback through a fully decoupled pipeline that costs nothing when no one is using it, then layer real AI on top of it without compromising that.</p>
+    <p>The product problem is bigger than transcoding a file. A user needs to upload media, understand what is happening while it processes, play the finished video smoothly, and find useful moments later without manually scrubbing through hours of footage. RabbitHole connects those user-facing workflows to a long-running asynchronous backend without making the interface feel disconnected from the work happening behind it.</p>
 
     <h2>What it does</h2>
     <ul>
@@ -149,6 +146,7 @@
 
     <h2>Highlights</h2>
     <ul>
+      <li><span class="cs-list-label">Full-stack workflow:</span> the React interface supports upload, live processing status, HLS playback, transcript search, and semantic discovery against backend APIs and WebSocket updates.</li>
       <li><span class="cs-list-label">Deterministic scale-to-zero:</span> a scale-up Lambda <em>pins</em> the autoscaling floor while work is queued; a scale-down Lambda releases it only when an idle alarm confirms the queue is empty. A stale metric can never strand a job, yet idle cost is still ~$0 (no running tasks, no NAT gateway). This replaced a naïve setup whose race could reap a freshly-queued job.</li>
       <li><span class="cs-list-label">Two AI invocation patterns:</span> synchronous Claude <em>vision</em> for metadata (multi-frame, accuracy-guarded) and async, event-driven AWS Transcribe for captions. The worker fires the transcription job and returns, so transcode latency is untouched.</li>
       <li><span class="cs-list-label">Semantic search without a vector-DB bill:</span> a small embedding model (bge-small / ONNX) is baked into the API; vectors live in DynamoDB and a brute-force cosine ranks moments. At this scale it's instant and ~free, deliberately avoiding a managed vector store (≈$700/mo) and keeping the whole thing scale-to-zero.</li>
