@@ -148,7 +148,7 @@
 
     <h2>Highlights</h2>
     <ul>
-      <li><span class="cs-list-label">Full-stack workflow:</span> the React interface supports upload, live processing status, HLS playback, transcript search, and semantic discovery against backend APIs and WebSocket updates.</li>
+      <li><span class="cs-list-label">Full-stack workflow:</span> the React interface supports upload, live processing status, adaptive 480p–1080p HLS playback, transcript search, and semantic discovery against backend APIs and WebSocket updates.</li>
       <li><span class="cs-list-label">Deterministic scale-to-zero:</span> a scale-up Lambda <em>pins</em> the autoscaling floor while work is queued; a scale-down Lambda releases it only when an idle alarm confirms the queue is empty. A stale metric can never strand a job, yet idle cost is still ~$0 (no running tasks, no NAT gateway). This replaced a naïve setup whose race could reap a freshly-queued job.</li>
       <li><span class="cs-list-label">Two AI invocation patterns:</span> synchronous Claude <em>vision</em> for metadata (multi-frame, accuracy-guarded) and async, event-driven AWS Transcribe for captions. The worker fires the transcription job and returns, so transcode latency is untouched.</li>
       <li><span class="cs-list-label">Semantic search without a vector-DB bill:</span> a small embedding model (bge-small / ONNX) is baked into the API; vectors live in DynamoDB and a brute-force cosine ranks moments. At this scale it's instant and ~free, deliberately avoiding a managed vector store (≈$700/mo) and keeping the whole thing scale-to-zero.</li>
@@ -160,6 +160,7 @@
     <h2>How it ships &amp; runs</h2>
     <p>The operational layer is part of the project, not an afterthought; it's what turns "a deployed app" into something you can actually run and evolve.</p>
     <ul>
+      <li><span class="cs-list-label">Test coverage:</span> 400+ tests at 82% coverage across the platform.</li>
       <li><span class="cs-list-label">CI:</span> every push/PR runs the test suites (pytest + moto for the API and caption pipeline, Vitest for the frontend) behind a coverage gate, plus an image build and <code>terraform validate</code>.</li>
       <li><span class="cs-list-label">CD, no static keys:</span> a push to <em>main</em> assumes a least-privilege role via GitHub OIDC, builds the ARM64 images on native ARM runners, rolls out the Lambda and Fargate service, and publishes the frontend with a CDN invalidation.</li>
       <li><span class="cs-list-label">Infra through CI:</span> Terraform state lives in a versioned, encrypted S3 bucket with native state locking; the pipeline plans on merge and applies via a deliberate manual gate (auto-applying infra is intentionally avoided).</li>

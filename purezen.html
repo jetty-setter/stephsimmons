@@ -145,6 +145,7 @@
       <li><span class="cs-list-label">Two complete user experiences:</span> guests can browse, book, reschedule, cancel, and review appointments, while staff use dashboards, guest records, schedules, analytics, and an operational assistant against the same application data.</li>
       <li><span class="cs-list-label">Serverless compute:</span> a containerized Lambda (Python 3.11) runs FastAPI through Mangum behind API Gateway, removing the always-on application server from the current operating model.</li>
       <li><span class="cs-list-label">Global delivery:</span> the static frontend ships from S3 behind CloudFront, with TLS and edge caching for low-latency access anywhere.</li>
+      <li><span class="cs-list-label">DynamoDB data model:</span> one row per staff member per time slot across 9 tables and 3 GSIs, with TTL and point-in-time recovery; seeded with 32,760 availability slots.</li>
       <li><span class="cs-list-label">Booking integrity:</span> slots are claimed with a DynamoDB <em>conditional write</em> that only succeeds while the slot is still marked available, so two guests can never confirm the same time.</li>
       <li><span class="cs-list-label">Security by design:</span> least-privilege IAM (no credentials in code), bcrypt-hashed passwords, and UUID session tokens rotated on login with server-side invalidation on logout and a 24-hour DynamoDB TTL.</li>
       <li><span class="cs-list-label">Reproducible infra:</span> the entire stack (Lambda image, API Gateway, S3, CloudFront, DynamoDB, IAM) is declared in AWS CDK and deployed from one source.</li>
@@ -156,6 +157,7 @@
     <h3>Deterministic routing first, model second</h3>
     <p>A regex-based intent router handles the common, well-formed requests, including dates, times, service names, and booking IDs, without a model call, and Claude (Haiku 4.5) is invoked for the genuinely conversational or ambiguous turns. Keeping the model a fallback rather than the front door means lower latency and predictable cost on the hot paths.</p>
     <h3>An agentic admin assistant, inspired by MCP</h3>
+    <p>Admin query orchestration routes requests through intent classification and deterministic formatters, falling back to an LLM only when needed.</p>
     <p>The staff assistant is built on Anthropic tool use, in a structure inspired by the Model Context Protocol: a clean separation between the model, a registry of typed tools, and the live data behind them; this is implemented as a focused in-app tool layer rather than a full MCP server. The tools, including <em>get_bookings_by_date</em>, <em>get_staff_roster</em>, <em>get_customer_history</em>, <em>get_trends</em>, <em>get_upcoming_bookings</em>, and more, are typed data operations the model can call to answer a question, then summarize. The model decides <em>which</em> data to fetch; the tools guarantee it’s always real.</p>
 
     <h2>Engineering decisions &amp; trade-offs</h2>
